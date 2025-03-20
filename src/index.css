@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --color-some-color: #801AE5;
+  --color-primary: #06071A;
+  --color-secondary: #191A30;
+  --color-tertiary: #282939;
+  --color-highlight: #4C75FF;
+  --color-gradientStart: #682EC7;
+  --color-gradientEnd: #5A12D3;
+  --color-gradientHover: #6D4DEF;
+  --color-radial-start: #5505A4;
+  --color-radialMiddle: #801AE5;
+  --color-radialEnd: #060714;
+  --color-danger: #FF0000;
+  --color-dangerOpacity: rgba(255, 0, 0, 0.8);
+  --color-success: #00E100;
+  --color-warning: #E1E100;
+}
+
+.custom-gradient {
+  @apply bg-gradient-to-r from-gradientStart from-0% to-gradientEnd to-100%;
+}
+
+.custom-radial-gradient {
+  @apply bg-radial from-radial-start from-0% via-radialMiddle via-50% to-radialEnd to-100%;
+}

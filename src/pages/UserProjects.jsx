@@ -1,7 +1,12 @@
 import React from "react";
+import { ProjectsSearchFilter } from "../components";
 
 const UserProjects = () => {
-  return <div>UserProjects</div>;
+  return (
+    <div>
+      <ProjectsSearchFilter />
+    </div>
+  );
 };
 
 export default UserProjects;

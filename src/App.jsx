@@ -17,10 +17,8 @@ const router = createBrowserRouter([
       { path: "/register", element: <Register /> },
       {
         path: "/user-dashboard/",
-        children: [
-          { index: true, element: <UserDashboardLayout /> },
-          { path: "projects", element: <UserProjects /> },
-        ],
+        element: <UserDashboardLayout />,
+        children: [{ index: true, element: <UserProjects /> }],
       },
       {
         path: "/dashboard/project/:projectId/",

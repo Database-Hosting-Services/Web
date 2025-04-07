@@ -1,0 +1,23 @@
+import React from "react";
+
+const ProjectsSearchFilter = () => {
+  return (
+    <div className="flex gap-3">
+      <div className="relative w-[367px] h-[50px]">
+        <input
+          type="search"
+          name="projects"
+          placeholder="Search"
+          className="bg-[#191A30] pr-4 pl-12 border border-[#282939] rounded-2xl outline-none w-full h-full text-white placeholder:text-white text-base placeholder:text-base"
+        />
+        <span className="top-1/2 left-4 absolute text-gray-400 -translate-y-1/2 transform">
+          🔍
+        </span>
+      </div>
+
+      <div className="border-[#282939] border-1 border-dashed w-[50px] h-[50px]"></div>
+    </div>
+  );
+};
+
+export default ProjectsSearchFilter;

@@ -18,10 +18,19 @@
   --color-warning: #E1E100;
 }
 
+@layer utilities {
+  .border-b-gradient {
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(0.25turn, #38029b00, #5A12D3, #38029b00);
+    border-image-slice: 1;
+    width: 100%;
+  }
+}
+
 .custom-gradient {
-  @apply bg-gradient-to-r from-gradientStart from-0% to-gradientEnd to-100%;
+  @apply bg-gradient-to-r from-0% from-gradientStart to-100% to-gradientEnd;
 }
 
 .custom-radial-gradient {
-  @apply bg-radial from-radial-start from-0% via-radialMiddle via-50% to-radialEnd to-100%;
+  @apply bg-radial from-0% from-radial-start via-50% via-radialMiddle to-100% to-radialEnd;
 }

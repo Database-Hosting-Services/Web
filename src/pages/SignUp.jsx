@@ -8,13 +8,43 @@ const SignUp = () => {
     email: "",
     password: "",
   });
+  const [errors, setErrors] = useState({ password: "" });
+  const isValidPassword = (password) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&!])[A-Za-z\d@#$%^&!]{8,}$/;
+    return passwordRegex.test(password.trim());
+  };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === "password" && value) {
+      if (isValidPassword(value)) {
+        setErrors({ ...errors, password: "" });
+      }
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    let isValid = true;
+    let newErrors = { ...errors };
+
+    if (!formData.password) {
+      isValid = false;
+      newErrors.password = "Password is required";
+    } else if (!isValidPassword(formData.password)) {
+      isValid = false;
+      newErrors.password =
+        "Password must be at least 8 characters [A-Za-z], [0-9] and @/#$%^&! .";
+    }
+
+    setErrors(newErrors);
+
+    if (!isValid) return;
+
     console.log(formData);
     toast.success("We've already sent to your email ", {
       position: "top-center",
@@ -98,6 +128,15 @@ const SignUp = () => {
             onChange={handleChange}
             class="w-full p-2 mb-4 rounded-3xl bg-secondary text-text border-solid border-tertiary focus:outline-none  focus:none"
           />
+          {errors.password && (
+            <p
+              class="text-red-500 font-light text-sm duration-200 style:{
+              opacity: 1;
+              duration: 0.5s;}"
+            >
+              {errors.password}
+            </p>
+          )}
 
           {/* Sign-Up Button */}
           <button

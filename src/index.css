@@ -1,3 +1,5 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap'); */
+
 @import "tailwindcss";
 
 @theme {
@@ -6,6 +8,8 @@
   --color-secondary: #191A30;
   --color-tertiary: #282939;
   --color-highlight: #4C75FF;
+  --color-black: #000000;
+  --color-text:#FFFFFF;
   --color-gradientStart: #682EC7;
   --color-gradientEnd: #5A12D3;
   --color-gradientHover: #6D4DEF;
@@ -16,12 +20,48 @@
   --color-dangerOpacity: rgba(255, 0, 0, 0.8);
   --color-success: #00E100;
   --color-warning: #E1E100;
+  --color-fill:#06071A;
+  --custom-gradient: linear-gradient(90deg, var(--color-gradientStart)_0%, var(--color-gradientEnd)_100%);
 }
 
-.custom-gradient {
-  @apply bg-gradient-to-r from-gradientStart from-0% to-gradientEnd to-100%;
-}
+  /* .gradient-opacity-btn {
+    @apply w-full rounded-3xl text-text font-semibold p-2 cursor-pointer relative;
+    background: linear-gradient(to top, var(--gradient-end), var(--gradient-start));
+  }
+  
+  .gradient-opacity-btn::before {
+    @apply absolute inset-0 rounded-3xl opacity-0 hover:opacity-70 transition-opacity duration-300;
+    content: '';
+    background: linear-gradient(to top, var(--gradient-end), var(--gradient-start));
+    z-index:-1;
+  } */
+/* .Toast-custom{
+  @apply bg-secondary text-text rounded-lg p-4 shadow-lg flex items-center justify-between;
+} */
 
 .custom-radial-gradient {
   @apply bg-radial from-radial-start from-0% via-radialMiddle via-50% to-radialEnd to-100%;
 }
+body{
+  font-family: 'Roboto', sans-serif;
+}
+fontFamily: {
+  roboto: ['Roboto', 'sans-serif'],
+},
+fontSize: {
+  xs: '11px',
+  sm: '13px',
+  base: '14px',
+  'lg': '15px',
+'xl': '16px',
+'2xl': '18px',
+  '3xl': '20px',
+  '4xl': '24px',
+  '5xl': '32px',
+},
+fontWeight: {
+  --light: '300',
+  --normal: '400',
+  --medium: '500',
+  --semibold: '600',
+},

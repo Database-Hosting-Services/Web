@@ -1,11 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
   Landing,
-  Login,
   ProjectHome,
-  Register,
   UserDashboardLayout,
   UserProjects,
+  SignIn,
+  SignUp,
+  Verification,
+  ResetPassword,
 } from "./pages";
 
 const router = createBrowserRouter([
@@ -13,8 +15,11 @@ const router = createBrowserRouter([
     path: "/",
     children: [
       { index: true, element: <Landing /> },
-      { path: "/login", element: <Login /> },
-      { path: "/register", element: <Register /> },
+      { path: "/signup", element: <SignUp /> },
+      { path: "/signup/verify-email", element: <Verification /> },
+      { path: "/signin", element: <SignIn /> },
+      { path: "/reset-password", element: <ResetPassword /> },
+
       {
         path: "/user-dashboard/",
         children: [

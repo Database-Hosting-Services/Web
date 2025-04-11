@@ -11,7 +11,7 @@ const SignUp = () => {
   const [errors, setErrors] = useState({ password: "" });
   const isValidPassword = (password) => {
     const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&!])[A-Za-z\d@#$%^&!]{8,}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&!])[A-Za-z\d@#$%^&_!]{8,}$/;
     return passwordRegex.test(password.trim());
   };
 
@@ -38,7 +38,7 @@ const SignUp = () => {
     } else if (!isValidPassword(formData.password)) {
       isValid = false;
       newErrors.password =
-        "Password must be at least 8 characters [A-Za-z], [0-9] and @/#$%^&! .";
+        "Password must be at least 8 characters [A-Za-z], [0-9] and [@/#$%^&!_].";
     }
 
     setErrors(newErrors);

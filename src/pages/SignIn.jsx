@@ -98,7 +98,3 @@ const SignIn = () => {
   );
 };
 export default SignIn;
-//bg-gradient-to-b from-black via-highlight to-gradientEnd
-// bg-linear-[25deg,red_5%,yellow_60%,lime_90%,teal]
-//bg-[linear-gradient(25deg,var(--color-secondary)_5%,var(--color-primary)_50%,var(--color-tertiary)_10%)]
-//bg-linear-[var(<custom-property>)]

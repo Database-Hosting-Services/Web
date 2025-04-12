@@ -8,7 +8,15 @@ const SignUp = () => {
     email: "",
     password: "",
   });
-  const [errors, setErrors] = useState({ password: "" });
+  const [errors, setError] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email.trim());
+  };
   const isValidPassword = (password) => {
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&!])[A-Za-z\d@#$%^&_!]{8,}$/;
@@ -18,11 +26,8 @@ const SignUp = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-
-    if (name === "password" && value) {
-      if (isValidPassword(value)) {
-        setErrors({ ...errors, password: "" });
-      }
+    if (value.trim() !== "") {
+      setError((prevErrors) => ({ ...prevErrors, [name]: "" }));
     }
   };
 
@@ -31,6 +36,18 @@ const SignUp = () => {
 
     let isValid = true;
     let newErrors = { ...errors };
+    if (!formData.username.trim()) {
+      newErrors.username = "Username is required";
+      isValid = false;
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!isValidEmail(formData.email)) {
+      newErrors.email = "Invalid email ";
+      isValid = false;
+    }
 
     if (!formData.password) {
       isValid = false;
@@ -41,7 +58,7 @@ const SignUp = () => {
         "Password must be at least 8 characters [A-Za-z], [0-9] and [@/#$%^&!_].";
     }
 
-    setErrors(newErrors);
+    setError(newErrors);
 
     if (!isValid) return;
 
@@ -83,7 +100,7 @@ const SignUp = () => {
           }}
         ></div>
       </div>
-      <div class="w-1/2 bg-primary flex justify-center items-center">
+      <div class="w-1/2  bg-primary flex justify-center items-center">
         <form>
           <h2 class="text-text font-bold text-2xl mb-2">Sign up for free</h2>
           <h3 class="text-text font-light text-xs mb-8">
@@ -97,28 +114,41 @@ const SignUp = () => {
             name="username"
             value={formData.username}
             onChange={handleChange}
-            class="w-xl  p-2 mb-4 rounded-3xl bg-secondary text-text  border-solid border-tertiary focus:outline-none focus:ring-[#282939]   focus:none  autofill:bg-secondary autofill:text-text
-            [-webkit-text-fill-color: #FFFFFF] 
-            [box-shadow:0_0_1000px_1000px#191A30_inset] "
+            className={`w-[500px] h-[50px]   p-2 mb-1 rounded-3xl bg-secondary text-text border 
+    ${errors.username ? "border-[#FF0000]  " : "border-tertiary"} 
+    focus:outline-none transition-all duration-300
+    autofill:bg-secondary autofill:text-text
+    [-webkit-text-fill-color: #FFFFFF]
+    [box-shadow:0_0_1000px_1000px#191A30_inset]`}
           />
 
+          {errors.username && (
+            <p className="text-[#FF0000] font-light text-sm duration-200 ">
+              {errors.username || " "}
+            </p>
+          )}
+
           {/* Email */}
-          <label class="block text-text mb-2 p-0.5 font-light text-base">
+          <label className="block text-text mt-6 mb-2 p-0.5 font-light text-base">
             Email
           </label>
           <input
             type="email"
             name="email"
-            required
             value={formData.email}
             onChange={handleChange}
-            class="w-full    p-2 mb-4 rounded-3xl bg-secondary text-text  border-solid border-tertiary focus:outline-none focus:ring-[#282939]   focus:none  autofill:bg-secondary autofill:text-text
-            [-webkit-text-fill-color: #FFFFFF] 
-            [box-shadow:0_0_1000px_1000px#191A30_inset] "
-          ></input>
+            className={`w-[500px] h-[50px]   p-2 mb-1 rounded-3xl bg-secondary text-text border 
+    ${errors.email ? "border-[#FF0000]" : "border-tertiary "} 
+    focus:outline-none transition-all duration-300  autofill:bg-secondary autofill:text-text
+    [-webkit-text-fill-color: #FFFFFF]
+    [box-shadow:0_0_1000px_1000px#191A30_inset]`}
+          />
+          <p className="text-[#FF0000] font-light text-sm  ">
+            {errors.email || " "}
+          </p>
 
           {/* Password */}
-          <label class="block text-text mb-2 p-0.5 font-light text-base ">
+          <label className="block text-text mt-6 mb-2 p-0.5 font-light text-base">
             Password
           </label>
           <input
@@ -126,23 +156,17 @@ const SignUp = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            class="w-full p-2 mb-4 rounded-3xl bg-secondary text-text border-solid border-tertiary focus:outline-none  focus:none"
+            className={`w-[500px] h-[50px]  p-2 mb-1 rounded-3xl bg-secondary text-text border 
+    ${errors.password ? "border-[#FF0000]" : "border-tertiary"} 
+    focus:outline-none transition-all duration-300`}
           />
-          {errors.password && (
-            <p
-              class="text-red-500 font-light text-sm duration-200 style:{
-              opacity: 1;
-              duration: 0.5s;}"
-            >
-              {errors.password}
-            </p>
-          )}
-
+          <p className="text-[#FF0000] font-light text-sm ">
+            {errors.password || " "}
+          </p>
           {/* Sign-Up Button */}
           <button
             type="submit"
-            class="w-full rounded-3xl mt-14 p-0.5 bg-linear-to-t from-gradientEnd to-gradientStart opacity-100  text-text font-semibold p-2  cursor-pointer hover:bg-gradientEnd hover:to-highlight/75 transition-opacity-75 duration-300 ease-in-out"
-            z-ind
+            class="w-[500px] h-[50px]   rounded-3xl mt-14 bg-linear-to-t from-gradientEnd to-gradientStart opacity-100  text-text font-semibold p-2  cursor-pointer hover:bg-gradientEnd hover:to-highlight/75 transition-opacity-75 duration-300 ease-in-out"
             onClick={handleSubmit}
           >
             Sign Up

@@ -3,6 +3,13 @@ import { useNavigate } from "react-router-dom";
 
 import rightArrow from "../assets/rightArrow.svg";
 
+const truncateDescription = (description) => {
+  if (description.length > 30) {
+    return description.substring(0, 30) + "...";
+  }
+  return description;
+};
+
 const SingleProject = ({ _id, title, description, isActive }) => {
   const navigate = useNavigate();
 
@@ -15,7 +22,9 @@ const SingleProject = ({ _id, title, description, isActive }) => {
       <div className="flex justify-between items-center p-4 border-b-gradient">
         <div className="">
           <h3 className="font-bold">{title}</h3>
-          <p className="font-light">{description}</p>
+          <p className="font-light text-gray-400">
+            {truncateDescription(description)}
+          </p>
         </div>
         <button className="p-1 cursor-pointer" onClick={handleOpenProject}>
           <img className="hover:scale-125 transition" src={rightArrow} alt="" />

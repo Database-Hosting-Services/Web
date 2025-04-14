@@ -46,7 +46,7 @@ const Navbar = () => {
           />
         </button>
         {showNotifications && (
-          <div className="top-15 right-0 absolute">
+          <div className="top-15 right-0 z-10 absolute">
             <NotificationsContainer />
           </div>
         )}

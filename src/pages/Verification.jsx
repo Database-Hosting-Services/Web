@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import verificationLogo from "./images/VerificationLogo.png";
 
-function Verification() {
+function Verification({ email, setShowVerification }) {
   const [timer, setTimer] = useState(120); // 2 minutes
   const [code, setCode] = useState(new Array(6).fill(""));
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const inputRef = useRef([]);
+
   const inputsRef = useRef([]);
 
   useEffect(() => {
@@ -117,7 +119,7 @@ function Verification() {
         <div className="flex justify-between mb-7 p-6">
           <button
             className="w-1/2 py-2 mr-2 border border-[#282939] rounded-lg text-lg text-[#FFFFFF] cursor-pointer  duration-300"
-            onClick={() => window.history.back()}
+            onClick={() => setShowVerification(false)} // Ensure this function is properly defined
           >
             Cancel
           </button>

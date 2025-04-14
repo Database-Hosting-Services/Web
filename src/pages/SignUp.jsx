@@ -191,7 +191,10 @@ const SignUp = () => {
       </div>
       {showVerification && (
         <div className="fixed inset-1  backdrop-blur-sm  bg-opacity-0 z-2 flex items-center justify-center">
-          <Verification email={formData.email} />
+          <Verification
+            email={formData.email}
+            setShowVerification={setShowVerification}
+          />
             
         </div>
       )}

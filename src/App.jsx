@@ -1,4 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store/store";
 import {
   Landing,
   Login,
@@ -7,6 +9,7 @@ import {
   UserDashboardLayout,
   UserProjects,
 } from "./pages";
+import DashboardLayout from "./components/Sidebar/DashboardLayout";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +27,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/project/:projectId/",
+        element: <DashboardLayout />,
         children: [
           { index: true, element: <ProjectHome /> },
           {
@@ -39,7 +43,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
 }
 
 export default App;

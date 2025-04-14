@@ -1,14 +1,42 @@
-import React, { memo, useEffect } from "react";
-import { useDashboardContext } from "../store/DashboardContext";
+import React, { useEffect } from "react";
+import { useLoaderData } from "react-router-dom";
 
-const ProjectHome = memo(() => {
-  const { updateProjectData } = useDashboardContext();
+import { useDashboardContext } from "../store/DashboardContext";
+import ProjectStats from "../components/ProjectStats";
+import StatsData from "../data/StatsData";
+import projectsData from "../data/projects";
+
+export const loader = async ({ params }) => {
+  const { projectId } = params;
+  const projectTitle = projectsData.find(
+    (project) => project._id === projectId,
+  ).title;
+  return { projectId, projectTitle };
+};
+
+const ProjectHome = () => {
+  const { projectId, projectTitle } = useLoaderData();
+
+  const { updateProjectData, projectData } = useDashboardContext();
 
   useEffect(() => {
-    updateProjectData("123", "Hello");
-  }, []);
+    updateProjectData(projectId, projectTitle);
+  }, [projectId, projectTitle]);
 
-  return <div>ProjectHome</div>;
-});
+  return (
+    <div>
+      <h2 className="mb-10 font-bold text-4xl">{projectData.title}</h2>
+      <div className="gap-2 grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
+        {StatsData.map((StatsItem) => (
+          <ProjectStats
+            icon={StatsItem.icon}
+            text={StatsItem.text}
+            key={StatsItem.text}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export default ProjectHome;

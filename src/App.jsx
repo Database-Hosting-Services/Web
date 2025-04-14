@@ -8,6 +8,8 @@ import {
   UserProjects,
 } from "./pages";
 
+import { loader as projectHomeLoader } from "./pages/ProjectHome";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,7 +25,11 @@ const router = createBrowserRouter([
           {
             path: "project/:projectId/",
             children: [
-              { index: true, element: <ProjectHome /> },
+              {
+                index: true,
+                element: <ProjectHome />,
+                loader: projectHomeLoader,
+              },
               {
                 path: "table-editor/",
                 children: [

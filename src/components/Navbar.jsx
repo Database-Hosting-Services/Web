@@ -14,12 +14,18 @@ const Navbar = () => {
     setShowNotifications((prevShowNotifications) => !prevShowNotifications);
   };
 
+  const projectTitle = projectData?.title || null;
+
   return (
     <nav className="flex items-center bg-[#06071A] p-7 border-gray-800 border-b-1 border-l-1 h-[117px] text-white">
-      <h1 className="mr-auto font-bold text-4xl">
-        {projectData?._id ? projectData.title : "Dashboard"}
+      <h1
+        className={`mr-auto ${
+          projectTitle ? "text-xl" : "font-bold text-4xl"
+        } `}
+      >
+        {projectTitle || "Dashboard"}
       </h1>
-      {projectData?._id && (
+      {projectTitle && (
         <span className="mr-5 p-1 cursor-pointer">
           <img
             className="hover:scale-110 transition"

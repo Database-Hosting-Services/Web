@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ProjectsSearchFilter, SingleProject } from "../components";
 import projects from "../data/projects";
 
 import orbixFloatingImg from "../assets/orbixFloating.svg";
+import { useDashboardContext } from "../store/DashboardContext";
 
 const UserProjects = () => {
+  const { updateProjectData } = useDashboardContext();
+
+  useEffect(() => {
+    updateProjectData(null, null);
+  }, []);
+
   return (
     <div className="relative flex-1">
       <ProjectsSearchFilter />

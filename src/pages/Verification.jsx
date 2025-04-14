@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import verificationLogo from "./images/VerificationLogo.png";
+
 function Verification() {
   const [timer, setTimer] = useState(120); // 2 minutes
   const [code, setCode] = useState(new Array(6).fill(""));
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const inputsRef = useRef([]);
 
   useEffect(() => {
@@ -44,15 +47,28 @@ function Verification() {
     }
   };
 
+  const handleVerify = async () => {
+    setIsLoading(true);
+    setError("");
+    try {
+      // TODO: Add your verification API call here
+      // await verifyCode(verificationCode);
+    } catch (err) {
+      setError("Invalid verification code. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen  flex items-center justify-center px-4 bg-[#050505]">
-      <div className="bg-[#191A30]  rounded-2xl shadow-xl  text-center p-6 w-lvh h-2/7">
+    <div className="min-h-screen flex items-center justify-center px-4 ">
+      <div className="bg-[#191A30] rounded-2xl shadow-xl text-center p-6 w-lvh h-2/7">
         <div
-          class="  flex items-center justify-center  bg-center mb-6 h-60 w-lg "
+          className="flex items-center justify-center bg-center mb-6 h-60 w-lg"
           style={{
             background: `url(${verificationLogo})`,
             backgroundRepeat: "no-repeat",
-            backgroundPosition: " center right 55px",
+            backgroundPosition: "center right 50px",
             backgroundSize: "contain",
           }}
         ></div>
@@ -62,7 +78,11 @@ function Verification() {
         <p className="text-[#8B44FF] font-medium text-lg mb-4">
           {formatTime()}
         </p>
-        <div className="flex justify-around m-2 p-3">
+        <div
+          className="flex justify-around m-2 p-3"
+          role="group"
+          aria-label="Verification code"
+        >
           {code.map((digit, idx) => (
             <input
               key={idx}
@@ -72,27 +92,41 @@ function Verification() {
               ref={(el) => (inputsRef.current[idx] = el)}
               onChange={(e) => handleChange(e, idx)}
               onKeyDown={(e) => handleKeyDown(e, idx)}
-              className="w-16 h-15 text-center text-lg   border border-[#282939] rounded-lg mb-7"
+              className="w-16 h-15 text-center font-light text-lg text-[#FFFFFF] border border-[#282939] rounded-lg mb-7"
+              aria-label={`Digit ${idx + 1} of verification code`}
+              inputMode="numeric"
+              pattern="[0-9]*"
             />
           ))}
         </div>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         <p className="text-l text-[#FFFFFF] mb-5">
-          Didn’t get a code ?{" "}
-          <span
+          Didn't get a code ?{" "}
+          <button
             onClick={handleResend}
-            className={`cursor-pointer text-lg mt-1.5 ${
-              timer === 0 ? "text-[#FFFFFF]" : "text-[#FFFFFF] cursor-allowed "
+            disabled={timer > 0}
+            className={`text-lg mt-1.5 ${
+              timer === 0
+                ? "text-[#FFFFFF] hover:underline"
+                : "text-[#FFFFFF] cursor-pointer"
             }`}
           >
             click to resend
-          </span>
+          </button>
         </p>
         <div className="flex justify-between mb-7 p-6">
-          <button className="w-1/2 py-2 mr-2 border border-[#282939] rounded-lg text-lg text-[#FFFFFF] cursor-pointer">
+          <button
+            className="w-1/2 py-2 mr-2 border border-[#282939] rounded-lg text-lg text-[#FFFFFF] cursor-pointer  duration-300"
+            onClick={() => window.history.back()}
+          >
             Cancel
           </button>
-          <button className="w-1/2 py-2 ml-2 rounded-lg cursor-pointer bg-linear-to-t from-gradientEnd to-gradientStart  text-lg text-[#FFFFFF] hover:opacity-80 transition-opacity duration-300">
-            Verify
+          <button
+            className="w-1/2 py-2 ml-2 rounded-lg cursor-pointer bg-linear-to-t from-gradientEnd to-gradientStart text-lg text-[#FFFFFF] hover:opacity-75 transition-opacity duration-300 "
+            onClick={handleVerify}
+            disabled={isLoading || code.some((digit) => !digit)}
+          >
+            {isLoading ? "Verifying..." : "Verify"}
           </button>
         </div>
       </div>

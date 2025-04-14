@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import orbixLogo from "./images/orbixLogo.png";
+import Verification from "./Verification";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,9 @@ const SignUp = () => {
     email: "",
     password: "",
   });
+
+  const [showVerification, setShowVerification] = useState(false);
+
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email.trim());
@@ -82,6 +86,9 @@ const SignUp = () => {
         fontWeight: "250px",
       },
     });
+    setTimeout(() => {
+      setShowVerification(true);
+    }, 2000);
   };
 
   return (
@@ -114,7 +121,7 @@ const SignUp = () => {
             name="username"
             value={formData.username}
             onChange={handleChange}
-            className={`w-[500px] h-[50px]   p-2 mb-1 rounded-3xl bg-secondary text-text border 
+            className={`w-[500px] h-[50px]   p-6 mb-1 rounded-3xl bg-secondary text-text border 
     ${errors.username ? "border-[#FF0000]  " : "border-tertiary"} 
     focus:outline-none transition-all duration-300
     autofill:bg-secondary autofill:text-text
@@ -137,7 +144,7 @@ const SignUp = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className={`w-[500px] h-[50px]   p-2 mb-1 rounded-3xl bg-secondary text-text border 
+            className={`w-[500px] h-[50px]   p-6 mb-1 rounded-3xl bg-secondary text-text border 
     ${errors.email ? "border-[#FF0000]" : "border-tertiary "} 
     focus:outline-none transition-all duration-300  autofill:bg-secondary autofill:text-text
     [-webkit-text-fill-color: #FFFFFF]
@@ -156,7 +163,7 @@ const SignUp = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className={`w-[500px] h-[50px]  p-2 mb-1 rounded-3xl bg-secondary text-text border 
+            className={`w-[500px] h-[50px]  p-6 mb-1 rounded-3xl bg-secondary text-text border 
     ${errors.password ? "border-[#FF0000]" : "border-tertiary"} 
     focus:outline-none transition-all duration-300`}
           />
@@ -182,7 +189,14 @@ const SignUp = () => {
         </form>
         <Toaster></Toaster>
       </div>
+      {showVerification && (
+        <div className="fixed inset-1  backdrop-blur-sm  bg-opacity-0 z-2 flex items-center justify-center">
+          <Verification email={formData.email} />
+            
+        </div>
+      )}
     </div>
   );
 };
+
 export default SignUp;

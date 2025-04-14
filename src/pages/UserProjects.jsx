@@ -2,9 +2,11 @@ import React from "react";
 import { ProjectsSearchFilter, SingleProject } from "../components";
 import projects from "../data/projects";
 
+import orbixFloatingImg from "../assets/orbixFloating.svg";
+
 const UserProjects = () => {
   return (
-    <div>
+    <div className="relative flex-1">
       <ProjectsSearchFilter />
       <div className="gap-4 grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 xl:grid-cols-3 mt-10">
         {projects.map((project) => (
@@ -17,6 +19,9 @@ const UserProjects = () => {
           />
         ))}
       </div>
+      <span className="right-5 bottom-5 absolute">
+        <img src={orbixFloatingImg} alt="" />
+      </span>
     </div>
   );
 };

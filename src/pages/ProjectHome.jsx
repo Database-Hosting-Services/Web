@@ -5,6 +5,7 @@ import { useDashboardContext } from "../store/DashboardContext";
 import ProjectStats from "../components/ProjectStats";
 import StatsData from "../data/StatsData";
 import projectsData from "../data/projects";
+import ConnectingProject from "../components/ConnectingProject";
 
 export const loader = async ({ params }) => {
   const { projectId } = params;
@@ -25,8 +26,8 @@ const ProjectHome = () => {
 
   return (
     <div>
-      <h2 className="mb-10 font-bold text-4xl">{projectData.title}</h2>
-      <div className="gap-2 grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
+      <h2 className="mb-15 font-bold text-4xl">{projectData.title}</h2>
+      <div className="gap-2 grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 mb-30">
         {StatsData.map((StatsItem) => (
           <ProjectStats
             icon={StatsItem.icon}
@@ -35,6 +36,7 @@ const ProjectHome = () => {
           />
         ))}
       </div>
+      <ConnectingProject />
     </div>
   );
 };

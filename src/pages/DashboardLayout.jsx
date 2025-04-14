@@ -2,7 +2,7 @@ import React from "react";
 import { Navbar } from "../components";
 import { Outlet } from "react-router-dom";
 
-const UserDashboardLayout = () => {
+const DashboardLayout = () => {
   return (
     <div className="grid grid-cols-[auto_1fr] bg-[#06071A] text-white">
       {/* <Sidebar /> */}
@@ -17,4 +17,4 @@ const UserDashboardLayout = () => {
   );
 };
 
-export default UserDashboardLayout;
+export default DashboardLayout;

@@ -1,7 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
+import rightArrow from "../assets/rightArrow.svg";
 
 const SingleProject = ({ _id, title, description, isActive }) => {
-  console.log(_id);
+  const navigate = useNavigate();
+
+  const handleOpenProject = () => {
+    navigate(`project/${_id}`);
+  };
 
   return (
     <div className="grid grid-cols-1 grid-rows-2 bg-secondary p-3 rounded-2xl max-w-[345px] h-[180px]">
@@ -10,7 +17,9 @@ const SingleProject = ({ _id, title, description, isActive }) => {
           <h3 className="font-bold">{title}</h3>
           <p className="font-light">{description}</p>
         </div>
-        <span>&gt;</span>
+        <button className="p-1 cursor-pointer" onClick={handleOpenProject}>
+          <img className="hover:scale-125 transition" src={rightArrow} alt="" />
+        </button>
       </div>
       <div className="flex justify-between items-end p-4">
         {isActive ? (

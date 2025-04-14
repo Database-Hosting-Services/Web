@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import UserInfo from "./UserInfo";
 import NotificationsContainer from "./NotificationsContainer";
+import { useDashboardContext } from "../store/DashboardContext";
+
+import inviteUsersImg from "../assets/inviteUsers.svg";
+import bellImg from "../assets/bell.svg";
 
 const Navbar = () => {
+  const { projectData } = useDashboardContext();
   const [showNotifications, setShowNotifications] = useState(false);
 
   const toggleShowNotifications = () => {
@@ -11,17 +16,35 @@ const Navbar = () => {
 
   return (
     <nav className="flex items-center bg-[#06071A] p-7 border-gray-800 border-b-1 border-l-1 h-[117px] text-white">
-      <h1 className="mr-auto font-bold text-4xl">Dashboard</h1>
-      <p className="relative mr-5">
-        <span className="cursor-pointer" onClick={toggleShowNotifications}>
-          🔔
+      <h1 className="mr-auto font-bold text-4xl">
+        {projectData?._id ? projectData.title : "Dashboard"}
+      </h1>
+      {projectData?._id && (
+        <span className="mr-5 p-1 cursor-pointer">
+          <img
+            className="hover:scale-110 transition"
+            src={inviteUsersImg}
+            alt="invite users"
+          />
         </span>
+      )}
+      <div className="relative mr-5">
+        <button
+          className="p-1 cursor-pointer"
+          onClick={toggleShowNotifications}
+        >
+          <img
+            src={bellImg}
+            className="hover:scale-110 transition"
+            alt="notifications"
+          />
+        </button>
         {showNotifications && (
-          <span className="top-10 right-0 absolute">
+          <div className="top-15 right-0 absolute">
             <NotificationsContainer />
-          </span>
+          </div>
         )}
-      </p>
+      </div>
       <UserInfo />
     </nav>
   );

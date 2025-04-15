@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectMainMargin } from "../../store/sidebarSlice";
-import Sidebar from "./Sidebar.jsx";
+import { selectMainMargin } from "../store/sidebarSlice.jsx";
+import Sidebar from "../components/Sidebar/Sidebar.jsx";
 
 const DashboardLayout = () => {
   const mainMargin = useSelector(selectMainMargin);

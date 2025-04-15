@@ -8,8 +8,8 @@ import {
   Register,
   UserDashboardLayout,
   UserProjects,
+  DashboardLayout,
 } from "./pages";
-import DashboardLayout from "./components/Sidebar/DashboardLayout";
 
 const router = createBrowserRouter([
   {

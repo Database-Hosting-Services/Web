@@ -1,25 +1,62 @@
 import React, { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import orbixLogo from "./images/orbixLogo.png";
+
+const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [errors, setError] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [attempt, setAttempt] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    const newErrors = { ...errors };
+    if (value.trim() !== "") {
+      newErrors[name] = "";
+    }
+    setError(newErrors);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    setAttempt(true);
+    const newErrors = {};
+    let isValid = true;
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!isValidEmail(formData.email)) {
+      newErrors.email = "Invalid email ";
+      isValid = false;
+    }
+
+    if (!formData.password) {
+      isValid = false;
+      newErrors.password = "Password is required";
+    }
+
+    setError(newErrors);
+
+    if (!isValid) return;
   };
 
   return (
     <div class="flex h-screen">
       <div
-        class="w-1/2 bg-linear-to-tl from-gradientEnd via-black to-highlight opacity-98
+        class="w-1/2 bg-linear-to-tl from-gradientEnd via-black to-highlight opacity-100
   flex items-center justify-center"
       >
         <div
@@ -31,9 +68,8 @@ const SignIn = () => {
             backgroundRepeat: "no-repeat",
           }}
         ></div>
-        {/* <h1 class="size-18 rounded-full bg-radial from-radialMiddle from-60% to-radial-star"></h1> */}
       </div>
-      <div class="w-1/2 bg-primary flex justify-center items-center">
+      <div class="w-1/2  bg-primary flex justify-center items-center">
         <form>
           <h2 class="text-text font-bold text-2xl mb-2">Welcome back !</h2>
           <h3 class="text-text font-light text-xs mb-8">
@@ -41,7 +77,7 @@ const SignIn = () => {
           </h3>
 
           {/* Email */}
-          <label class="block text-text mb-2 p-0.5 font-light text-base">
+          <label className="block text-text mt-6 mb-2 p-0.5 font-light text-base">
             Email
           </label>
           <input
@@ -49,13 +85,17 @@ const SignIn = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            class="w-xl    p-2 mb-4 rounded-3xl bg-secondary text-text  border-solid border-tertiary focus:outline-none focus:ring-[#282939]   focus:none  autofill:bg-secondary autofill:text-text
-            [-webkit-text-fill-color: #FFFFFF] 
-            [box-shadow:0_0_1000px_1000px#191A30_inset] "
-          ></input>
+            className={`w-[500px] h-[50px]   p-6 mb-1 rounded-3xl bg-secondary text-text border 
+    ${errors.email ? "border-[#FF0000]" : "border-tertiary "} 
+    focus:outline-none transition-all duration-300  autofill:text-text 
+    [box-shadow:0_0_1000px_1000px#191A30_inset]`}
+          />
+          <p className="text-[#FF0000] font-light text-sm  ">
+            {errors.email || " "}
+          </p>
 
           {/* Password */}
-          <label class="block text-text mb-2 p-0.5 font-light text-base ">
+          <label className="block text-text mt-6 mb-2 p-0.5 font-light text-base">
             Password
           </label>
           <input
@@ -63,23 +103,28 @@ const SignIn = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            class="w-full p-2 mb-4 rounded-3xl bg-secondary text-text border-solid border-tertiary focus:outline-none  focus:none"
+            className={`w-[500px] h-[50px]  p-6 mb-1 rounded-3xl bg-secondary text-text border 
+    ${errors.password ? "border-[#FF0000]" : "border-tertiary"} 
+    focus:outline-none transition-all duration-300`}
           />
-          <p>
-            <a
-              href="/reset-password"
-              className="text-gradientStart flex items-end pl-118 font-light text-sm cursor-pointer "
-            >
-              {" "}
-              Forget password ?
-            </a>
+          <p className="text-[#FF0000] font-light text-sm ">
+            {errors.password || " "}
           </p>
+          {attempt && (errors.password || errors.email) && (
+            <p className="text-[#682EC7] font-light text-sm  text-right">
+              <a
+                href="/reset-password"
+                className="text-gradientStart  font-light text-base"
+              >
+                Forget password ?
+              </a>
+            </p>
+          )}
 
           {/* Sign-Up Button */}
           <button
             type="submit"
-            class="w-full rounded-3xl mt-14 p-0.5 bg-linear-to-t from-gradientEnd to-gradientStart opacity-100  text-text font-semibold p-2  cursor-pointer hover:bg-gradientEnd hover:to-highlight/75 transition-opacity-75 duration-300 ease-in-out"
-            z-ind
+            class="w-[500px] h-[50px]   rounded-3xl mt-14 bg-linear-to-t from-gradientEnd to-gradientStart opacity-100  text-text font-semibold p-2  cursor-pointer hover:bg-gradientEnd hover:to-highlight/75 transition-opacity-75 duration-300 ease-in-out"
             onClick={handleSubmit}
           >
             Sign In
@@ -87,14 +132,16 @@ const SignIn = () => {
 
           {/* Sign-in link */}
           <p className="text-text text-center mt-4 text-medium">
-            Have an account?{" "}
+            Don't have an account ?{" "}
             <a href="/signUp" className="text-gradientStart ">
-              Sign up
+              Sign Up
             </a>
           </p>
         </form>
+        <Toaster></Toaster>
       </div>
     </div>
   );
 };
+
 export default SignIn;

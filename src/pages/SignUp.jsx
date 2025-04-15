@@ -146,8 +146,7 @@ const SignUp = () => {
             onChange={handleChange}
             className={`w-[500px] h-[50px]   p-6 mb-1 rounded-3xl bg-secondary text-text border 
     ${errors.email ? "border-[#FF0000]" : "border-tertiary "} 
-    focus:outline-none transition-all duration-300  autofill:bg-secondary autofill:text-text
-    [-webkit-text-fill-color: #FFFFFF]
+    focus:outline-none transition-all duration-300  autofill:text-text 
     [box-shadow:0_0_1000px_1000px#191A30_inset]`}
           />
           <p className="text-[#FF0000] font-light text-sm  ">

@@ -6,10 +6,11 @@ import {
   Login,
   ProjectHome,
   Register,
-  UserDashboardLayout,
-  UserProjects,
   DashboardLayout,
+  UserProjects,
 } from "./pages";
+
+import { loader as projectHomeLoader } from "./pages/ProjectHome";
 
 const router = createBrowserRouter([
   {
@@ -19,23 +20,44 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
       {
-        path: "/user-dashboard/",
-        children: [
-          { index: true, element: <UserDashboardLayout /> },
-          { path: "projects", element: <UserProjects /> },
-        ],
-      },
-      {
-        path: "/dashboard/project/:projectId/",
+        path: "/dashboard/",
         element: <DashboardLayout />,
         children: [
-          { index: true, element: <ProjectHome /> },
+          { index: true, element: <UserProjects /> },
           {
-            path: "table-editor/",
-            children: [{ index: true, element: <></> }],
+            path: "project/:projectId/",
+            children: [
+              {
+                index: true,
+                element: <ProjectHome />,
+                loader: projectHomeLoader,
+              },
+              {
+                path: "table-editor/",
+                children: [
+                  { index: true, element: <div>Table Editor Page</div> },
+                ],
+              },
+              {
+                path: "sql-editor/",
+                children: [
+                  { index: true, element: <div>Sql Editor Page</div> },
+                ],
+              },
+              {
+                path: "database/",
+                children: [
+                  { index: true, element: <div>Database Schema Page</div> },
+                ],
+              },
+              {
+                path: "roles/",
+                children: [
+                  { index: true, element: <div>roles page</div> },
+                ],
+              },
+            ],
           },
-          { path: "sql-editor/", children: [{ index: true, element: <></> }] },
-          { path: "database/", children: [{ index: true, element: <></> }] },
         ],
       },
     ],

@@ -11,7 +11,7 @@ const SqlEditorContent = () => (
 
     <div className="space-y-4 px-5 py-5">
       <div className="flex items-center justify-between">
-        <div className="bg-secondary flex-1 mr-2 rounded-md px-2 py-0.5 flex items-center justify-between border border-tertiary">
+        <div className="bg-secondary flex-1 mr-2 rounded-lg px-2 py-0.5 flex items-center justify-between border border-tertiary">
           <div className="flex items-center text-gray-300">
             <span className="mr-2">
               <img src={SeachIcon} alt="search logo" />

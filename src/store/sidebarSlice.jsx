@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  activeTab: "table", // Default active tab
-  showSecondary: true, // Will be computed based on activeTab
+  activeTab: "home", // Default active tab
+  showSecondary: false, // Will be computed based on activeTab
   mainMargin: "ml-[348px]", // Will be computed based on activeTab
 };
 

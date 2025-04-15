@@ -1,20 +1,24 @@
+import React from "react";
+import { Navbar } from "../components";
 import { Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectMainMargin } from "../store/sidebarSlice.jsx";
+import DashboardContextProvider from "../store/DashboardContext";
 import Sidebar from "../components/Sidebar/Sidebar.jsx";
 
-const DashboardLayout = () => {
-  const mainMargin = useSelector(selectMainMargin);
 
+const DashboardLayout = () => {
   return (
-    <div className="flex">
+    <DashboardContextProvider>
+      
+      <div className="grid grid-cols-[auto_1fr] bg-[#06071A] text-white">
       <Sidebar />
-      <main
-        className={`${mainMargin} w-full min-h-screen bg-[#121225] transition-all duration-300`}
-      >
-        <Outlet />
-      </main>
-    </div>
+        <div>
+          <Navbar />
+          <div className="flex flex-col p-7 border-gray-800 border-l-1 min-h-[calc(100vh-117px)]">
+            <Outlet />
+          </div>
+        </div>
+      </div>
+    </DashboardContextProvider>
   );
 };
 

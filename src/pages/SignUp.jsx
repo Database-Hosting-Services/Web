@@ -182,7 +182,7 @@ const SignUp = () => {
           <p className="text-text text-center mt-4 text-medium">
             Already have an account?{" "}
             <a href="/signIn" className="text-gradientStart ">
-              Sign in
+              Sign In
             </a>
           </p>
         </form>

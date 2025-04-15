@@ -64,7 +64,7 @@ function Verification({ email, setShowVerification }) {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 ">
-      <div className="bg-[#191A30] rounded-2xl shadow-xl text-center p-6 w-lvh h-2/7">
+      <div className="bg-[#191A30] rounded-3xl shadow-xl text-center p-6 w-lvh h-2/7 border border-[#282939]">
         <div
           className="flex items-center justify-center bg-center mb-6 h-60 w-lg"
           style={{

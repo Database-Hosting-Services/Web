@@ -32,7 +32,7 @@ function ResetPassword() {
           />
           <button
             type="submit"
-            className="w-[500px] h-[50px]   rounded-3xl mt-14 mb-20 bg-linear-to-t from-gradientEnd to-gradientStart opacity-100  text-text font-semibold p-2  cursor-pointer hover:bg-gradientEnd hover:to-highlight/75 transition-opacity-75 duration-300 ease-in-out"
+            className="w-[500px] h-[50px]   rounded-3xl mt-14 mb-20 bg-linear-to-t from-gradientEnd to-gradientStart opacity-100  text-text font-medium p-2  cursor-pointer text-xl hover:bg-gradientEnd hover:to-highlight/75 transition-opacity-75 duration-300 ease-in-out"
           >
             Reset Your Password
           </button>

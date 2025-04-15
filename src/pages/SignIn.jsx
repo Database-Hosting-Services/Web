@@ -131,7 +131,7 @@ const SignIn = () => {
           </button>
 
           {/* Sign-in link */}
-          <p className="text-text text-center mt-4 text-medium">
+          <p className="text-text text-center mt-4 text-light">
             Don't have an account ?{" "}
             <a href="/signUp" className="text-gradientStart ">
               Sign Up

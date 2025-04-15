@@ -2,7 +2,7 @@ import React from "react";
 import cuate from "./images/cuate.png";
 function ResetPassword() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#ebecfb]">
+    <div className="flex min-h-screen items-center justify-center ">
       {/* Container / Card */}
       <div className="w-lvh h-2/7 rounded-3xl p-6 sm:p-8 bg-[#191A30]  border border-[#282939]">
         {/* Illustration + Heading */}
@@ -22,7 +22,7 @@ function ResetPassword() {
 
         {/* Form */}
         <form className="flex flex-col items-center">
-          <label className="pr-110 text-text test-30 mt-10 mb-2  font-light text-base">
+          <label className="pr-110 text-text text-xl mt-10 mb-2  font-light ">
             Email
           </label>
           <input

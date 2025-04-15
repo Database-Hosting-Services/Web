@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import orbixLogo from "./images/orbixLogo.png";
+import ResetPassword from "./ResetPassword";
 
 const isValidEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -16,7 +17,7 @@ const SignIn = () => {
     email: "",
     password: "",
   });
-
+  const [showResetPassword, setShowResetPassword] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -128,12 +129,12 @@ const SignIn = () => {
           </p>
 
           <p className="text-[#682EC7] font-light text-sm text-right">
-            <a
-              href="/reset-password"
-              className="text-gradientStart font-light text-base"
+            <span
+              onClick={() => setShowResetPassword(true)}
+              className="text-gradientStart font-light text-base cursor-pointer"
             >
               Forget password ?
-            </a>
+            </span>
           </p>
 
           {/* Sign-In Button */}
@@ -152,6 +153,15 @@ const SignIn = () => {
             </a>
           </p>
         </form>
+        {showResetPassword && (
+          <div className="fixed inset-1  backdrop-blur-sm  bg-opacity-0 z-2 flex items-center justify-center">
+            <ResetPassword
+              email={formData.email}
+              setShowResetPassword={setShowResetPassword}
+            />
+              
+          </div>
+        )}
         <Toaster />
       </div>
     </div>

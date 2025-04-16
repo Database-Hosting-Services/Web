@@ -3,11 +3,15 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import {
   Landing,
-  Login,
   ProjectHome,
   Register,
   DashboardLayout,
+  UserDashboardLayout,
   UserProjects,
+  SignIn,
+  SignUp,
+  Verification,
+  ResetPassword,
 } from "./pages";
 
 import { loader as projectHomeLoader } from "./pages/ProjectHome";
@@ -17,8 +21,11 @@ const router = createBrowserRouter([
     path: "/",
     children: [
       { index: true, element: <Landing /> },
-      { path: "/login", element: <Login /> },
-      { path: "/register", element: <Register /> },
+      { path: "/signup", element: <SignUp /> },
+      { path: "/signup/verify-email", element: <Verification /> },
+      { path: "/signin", element: <SignIn /> },
+      { path: "/reset-password", element: <ResetPassword /> },
+
       {
         path: "/dashboard/",
         element: <DashboardLayout />,
@@ -52,9 +59,7 @@ const router = createBrowserRouter([
               },
               {
                 path: "roles/",
-                children: [
-                  { index: true, element: <div>roles page</div> },
-                ],
+                children: [{ index: true, element: <div>roles page</div> }],
               },
             ],
           },

@@ -12,10 +12,10 @@ function ResetPassword() {
             alt="Reset Password cuate"
             className="w-48 h-auto mb-6"
           />
-          <h1 className="text-2xl font-medium text-text mb-2">
+          <h1 className="text-2xl mt-6 font-medium text-text mb-2">
             Reset Your Password
           </h1>
-          <p className="text-20 text-center font-light text-text">
+          <p className="text-20  text-center mt-4 font-light text-text">
             Enter your email and we’ll send you a link to reset your password
           </p>
         </div>
@@ -32,7 +32,7 @@ function ResetPassword() {
           />
           <button
             type="submit"
-            className="w-[500px] h-[50px]   rounded-3xl mt-14 mb-20 bg-linear-to-t from-gradientEnd to-gradientStart opacity-100  text-text font-medium p-2  cursor-pointer text-xl hover:bg-gradientEnd hover:to-highlight/75 transition-opacity-75 duration-300 ease-in-out"
+            className="w-[500px] h-[50px]   rounded-3xl mt-12 mb-20 bg-linear-to-t from-gradientEnd to-gradientStart opacity-100  text-text font-medium p-2  cursor-pointer text-xl hover:bg-gradientEnd hover:to-highlight/75 transition-opacity-75 duration-300 ease-in-out"
           >
             Reset Your Password
           </button>

@@ -53,17 +53,23 @@ const SignIn = () => {
 
     toast.success("Sign in successfully !", {
       position: "top-center",
-      duration: 3000,
+      duration: 2000,
       pauseOnHover: true,
-      icon: null,
+      iconTheme: {
+        primary: "#6D4DEF",
+        secondary: "#FFFFFF",
+        fontSize: "18px",
+        marginRight: "8px",
+      },
       style: {
         background: "#191A30",
         color: "#FFFFFF",
         fontSize: "14x",
-        padding: "13 px",
+        padding: "10px 16px",
         borderRadius: "11px",
-        width: "1100px",
-        margin: "13px",
+        maxWidth: "fit-content",
+        display: "flex",
+        //gap: "8px",
         textAlign: "center",
         fontFamily: "roboto",
         wordSpacing: "1px",
@@ -71,7 +77,6 @@ const SignIn = () => {
       },
     });
   };
-
   return (
     <div className="flex h-screen">
       <div className="w-1/2 bg-linear-to-tl from-gradientEnd via-black to-highlight opacity-100 flex items-center justify-center">
@@ -128,7 +133,7 @@ const SignIn = () => {
             {errors.password || " "}
           </p>
 
-          <p className="text-[#682EC7] font-light text-sm text-right">
+          <p className="text-[#682EC7]  mt-1.5 font-light text-lg text-right">
             <span
               onClick={() => setShowResetPassword(true)}
               className="text-gradientStart font-light text-base cursor-pointer"
@@ -140,13 +145,13 @@ const SignIn = () => {
           {/* Sign-In Button */}
           <button
             type="submit"
-            className="w-[500px] h-[50px] rounded-3xl mt-14 bg-linear-to-t from-gradientEnd to-gradientStart opacity-100 text-text font-semibold p-2 cursor-pointer hover:bg-gradientEnd hover:to-highlight/75 transition-opacity-75 duration-300 ease-in-out"
+            className="w-[500px] h-[50px] rounded-3xl mt-12 bg-linear-to-t from-gradientEnd to-gradientStart opacity-100 text-text font-semibold p-2 cursor-pointer hover:bg-gradientEnd hover:to-highlight/75 transition-opacity-75 duration-300 ease-in-out"
           >
             Sign In
           </button>
 
           {/* Sign-up link */}
-          <p className="text-text text-center mt-4 text-light">
+          <p className="text-text text-center mt-5 text-light">
             Don't have an account ?{" "}
             <a href="/signUp" className="text-gradientStart">
               Sign Up

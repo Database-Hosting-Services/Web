@@ -4,9 +4,7 @@ import store from "./store/store";
 import {
   Landing,
   ProjectHome,
-  Register,
   DashboardLayout,
-  UserDashboardLayout,
   UserProjects,
   SignIn,
   SignUp,

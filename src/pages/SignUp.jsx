@@ -194,7 +194,6 @@ const SignUp = () => {
             email={formData.email}
             setShowVerification={setShowVerification}
           />
-            
         </div>
       )}
     </div>

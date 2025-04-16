@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import verificationLogo from "./images/VerificationLogo.png";
+import { useNavigate } from "react-router-dom";
 
 function Verification({ email, setShowVerification }) {
   const [timer, setTimer] = useState(120); // 2 minutes
@@ -7,7 +8,7 @@ function Verification({ email, setShowVerification }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const inputRef = useRef([]);
-
+  const navigate = useNavigate();
   const inputsRef = useRef([]);
 
   useEffect(() => {
@@ -55,6 +56,9 @@ function Verification({ email, setShowVerification }) {
     try {
       // TODO: Add your verification API call here
       // await verifyCode(verificationCode);
+
+      // بعد التحقق الناجح نروح للداشبورد
+      navigate("/dashboard");
     } catch (err) {
       setError("Invalid verification code. Please try again.");
     } finally {

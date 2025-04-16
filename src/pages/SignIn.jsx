@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import orbixLogo from "./images/orbixLogo.png";
 import ResetPassword from "./ResetPassword";
+import { useNavigate } from "react-router";
 
 const isValidEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -18,6 +19,7 @@ const SignIn = () => {
     password: "",
   });
   const [showResetPassword, setShowResetPassword] = useState(false);
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -76,6 +78,9 @@ const SignIn = () => {
         fontWeight: "250px",
       },
     });
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 2000);
   };
   return (
     <div className="flex h-screen">

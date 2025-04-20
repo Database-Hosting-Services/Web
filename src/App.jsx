@@ -10,7 +10,6 @@ import {
   SignUp,
   Verification,
   ResetPassword,
-  SqlEditor,
 } from "./pages";
 
 import { loader as projectHomeLoader } from "./pages/ProjectHome";
@@ -46,7 +45,9 @@ const router = createBrowserRouter([
               },
               {
                 path: "sql-editor/",
-                children: [{ index: true, element: <SqlEditor /> }],
+                children: [
+                  { index: true, element: <div>Sql Editor Page</div> },
+                ],
               },
               {
                 path: "database/",

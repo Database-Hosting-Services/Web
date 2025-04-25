@@ -5,7 +5,7 @@ import filterIconImg from "../assets/filterIcon.svg";
 
 const ProjectsSearchFilter = () => {
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-3 ">
       <div className="relative w-[367px] h-[50px]">
         <input
           type="search"

@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { sql } from "@codemirror/lang-sql";
+import { EditorView } from "@codemirror/view";
+import SqlEditorContent from "../components/Sidebar/SqlEditorContent";
 
 const SqlEditor = () => {
   const [activeTab, setActiveTab] = useState("results");
@@ -12,15 +14,46 @@ const SqlEditor = () => {
 
   const [resultsData, setResultsData] = useState([
     { id: 1, name: "Shaimaa", age: 21 },
-    { id: 2, name: "Noura", age: 25 },
-    { id: 3, name: "Reham", age: 24 },
-    { id: 4, name: "Eman", age: 20 },
-    { id: 4, name: "Eman", age: 20 },
+    { id: 2, name: "Shaimaa", age: 21 },
+    { id: 3, name: "Shaimaa", age: 21 },
+    { id: 4, name: "Shaimaa", age: 21 },
+    { id: 5, name: "Shaimaa", age: 21 },
+    { id: 6, name: "Shaimaa", age: 21 },
+
+    { id: 2, name: "Shaimaa", age: 21 },
+    { id: 3, name: "Shaimaa", age: 21 },
+    { id: 4, name: "Shaimaa", age: 21 },
+    { id: 2, name: "Shaimaa", age: 21 },
+    { id: 3, name: "Shaimaa", age: 21 },
+    { id: 4, name: "Shaimaa", age: 21 },
+    { id: 2, name: "Shaimaa", age: 21 },
+    { id: 3, name: "Shaimaa", age: 21 },
+    { id: 4, name: "Shaimaa", age: 21 },
   ]);
 
   const handleRun = () => {
     console.log("Running SQL query:", code);
+    setPrivateMessages((prev) => [...prev, code]);
   };
+
+  const customTheme = EditorView.theme({
+    ".cm-gutters": {
+      backgroundColor: "#191a30",
+      color: "#FFFFFF",
+      border: "none",
+    },
+    ".cm-lineNumbers": {
+      color: "#FFFFFF",
+      fontSize: "18px",
+      backgroundColor: "#191a30",
+    },
+    ".cm-content": {
+      caretColor: "#ffffff",
+    },
+    ".cm-cursor": {
+      borderLeft: "1px solid #ffffff",
+    },
+  });
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -30,17 +63,17 @@ const SqlEditor = () => {
   }, [chartsText]);
 
   return (
-    <div className="h-screen bg-[#06071A] overflow-hidden text-white flex flex-col">
-      <div className="h-1/2 bg-[#191a30] sticky top-0 overflow-y-auto max-h-1/2 font-light text-lg p-2">
+    <div className="h-screen bg-[#06071A]  overflow-hidden text-white flex flex-col">
+      <div className="h-[400px] bg-[#191a30] overflow-y-auto max-h-1/2 font-light text-lg p-2">
         <CodeMirror
           value={code}
           height="100%"
-          extensions={[sql()]}
+          extensions={[sql(), customTheme]}
           theme="dark"
           basicSetup={true}
           style={{
             fontSize: "16px",
-            color: "#191a30",
+            color: "#FFFFFF",
             backgroundColor: "#191a30",
           }}
           className="bg-[#191a30] text-white"
@@ -48,12 +81,12 @@ const SqlEditor = () => {
         />
       </div>
 
-      <div className="h-1/2 sticky bottom-0 overflow-x-scroll overflow-y-auto max-h-1/2 bg-[#06071A] p-5 flex flex-col">
-        <div className="flex items-center justify-between mb-4 border-b border-[#282939] pb-2">
+      <div className="flex-1 overflow-auto bg-[#06071A] p-5 flex flex-col">
+        <div className="flex items-center overflow-y-visible justify-between mb-4 border-b border-[#282939] pb-2">
           <div className="flex gap-4">
             <button
               onClick={() => setActiveTab("results")}
-              className={`px-4  py-1 rounded-lg text-lg font-medium cursor-pointer ${
+              className={`px-4 py-1 rounded-lg text-lg font-medium cursor-pointer ${
                 activeTab === "results"
                   ? "bg-gradient-to-b from-[#682EC7] to-[#5A12D3]"
                   : "text-[#FFFFFF]"
@@ -80,7 +113,6 @@ const SqlEditor = () => {
             Run
           </button>
         </div>
-
         <div className="flex-1 overflow-auto text-lg text-[#FFFFFF] bg-[#06071A] p-2 rounded-md">
           {activeTab === "results" ? (
             resultsData.length > 0 ? (

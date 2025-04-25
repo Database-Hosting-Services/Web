@@ -9,4 +9,4 @@ export { default as SignUp } from "./SignUp";
 export { default as SignIn } from "./SignIn";
 export { default as ResetPassword } from "./ResetPassword";
 export { default as Verification } from "./Verification";
-export { default as sqlEditor } from "./sqlEditor";
+export { default as SqlEditor } from "./SqlEditor";

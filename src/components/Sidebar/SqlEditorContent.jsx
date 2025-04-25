@@ -52,17 +52,17 @@ const SqlEditorContent = ({ privateMessages = [] }) => {
             </div>
           </div>
           <span
-            className="text-gray-400 cursor-pointer"
+            className="text-[#FFFFF] cursor-pointer"
             onClick={() => setShowSortOptions(!showSortOptions)}
-            //title="Sort By"
+            title="Sort By"
           >
             <img src={FilterIcon} alt="Filter logo" />
           </span>
         </div>
       </div>
       {showSortOptions && (
-        <div className="bg-[#06071A] px-5 py-5 text-white p-1 m-1 rounded-lg">
-          <div className="flex flex-col  gap-2">
+        <div className="bg-[#06071A] px-5 py-5 text-[#FFFFFF] rounded-lg">
+          <div className="flex flex-col gap-2">
             <button
               onClick={() => setSortOrder("alphabetical")}
               className={`p-2 rounded-lg text-sm  ${

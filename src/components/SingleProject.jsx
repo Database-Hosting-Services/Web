@@ -18,7 +18,7 @@ const SingleProject = ({ _id, title, description, isActive }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 grid-rows-2 bg-secondary p-3 rounded-2xl max-w-[345px] h-[180px]">
+    <div className="grid grid-cols-1 grid-rows-2 bg-secondary p-3 m-6 rounded-2xl max-w-[345px] h-[180px]">
       <div className="flex justify-between items-center p-4 border-b-gradient">
         <div className="">
           <h3 className="font-bold">{title}</h3>

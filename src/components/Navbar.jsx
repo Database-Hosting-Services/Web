@@ -17,7 +17,7 @@ const Navbar = () => {
   const projectTitle = projectData?.title || null;
 
   return (
-    <nav className="flex items-center bg-[#06071A] p-7 border-gray-800 border-b-1 border-l-1 h-[117px] text-white">
+    <nav className="flex items-center bg-[#06071A]  p-7 border-gray-800 border-b-1 border-l-1 h-[95px] text-white">
       <h1
         className={`mr-auto ${
           projectTitle ? "text-xl" : "font-bold text-4xl"

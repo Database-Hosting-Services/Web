@@ -19,16 +19,6 @@ const SqlEditor = () => {
     { id: 4, name: "Shaimaa", age: 21 },
     { id: 5, name: "Shaimaa", age: 21 },
     { id: 6, name: "Shaimaa", age: 21 },
-
-    { id: 2, name: "Shaimaa", age: 21 },
-    { id: 3, name: "Shaimaa", age: 21 },
-    { id: 4, name: "Shaimaa", age: 21 },
-    { id: 2, name: "Shaimaa", age: 21 },
-    { id: 3, name: "Shaimaa", age: 21 },
-    { id: 4, name: "Shaimaa", age: 21 },
-    { id: 2, name: "Shaimaa", age: 21 },
-    { id: 3, name: "Shaimaa", age: 21 },
-    { id: 4, name: "Shaimaa", age: 21 },
   ]);
 
   const handleRun = () => {

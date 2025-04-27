@@ -22,8 +22,6 @@ const Sidebar = () => {
 
   return (
     <>
-   
-
       <div className="left-0 top-0 h-screen w-[88px] flex flex-col items-center py-5 bg-primary border-r border-tertiary z-10">
         {/* only logo */}
         <div className="w-17 flex items-center justify-center mb-5 ">
@@ -71,7 +69,6 @@ const Sidebar = () => {
           {renderSecondary(activeTab)}
         </div>
       )}
-      
     </>
   );
 };

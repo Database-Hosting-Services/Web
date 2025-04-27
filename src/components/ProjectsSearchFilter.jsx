@@ -11,10 +11,10 @@ const ProjectsSearchFilter = () => {
           type="search"
           name="projects"
           placeholder="Search"
-          className="bg-[#191A30] pr-4 pl-12 border border-[#282939] rounded-2xl focus:outline-none transition-all  autofill:text-text
+          className="bg-[#191A30] pr-4 pl-12 border-[#282939] rounded-2xl focus:outline-none   autofill:text-text
               [box-shadow:0_0_1000px_1000px#191A30_inset] w-full h-full text-white placeholder:text-white text-base placeholder:text-base"
         />
-        <span className="top-1/2 left-4 absolute text-gray-400 -translate-y-1/2 transform">
+        <span className="top-1/2 left-4 absolute  text-gray-400 -translate-y-1/2 transform">
           <img src={searchIconImg} alt="search" />
         </span>
       </div>

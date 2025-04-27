@@ -3,6 +3,13 @@ import toast, { Toaster } from "react-hot-toast";
 import orbixLogo from "./images/orbixLogo.png";
 import Verification from "./Verification";
 
+import {
+  isValidEmail,
+  isValidPassword,
+} from "../features/auth/utils/validators";
+
+import InputGroup from "../features/auth/components/InputGroup";
+
 const SignUp = () => {
   const [formData, setFormData] = useState({
     username: "",
@@ -16,16 +23,6 @@ const SignUp = () => {
   });
 
   const [showVerification, setShowVerification] = useState(false);
-
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email.trim());
-  };
-  const isValidPassword = (password) => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&!])[A-Za-z\d@#$%^&_!]{8,}$/;
-    return passwordRegex.test(password.trim());
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -92,13 +89,10 @@ const SignUp = () => {
   };
 
   return (
-    <div class="flex h-screen">
-      <div
-        class="w-1/2 bg-linear-to-tl from-gradientEnd via-black to-highlight opacity-100
-  flex items-center justify-center"
-      >
+    <div className="flex h-screen">
+      <div className="flex justify-center items-center bg-linear-to-tl from-gradientEnd via-black to-highlight opacity-100 w-1/2">
         <div
-          class="  flex items-center justify-center  h-1/2 w-lvw  bg-center"
+          className="flex justify-center items-center bg-center w-lvw h-1/2"
           style={{
             background: `url(${orbixLogo})`,
             backgroundSize: "contain",
@@ -107,81 +101,49 @@ const SignUp = () => {
           }}
         ></div>
       </div>
-      <div class="w-1/2  bg-primary flex justify-center items-center">
+      <div className="flex justify-center items-center bg-primary w-1/2">
         <form>
-          <h2 class="text-text font-bold text-2xl mb-2">Sign up for free</h2>
-          <h3 class="text-text font-light text-xs mb-8">
+          <h2 className="mb-2 font-bold text-text text-2xl">
+            Sign up for free
+          </h2>
+          <h3 className="mb-8 font-light text-text text-xs">
             Let's sign up to get started
           </h3>
-          <label className="block text-text mb-2 font-light text-base p-0.5 ">
-            User Name
-          </label>
-          <input
-            type="text"
+          <InputGroup
+            label="User Name"
             name="username"
             value={formData.username}
             onChange={handleChange}
-            className={`w-[500px] h-[50px]   p-6 mb-1 rounded-3xl bg-secondary text-text border 
-    ${errors.username ? "border-[#FF0000]  " : "border-tertiary"} 
-    focus:outline-none transition-all duration-300
-    autofill:bg-secondary autofill:text-text
-    [-webkit-text-fill-color: #FFFFFF]
-    [box-shadow:0_0_1000px_1000px#191A30_inset]`}
+            error={errors.username}
           />
-
-          {errors.username && (
-            <p className="text-[#FF0000] font-light text-sm duration-200 ">
-              {errors.username || " "}
-            </p>
-          )}
-
-          {/* Email */}
-          <label className="block text-text mt-6 mb-2 p-0.5 font-light text-base">
-            Email
-          </label>
-          <input
+          <InputGroup
+            label="Email"
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className={`w-[500px] h-[50px]   p-6 mb-1 rounded-3xl bg-secondary text-text border 
-    ${errors.email ? "border-[#FF0000]" : "border-tertiary "} 
-    focus:outline-none transition-all duration-300  autofill:text-text 
-    [box-shadow:0_0_1000px_1000px#191A30_inset]`}
+            error={errors.email}
           />
-          <p className="text-[#FF0000] font-light text-sm  ">
-            {errors.email || " "}
-          </p>
-
-          {/* Password */}
-          <label className="block text-text mt-6 mb-2 p-0.5 font-light text-base">
-            Password
-          </label>
-          <input
+          <InputGroup
+            label="Password"
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className={`w-[500px] h-[50px]  p-6 mb-1 rounded-3xl bg-secondary text-text border 
-    ${errors.password ? "border-[#FF0000]" : "border-tertiary"} 
-    focus:outline-none transition-all duration-300`}
-          />
-          <p className="text-[#FF0000] font-light text-sm ">
-            {errors.password || " "}
-          </p>
+            error={errors.password}
+          />{" "}
           {/* Sign-Up Button */}
           <button
             type="submit"
-            class="w-[500px] h-[50px]   rounded-3xl mt-14 bg-linear-to-t from-gradientEnd to-gradientStart opacity-100  text-text font-semibold p-2  cursor-pointer hover:bg-gradientEnd hover:to-highlight/75 transition-opacity-75 duration-300 ease-in-out"
+            className="hover:bg-gradientEnd bg-linear-to-t from-gradientEnd to-gradientStart hover:to-highlight/75 opacity-100 mt-14 p-2 rounded-3xl w-[500px] h-[50px] font-semibold text-text transition-opacity-75 duration-300 ease-in-out cursor-pointer"
             onClick={handleSubmit}
           >
             Sign Up
           </button>
-
           {/* Sign-in link */}
-          <p className="text-text text-center mt-4 text-medium">
+          <p className="mt-4 text-medium text-text text-center">
             Already have an account?{" "}
-            <a href="/signIn" className="text-gradientStart ">
+            <a href="/signIn" className="text-gradientStart">
               Sign In
             </a>
           </p>
@@ -189,12 +151,11 @@ const SignUp = () => {
         <Toaster></Toaster>
       </div>
       {showVerification && (
-        <div className="fixed inset-1  backdrop-blur-sm  bg-opacity-0 z-2 flex items-center justify-center">
+        <div className="z-2 fixed inset-1 flex justify-center items-center bg-opacity-0 backdrop-blur-sm">
           <Verification
             email={formData.email}
             setShowVerification={setShowVerification}
           />
-            
         </div>
       )}
     </div>

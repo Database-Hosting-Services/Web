@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import rightArrow from "../assets/rightArrow.svg";
+import ProjectsSearchFilter from "./ProjectsSearchFilter";
+
+const ProjectsContainer = ({ allprojects }) => {
+  const [filteredProjects, setFilteredProjects] = useState(allprojects);
+
+  return (
+    <>
+      <ProjectsSearchFilter
+        projects={allprojects}
+        setFilteredProjects={setFilteredProjects}
+      />
+    </>
+  );
+};
 
 const truncateDescription = (description) => {
   if (description.length > 30) {
@@ -18,7 +32,7 @@ const SingleProject = ({ _id, title, description, isActive }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 grid-rows-2 bg-secondary p-3 m-6 rounded-2xl max-w-[345px] h-[180px]">
+    <div className="grid grid-cols-1 grid-rows-2 bg-secondary p-3 m-6 rounded-2xl max-w-[345px] h-[180px] ">
       <div className="flex justify-between items-center p-4 border-b-gradient">
         <div className="">
           <h3 className="font-bold">{title}</h3>
@@ -34,12 +48,12 @@ const SingleProject = ({ _id, title, description, isActive }) => {
         {isActive ? (
           <>
             <p className="font-bold">Active</p>
-            <span className="bg-green-500 rounded-full w-[12px] h-[12px]"></span>
+            <span className="bg-[#00E100] rounded-full w-[12px] h-[12px]"></span>
           </>
         ) : (
           <>
-            <p className="font-bold">InActive</p>
-            <span className="bg-orange-500 rounded-full w-[12px] h-[12px]"></span>
+            <p className="font-bold">Paused</p>
+            <span className="bg-[#E1E100] rounded-full w-[12px] h-[12px]"></span>
           </>
         )}
       </div>

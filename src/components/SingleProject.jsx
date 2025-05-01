@@ -5,7 +5,7 @@ import rightArrow from "../assets/rightArrow.svg";
 import ProjectsSearchFilter from "./ProjectsSearchFilter";
 
 const ProjectsContainer = ({ allprojects }) => {
-  const [filteredProjects, setFilteredProjects] = useState(allprojects);
+  const setFilteredProjects = useState(allprojects)[1];
 
   return (
     <>

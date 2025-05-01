@@ -28,7 +28,7 @@ const ProjectsSearchFilter = ({ projects, setFilteredProjects }) => {
   };
 
   return (
-    <div className="flex gap-3 p-7 ">
+    <div className="flex gap-3 p-7">
       <div className="relative w-[367px] h-[50px]">
         <input
           type="search"
@@ -47,7 +47,7 @@ const ProjectsSearchFilter = ({ projects, setFilteredProjects }) => {
     ${
       filterStatus === "active"
         ? "bg-[#00E100]"
-        : filterStatus === "Paused"
+        : filterStatus === "paused"
         ? "bg-[#E1E100]"
         : "bg-transparent"
     }

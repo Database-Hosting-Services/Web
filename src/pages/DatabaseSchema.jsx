@@ -1,7 +1,7 @@
 import React from "react";
 
 const DatabaseSchema = () => {
-  return <div>Database Schema Page</div>;
+  return <div className="p-8">Database Schema Page</div>;
 };
 
 export default DatabaseSchema;

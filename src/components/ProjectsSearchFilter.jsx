@@ -4,12 +4,12 @@ import searchIconImg from "../assets/searchIcon.svg";
 import filterIconImg from "../assets/filterIcon.svg";
 
 const ProjectsSearchFilter = ({ projects, setFilteredProjects }) => {
-  const [filterStatus, setFilterStatus] = useState("all"); // all | active | inactive
+  const [filterStatus, setFilterStatus] = useState("all");
 
   const handleFilterClick = () => {
     let nextFilter;
     if (filterStatus === "all") nextFilter = "active";
-    else if (filterStatus === "active") nextFilter = "inactive";
+    else if (filterStatus === "active") nextFilter = "paused";
     else nextFilter = "all";
 
     setFilterStatus(nextFilter);
@@ -20,15 +20,15 @@ const ProjectsSearchFilter = ({ projects, setFilteredProjects }) => {
       setFilteredProjects(
         projects.filter((project) => project.status === "active"),
       );
-    } else if (nextFilter === "inactive") {
+    } else if (nextFilter === "paused") {
       setFilteredProjects(
-        projects.filter((project) => project.status === "inactive"),
+        projects.filter((project) => project.status === "paused"),
       );
     }
   };
 
   return (
-    <div className="flex gap-3 ">
+    <div className="flex gap-3 p-7 ">
       <div className="relative w-[367px] h-[50px]">
         <input
           type="search"
@@ -47,7 +47,7 @@ const ProjectsSearchFilter = ({ projects, setFilteredProjects }) => {
     ${
       filterStatus === "active"
         ? "bg-[#00E100]"
-        : filterStatus === "inactive"
+        : filterStatus === "Paused"
         ? "bg-[#E1E100]"
         : "bg-transparent"
     }

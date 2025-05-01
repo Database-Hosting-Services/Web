@@ -7,7 +7,7 @@ import Sidebar from "../components/Sidebar/Sidebar.jsx";
 const DashboardLayout = () => {
   return (
     <DashboardContextProvider>
-      <div className="grid grid-cols-[auto_1fr] bg-[#06071A] text-white">
+      <div className="grid grid-cols-[auto_1fr]  bg-[#06071A] text-white">
         <div className="flex">
           <Sidebar />
         </div>

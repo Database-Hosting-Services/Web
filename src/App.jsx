@@ -11,6 +11,7 @@ import {
   Verification,
   ResetPassword,
   SqlEditor,
+  DatabaseSchema,
 } from "./pages";
 
 import { loader as projectHomeLoader } from "./pages/ProjectHome";
@@ -50,9 +51,7 @@ const router = createBrowserRouter([
               },
               {
                 path: "database/",
-                children: [
-                  { index: true, element: <div>Database Schema Page</div> },
-                ],
+                children: [{ index: true, element: <DatabaseSchema /> }],
               },
               {
                 path: "roles/",

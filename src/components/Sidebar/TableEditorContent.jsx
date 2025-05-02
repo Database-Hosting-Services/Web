@@ -11,7 +11,7 @@ const SqlEditorContent = ({ privateCodeList = [] }) => {
   return (
     <div className="h-full">
       <h1 className="text-xl font-semibold text-center text-white mb-6 px-5 pt-4">
-        SQL editor
+        Table Editor
       </h1>
 
       <div className="border-b-gradient w-full"></div>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import orbixLogo from "./images/orbixLogo.png";
 import ResetPassword from "./ResetPassword";
+import InputGroup from "../features/auth/components/InputGroup";
 
 const isValidEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -79,9 +80,9 @@ const SignIn = () => {
   };
   return (
     <div className="flex h-screen">
-      <div className="w-1/2 bg-linear-to-tl from-gradientEnd via-black to-highlight opacity-100 flex items-center justify-center">
+      <div className="flex justify-center items-center bg-linear-to-tl from-gradientEnd via-black to-highlight opacity-100 w-1/2">
         <div
-          className="flex items-center justify-center h-1/2 w-lvw bg-center"
+          className="flex justify-center items-center bg-center w-lvw h-1/2"
           style={{
             background: `url(${orbixLogo})`,
             backgroundSize: "contain",
@@ -91,52 +92,32 @@ const SignIn = () => {
         ></div>
       </div>
 
-      <div className="w-1/2 bg-primary flex justify-center items-center">
+      <div className="flex justify-center items-center bg-primary w-1/2">
         <form onSubmit={handleSubmit}>
-          <h2 className="text-text font-bold text-2xl mb-2">Welcome back !</h2>
-          <h3 className="text-text font-light text-xs mb-8">
+          <h2 className="mb-2 font-bold text-text text-2xl">Welcome back !</h2>
+          <h3 className="mb-8 font-light text-text text-xs">
             Sign in to your account
           </h3>
 
-          {/* Email */}
-          <label className="block text-text mt-6 mb-2 p-0.5 font-light text-base">
-            Email
-          </label>
-          <input
-            type="email"
+          <InputGroup
+            label="Email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className={`w-[500px] h-[50px] p-6 mb-1 rounded-3xl bg-secondary text-text border 
-              ${errors.email ? "border-[#FF0000]" : "border-tertiary"} 
-              focus:outline-none transition-all duration-300 autofill:text-text 
-              [box-shadow:0_0_1000px_1000px#191A30_inset]`}
+            error={errors.email}
           />
-          <p className="text-[#FF0000] font-light text-sm">
-            {errors.email || " "}
-          </p>
-
-          {/* Password */}
-          <label className="block text-text mt-6 mb-2 p-0.5 font-light text-base">
-            Password
-          </label>
-          <input
-            type="password"
+          <InputGroup
+            label="Password"
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className={`w-[500px] h-[50px] p-6 mb-1 rounded-3xl bg-secondary text-text border 
-              ${errors.password ? "border-[#FF0000]" : "border-tertiary"} 
-              focus:outline-none transition-all duration-300`}
+            error={errors.password}
           />
-          <p className="text-[#FF0000] font-light text-sm">
-            {errors.password || " "}
-          </p>
 
-          <p className="text-[#682EC7]  mt-1.5 font-light text-lg text-right">
+          <p className="mt-1.5 font-light text-[#682EC7] text-lg text-right">
             <span
               onClick={() => setShowResetPassword(true)}
-              className="text-gradientStart font-light text-base cursor-pointer"
+              className="font-light text-gradientStart text-base cursor-pointer"
             >
               Forget password ?
             </span>
@@ -145,13 +126,13 @@ const SignIn = () => {
           {/* Sign-In Button */}
           <button
             type="submit"
-            className="w-[500px] h-[50px] rounded-3xl mt-12 bg-linear-to-t from-gradientEnd to-gradientStart opacity-100 text-text font-semibold p-2 cursor-pointer hover:bg-gradientEnd hover:to-highlight/75 transition-opacity-75 duration-300 ease-in-out"
+            className="hover:bg-gradientEnd bg-linear-to-t from-gradientEnd to-gradientStart hover:to-highlight/75 opacity-100 mt-12 p-2 rounded-3xl w-[500px] h-[50px] font-semibold text-text transition-opacity-75 duration-300 ease-in-out cursor-pointer"
           >
             Sign In
           </button>
 
           {/* Sign-up link */}
-          <p className="text-text text-center mt-5 text-light">
+          <p className="mt-5 text-light text-text text-center">
             Don't have an account ?{" "}
             <a href="/signUp" className="text-gradientStart">
               Sign Up
@@ -159,12 +140,11 @@ const SignIn = () => {
           </p>
         </form>
         {showResetPassword && (
-          <div className="fixed inset-1  backdrop-blur-sm  bg-opacity-0 z-2 flex items-center justify-center">
+          <div className="z-2 fixed inset-1 flex justify-center items-center bg-opacity-0 backdrop-blur-sm">
             <ResetPassword
               email={formData.email}
               setShowResetPassword={setShowResetPassword}
             />
-              
           </div>
         )}
         <Toaster />

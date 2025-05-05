@@ -1,14 +1,16 @@
-import React, { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import orbixLogo from "./images/orbixLogo.png";
-import Verification from "./Verification";
+import { useState } from "react";
+// import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
+import { Form } from "react-router-dom";
 
+import orbixLogo from "./images/orbixLogo.png";
+import Verification from "../features/auth/components/Verification";
 import {
   isValidEmail,
   isValidPassword,
 } from "../features/auth/utils/validators";
-
 import InputGroup from "../features/auth/components/InputGroup";
+import AuthButton from "../features/auth/components/ui/AuthButton";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -63,8 +65,7 @@ const SignUp = () => {
 
     if (!isValid) return;
 
-    console.log(formData);
-    toast.success("We've already sent to your email ", {
+    const myOptionObject = {
       position: "top-center",
       duration: 2000,
       pauseOnHover: true,
@@ -82,7 +83,10 @@ const SignUp = () => {
         wordSpacing: "1px",
         fontWeight: "250px",
       },
-    });
+    };
+
+    console.log(formData);
+    toast.success("We've already sent to your email ", myOptionObject);
     setTimeout(() => {
       setShowVerification(true);
     }, 2000);
@@ -102,7 +106,7 @@ const SignUp = () => {
         ></div>
       </div>
       <div className="flex justify-center items-center bg-primary w-1/2">
-        <form>
+        <Form onSubmit={handleSubmit}>
           <h2 className="mb-2 font-bold text-text text-2xl">
             Sign up for free
           </h2>
@@ -131,15 +135,9 @@ const SignUp = () => {
             value={formData.password}
             onChange={handleChange}
             error={errors.password}
-          />{" "}
+          />
           {/* Sign-Up Button */}
-          <button
-            type="submit"
-            className="hover:bg-gradientEnd bg-linear-to-t from-gradientEnd to-gradientStart hover:to-highlight/75 opacity-100 mt-14 p-2 rounded-3xl w-[500px] h-[50px] font-semibold text-text transition-opacity-75 duration-300 ease-in-out cursor-pointer"
-            onClick={handleSubmit}
-          >
-            Sign Up
-          </button>
+          <AuthButton>Sign Up</AuthButton>
           {/* Sign-in link */}
           <p className="mt-4 text-medium text-text text-center">
             Already have an account?{" "}
@@ -147,8 +145,8 @@ const SignUp = () => {
               Sign In
             </a>
           </p>
-        </form>
-        <Toaster></Toaster>
+        </Form>
+        {/* <Toaster></Toaster> */}
       </div>
       {showVerification && (
         <div className="z-2 fixed inset-1 flex justify-center items-center bg-opacity-0 backdrop-blur-sm">

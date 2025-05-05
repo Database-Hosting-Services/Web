@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import verificationLogo from "./images/VerificationLogo.png";
+import verificationLogo from "../assets/VerificationLogo.png";
 
 function Verification({ email, setShowVerification }) {
+  console.log(email);
+
   const [timer, setTimer] = useState(120); // 2 minutes
   const [code, setCode] = useState(new Array(6).fill(""));
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const inputRef = useRef([]);
 
   const inputsRef = useRef([]);
 
@@ -63,10 +64,10 @@ function Verification({ email, setShowVerification }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 ">
-      <div className="bg-[#191A30] rounded-3xl shadow-xl text-center p-6 w-lvh h-2/7 border border-[#282939]">
+    <div className="flex justify-center items-center px-4 min-h-screen">
+      <div className="bg-[#191A30] shadow-xl p-6 border border-[#282939] rounded-3xl w-lvh h-2/7 text-center">
         <div
-          className="flex items-center justify-center bg-center mb-6 h-60 w-lg"
+          className="flex justify-center items-center bg-center mb-6 w-lg h-60"
           style={{
             background: `url(${verificationLogo})`,
             backgroundRepeat: "no-repeat",
@@ -74,10 +75,10 @@ function Verification({ email, setShowVerification }) {
             backgroundSize: "contain",
           }}
         ></div>
-        <h2 className="text-xl font-medium text-35px text-[#FFFFFF] mb-2">
+        <h2 className="mb-2 font-medium text-[#FFFFFF] text-35px text-xl">
           Enter Verification code
         </h2>
-        <p className="text-[#8B44FF] font-medium text-lg mb-4">
+        <p className="mb-4 font-medium text-[#8B44FF] text-lg">
           {formatTime()}
         </p>
         <div
@@ -94,15 +95,15 @@ function Verification({ email, setShowVerification }) {
               ref={(el) => (inputsRef.current[idx] = el)}
               onChange={(e) => handleChange(e, idx)}
               onKeyDown={(e) => handleKeyDown(e, idx)}
-              className="w-16 h-15 text-center font-light text-lg text-[#FFFFFF] border border-[#282939] rounded-lg mb-7"
+              className="mb-7 border border-[#282939] rounded-lg w-16 h-15 font-light text-[#FFFFFF] text-lg text-center"
               aria-label={`Digit ${idx + 1} of verification code`}
               inputMode="numeric"
               pattern="[0-9]*"
             />
           ))}
         </div>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <p className="text-l text-[#FFFFFF] mb-5">
+        {error && <p className="mb-4 text-red-500">{error}</p>}
+        <p className="mb-5 text-[#FFFFFF] text-l">
           Didn't get a code ?{" "}
           <button
             onClick={handleResend}
@@ -118,13 +119,13 @@ function Verification({ email, setShowVerification }) {
         </p>
         <div className="flex justify-between mb-7 p-6">
           <button
-            className="w-1/2 py-2 mr-2 border border-[#282939] rounded-lg text-lg text-[#FFFFFF] cursor-pointer  duration-300"
+            className="mr-2 py-2 border border-[#282939] rounded-lg w-1/2 text-[#FFFFFF] text-lg duration-300 cursor-pointer"
             onClick={() => setShowVerification(false)} // Ensure this function is properly defined
           >
             Cancel
           </button>
           <button
-            className="w-1/2 py-2 ml-2 rounded-lg cursor-pointer bg-linear-to-t from-gradientEnd to-gradientStart text-lg text-[#FFFFFF] hover:opacity-75 transition-opacity duration-300 "
+            className="bg-linear-to-t from-gradientEnd to-gradientStart hover:opacity-75 ml-2 py-2 rounded-lg w-1/2 text-[#FFFFFF] text-lg transition-opacity duration-300 cursor-pointer"
             onClick={handleVerify}
             disabled={isLoading || code.some((digit) => !digit)}
           >

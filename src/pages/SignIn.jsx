@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import orbixLogo from "./images/orbixLogo.png";
-import ResetPassword from "./ResetPassword";
-import InputGroup from "../features/auth/components/InputGroup";
 
-const isValidEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
+import orbixLogo from "./images/orbixLogo.png";
+import ResetPassword from "../features/auth/components/ResetPassword";
+import InputGroup from "../features/auth/components/InputGroup";
+import { isValidEmail } from "../features/auth/utils/validators";
+import AuthButton from "../features/auth/components/ui/AuthButton";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -19,14 +17,17 @@ const SignIn = () => {
     password: "",
   });
   const [showResetPassword, setShowResetPassword] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
     const newErrors = { ...errors };
+
     if (value.trim() !== "") {
       newErrors[name] = "";
     }
+
     setError(newErrors);
   };
 
@@ -78,6 +79,7 @@ const SignIn = () => {
       },
     });
   };
+
   return (
     <div className="flex h-screen">
       <div className="flex justify-center items-center bg-linear-to-tl from-gradientEnd via-black to-highlight opacity-100 w-1/2">
@@ -124,16 +126,11 @@ const SignIn = () => {
           </p>
 
           {/* Sign-In Button */}
-          <button
-            type="submit"
-            className="hover:bg-gradientEnd bg-linear-to-t from-gradientEnd to-gradientStart hover:to-highlight/75 opacity-100 mt-12 p-2 rounded-3xl w-[500px] h-[50px] font-semibold text-text transition-opacity-75 duration-300 ease-in-out cursor-pointer"
-          >
-            Sign In
-          </button>
+          <AuthButton>Sign In</AuthButton>
 
           {/* Sign-up link */}
           <p className="mt-5 text-light text-text text-center">
-            Don't have an account ?{" "}
+            Don't have an account ?
             <a href="/signUp" className="text-gradientStart">
               Sign Up
             </a>

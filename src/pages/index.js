@@ -10,4 +10,6 @@ export { default as SignIn } from "./SignIn";
 export { default as ResetPassword } from "./ResetPassword";
 export { default as Verification } from "./Verification";
 export { default as SqlEditor } from "./sqlEditor";
-export { default as DatabaseSchema } from "./DatabaseSchema";
+export { default as SchemaVisualizer } from "./SchemaVisualizer";
+export { default as Tables } from "./Tables";
+export { default as Indexes } from "./Indexes";

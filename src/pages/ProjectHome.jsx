@@ -26,8 +26,10 @@ const ProjectHome = () => {
 
   return (
     <div>
-      <h2 className="mb-15 font-bold text-4xl">{projectData.title}</h2>
-      <div className="gap-2 grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 mb-30">
+      <h2 className="mb-15 ml-8 mt-6 font-bold text-4xl">
+        {projectData.title}
+      </h2>
+      <div className="gap-2 grid grid-cols-1 ml-8 md:grid-cols-2 xl:grid-cols-3 mb-30">
         {StatsData.map((StatsItem) => (
           <ProjectStats
             icon={StatsItem.icon}

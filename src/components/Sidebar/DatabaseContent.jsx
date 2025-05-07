@@ -1,7 +1,26 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const DatabaseContent = () => {
-  const [activeTab, setActiveTab] = useState("");
+  const [activeTab, setActiveTab] = useState(" ");
+  const navigate = useNavigate();
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+    switch (tab) {
+      case "SchemaVisualizer":
+        navigate("/dashboard/project/:projectId/database/schema-visualizer");
+        break;
+      case "tables":
+        navigate("/dashboard/project/:projectId/database/tables");
+        break;
+      case "indexes":
+        navigate("/dashboard/project/:projectId/database/indexes");
+        break;
+      default:
+        break;
+    }
+  };
 
   const getClassNames = (tab) => {
     const isActive = activeTab === tab;
@@ -25,15 +44,15 @@ const DatabaseContent = () => {
 
       <div className="space-y-3 px-4 pt-5">
         <div
-          onClick={() => setActiveTab("schema")}
-          className={getClassNames("schema")}
+          onClick={() => handleTabClick("SchemaVisualizer")}
+          className={getClassNames("SchemaVisualizer")}
         >
           schema visualizer
         </div>
 
         <div className="px-1 py-2">
           <div
-            onClick={() => setActiveTab("tables")}
+            onClick={() => handleTabClick("tables")}
             className={getClassNames("tables")}
           >
             Tables
@@ -42,7 +61,7 @@ const DatabaseContent = () => {
 
         <div className="px-1 py-2">
           <div
-            onClick={() => setActiveTab("indexes")}
+            onClick={() => handleTabClick("indexes")}
             className={getClassNames("indexes")}
           >
             Indexes

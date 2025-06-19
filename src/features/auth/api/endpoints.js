@@ -1,20 +1,20 @@
 export const AUTH_ENDPOINTS = {
   // When a user is logged in, and wants to update their password
-  updatePassword: () => "/accounts/password", // PUT (current, new, confirm)
+  updatePassword: () => "/users/update-password", // PUT (current, new, confirm)
 
   // When a user forgets their password
-  forgotPassword: () => "/accounts/forgot-password", // POST (email)
-  resetPassword: () => "/accounts/reset-password", // POST (token, new password)
+  forgotPassword: () => "/user/forgot-password", // POST (email)
+  resetPassword: () => "/user/forget-password/verify", // POST (code, email, password[new])
 
   // After signing up, a user needs to verify their email
-  verifyAccount: () => "/accounts/verify", // POST (code)
+  verifyAccount: () => "/user/verify", // POST (code)
   // if a user doesn't receive the verification email, they can request a new one
-  resendCode: () => "/accounts/resend-code", // POST (email)
+  resendCode: () => "/user/resend-code", // POST (email)
 
   // Core Auth
-  signIn: () => "/accounts/signin", // POST (email, password)
-  signUp: () => "/accounts/signup", // POST (user data)
+  signIn: () => "/user/sign-in", // POST (email, password)
+  signUp: () => "/user/sign-up", // POST (user data)
 
   // when a user wants to update their profile data
-  updateUser: (id) => `/accounts/${id}`, // PUT (user data)
+  updateUser: (id) => `/users/${id}`, // PUT (user data)
 };

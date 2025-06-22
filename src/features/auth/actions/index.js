@@ -1,4 +1,4 @@
-export { default as verifyAction } from "./verify";
+export { default as verifyEmailAction } from "./verifyEmail";
 export { default as resendOTPAction } from "./resend";
 export { default as signUpAction } from "./signUp";
 export { default as signInAction } from "./signIn";

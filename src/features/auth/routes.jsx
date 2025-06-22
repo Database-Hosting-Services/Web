@@ -11,7 +11,7 @@ import {
   signInAction,
   signUpAction,
   resendOTPAction,
-  verifyAction,
+  verifyEmailAction,
   forgotPasswordAction,
   verifyAndResetPasswordAction,
   resetPasswordOTPAction,
@@ -23,7 +23,7 @@ const authRoutes = [
   {
     path: "/verify-email",
     element: <VerifyEmail />,
-    action: verifyAction,
+    action: verifyEmailAction,
     children: [{ path: "resend-otp", action: resendOTPAction }],
   },
   {

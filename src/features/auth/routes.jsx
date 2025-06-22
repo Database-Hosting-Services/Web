@@ -1,4 +1,11 @@
-import { SignIn, SignUp, VerifyEmail, ForgotPassword } from "../../pages/auth";
+import {
+  SignIn,
+  SignUp,
+  VerifyEmail,
+  ForgotPassword,
+  ResetPasswordOTP,
+  VerifyAndResetPassword,
+} from "../../pages/auth";
 
 import {
   signInAction,
@@ -6,6 +13,8 @@ import {
   resendOTPAction,
   verifyAction,
   forgotPasswordAction,
+  verifyAndResetPasswordAction,
+  resetPasswordOTPAction,
 } from "./actions";
 
 const authRoutes = [
@@ -21,6 +30,16 @@ const authRoutes = [
     path: "/forgot-password",
     element: <ForgotPassword />,
     action: forgotPasswordAction,
+  },
+  {
+    path: "/forgot-password/reset-otp",
+    element: <ResetPasswordOTP />,
+    action: resetPasswordOTPAction,
+  },
+  {
+    path: "/forgot-password/verify-and-reset-password",
+    element: <VerifyAndResetPassword />,
+    action: verifyAndResetPasswordAction,
   },
 ];
 

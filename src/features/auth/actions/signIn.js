@@ -9,23 +9,25 @@ export default async function action({ request }) {
   const email = formData.get("email");
   const password = formData.get("password");
 
-  return { myAge: 21 };
-
   try {
-    const { data } = await publicAxios.post(AUTH_ENDPOINTS.signIn(), {
+    const { data, status } = await publicAxios.post(AUTH_ENDPOINTS.signIn(), {
       email,
       password,
     });
 
-    successToast("Login successfully");
+    if (status === 200) {
+      successToast("Login successfully");
 
-    setToken(data.token);
-
-    return redirect("/");
+      setToken(data.token);
+      return redirect("/");
+    } else if (status === 302) {
+      successToast("Login successfully, please verify your email");
+      return redirect(`/verify-email/?email=${encodeURIComponent(email)}`);
+    }
   } catch (err) {
     console.error(err);
 
-    errorToast("Invalid email or password");
+    errorToast(err?.response?.data?.message || "Login failed");
 
     return null;
   }

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const privateAxios = axios.create({
-  baseURL: "https://api-production-67e2.up.railway.app/api",
+  baseURL: "https://dbhs-api.fly.dev/api",
   headers: {
     "Content-Type": "application/json",
   },

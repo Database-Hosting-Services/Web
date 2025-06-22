@@ -84,7 +84,7 @@ const SignUp = () => {
           <InputGroup
             type="password"
             label="Confirm Password"
-            name="confirmPassword"
+            name="confirm-password"
             error={errors.password}
             defaultValue="Secret@123"
           />

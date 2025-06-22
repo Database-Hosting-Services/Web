@@ -24,8 +24,8 @@ const SignUp = () => {
       password: validatePassword(formData.get("password"))
         ? [validatePassword(formData.get("password"))]
         : null,
-      confirmPassword: validatePassword(formData.get("confirmPassword"))
-        ? [validatePassword(formData.get("confirmPassword"))]
+      confirmPassword: validatePassword(formData.get("confirm-password"))
+        ? [validatePassword(formData.get("confirm-password"))]
         : null,
     };
 

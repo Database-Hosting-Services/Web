@@ -5,6 +5,7 @@ const InputGroup = ({
   type = "text",
   placeholder = "",
   defaultValue = "",
+  inputWidth = "500px",
 }) => {
   return (
     <div className="flex flex-col">
@@ -19,7 +20,8 @@ const InputGroup = ({
         name={name}
         placeholder={placeholder}
         defaultValue={defaultValue}
-        className={`w-[500px] h-[50px] p-6 mb-1 rounded-3xl bg-secondary text-text border
+        style={{ width: inputWidth }}
+        className={`h-[50px] p-6 mb-1 rounded-3xl bg-secondary text-text border
           ${error?.length ? "border-[#FF0000]" : "border-tertiary"}
           focus:outline-none transition-all duration-300
           autofill:bg-secondary autofill:text-text

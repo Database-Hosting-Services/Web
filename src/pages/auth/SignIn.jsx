@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Form, useActionData, useNavigate } from "react-router-dom";
+import { Form, Link, useActionData, useNavigate } from "react-router-dom";
 
 import orbixLogo from "../../assets/orbixLogo.png";
 import InputGroup from "../../features/auth/components/InputGroup";
@@ -96,9 +96,9 @@ const SignIn = () => {
           {/* Sign-up link */}
           <p className="mt-5 text-light text-text text-center">
             Don't have an account ?
-            <a href="/signUp" className="text-gradientStart">
+            <Link to="/signUp" className="text-gradientStart">
               Sign Up
-            </a>
+            </Link>
           </p>
         </Form>
       </div>

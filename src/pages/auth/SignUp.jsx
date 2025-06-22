@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
 
 import orbixLogo from "../../assets/orbix.svg";
 import {
@@ -93,9 +93,9 @@ const SignUp = () => {
           {/* ---------- Sign-in link ---------- */}
           <p className="mt-4 text-medium text-text text-center">
             Already have an account?{" "}
-            <a href="/signIn" className="text-gradientStart">
+            <Link to="/signIn" className="text-gradientStart">
               Sign In
-            </a>
+            </Link>
           </p>
         </Form>
       </div>

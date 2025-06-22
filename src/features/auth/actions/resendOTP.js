@@ -1,17 +1,21 @@
-import { successToast } from "../../../utils/toastConfig";
-import { RESEND_OTP_TIMEOUT_IN_SECONDS } from "../utils/constants";
+import { redirect } from "react-router-dom";
+import { publicAxios } from "../../../api";
+import { errorToast, successToast } from "../../../utils/toastConfig";
+import { AUTH_ENDPOINTS } from "../api/endpoints";
 
 export default async function resendOTP({ request }) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // Simulate a successful OTP resend
-      successToast("OTP resent successfully");
-      resolve({
-        // resendAllowedAt: new Date(Date.now() + 2 * 60 * 1000),
-        resendAllowedAt: new Date(
-          Date.now() + RESEND_OTP_TIMEOUT_IN_SECONDS * 1000,
-        ),
-      });
-    }, 2000);
-  });
+  const formData = await request.formData();
+  const email = formData.get("email");
+
+  try {
+    await publicAxios.post(AUTH_ENDPOINTS.resendCode(), {
+      email,
+    });
+
+    return successToast("OTP resent successfully");
+  } catch (err) {
+    errorToast(err?.response?.data?.message || "Failed to resend OTP");
+
+    return redirect("/signin");
+  }
 }

@@ -27,7 +27,12 @@ function VerifyEmail() {
           />
         </div>
 
-        <OTPForm email={email} otp={otp} setOTP={setOtp}>
+        <OTPForm
+          email={email}
+          otp={otp}
+          setOTP={setOtp}
+          title={"Enter Verification code"}
+        >
           <CustomOTPInput otp={otp} setOtp={setOtp} />
         </OTPForm>
       </div>

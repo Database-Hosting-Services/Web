@@ -6,7 +6,7 @@ import CancelButton from "./ui/CancelButton";
 import VerifyButton from "./ui/VerifyButton";
 import { RESEND_OTP_TIMEOUT_IN_SECONDS } from "../utils/constants";
 
-const OTPForm = ({ email, otp, setOTP, children }) => {
+const OTPForm = ({ email, otp, setOTP, children, title }) => {
   const fetcher = useFetcher();
   const [resendTimeLeft, setResendTimeLeft] = useState(
     RESEND_OTP_TIMEOUT_IN_SECONDS,
@@ -34,7 +34,7 @@ const OTPForm = ({ email, otp, setOTP, children }) => {
   return (
     <>
       <h2 className="mb-2 font-medium text-[#FFFFFF] text-35px text-xl">
-        Enter Verification code
+        {title}
       </h2>
       <p className="mb-4 font-medium text-[#8B44FF] text-lg">
         {formatTime(resendTimeLeft)}

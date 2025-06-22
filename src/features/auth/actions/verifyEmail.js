@@ -1,16 +1,27 @@
-import { successToast } from "../../../utils/toastConfig";
+import { redirect } from "react-router-dom";
+import { publicAxios } from "../../../api";
+import { errorToast, successToast } from "../../../utils/toastConfig";
+import { AUTH_ENDPOINTS } from "../api/endpoints";
 
 export default async function verifyAction({ request }) {
   const formData = await request.formData();
   const email = formData.get("email");
   const otpCode = formData.get("otpCode");
-  console.log("verifyAction", { email, otpCode });
 
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // Simulate a successful verification
-      successToast("Email verified successfully");
-      resolve({ success: true });
-    }, 2000);
-  });
+  try {
+    await publicAxios.post(AUTH_ENDPOINTS.verifyAccount(), {
+      email,
+      otpCode,
+    });
+
+    successToast("Email verified successfully");
+
+    return redirect("/");
+  } catch (err) {
+    console.log(err);
+
+    errorToast(err?.response?.data?.message || "Email verification failed");
+
+    return redirect(`/verify-email/?email=${encodeURIComponent(email)}`);
+  }
 }

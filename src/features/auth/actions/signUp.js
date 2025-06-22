@@ -8,9 +8,13 @@ export default async function action({ request }) {
   const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");
+  const confirmPassword = formData.get("confirm-password");
   const username = formData.get("username");
 
-  return redirect(`/verify-email/?email=${encodeURIComponent(email)}`);
+  if (password !== confirmPassword) {
+    errorToast("Password and confirm password do not match");
+    return null;
+  }
 
   try {
     await publicAxios.post(AUTH_ENDPOINTS.signUp(), {

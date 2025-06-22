@@ -4,21 +4,20 @@ import filterIconImg from "../assets/filterIcon.svg";
 
 const ProjectsSearchFilter = ({ projects, setFilteredProjects }) => {
   const [filterStatus, setFilterStatus] = useState("all");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [sortOrder, setSortOrder] = useState(false);
 
   const handleFilterClick = () => {
-    setIsMenuOpen((prev) => !prev);
+    setSortOrder((prev) => !prev);
   };
 
   const handleStatusSelect = (status) => {
     let newStatus = status;
-    // لو المستخدم اختار نفس الفلتر اللي عليه، نرجعه للـ all
     if (filterStatus === status) {
       newStatus = "all";
     }
 
     setFilterStatus(newStatus);
-    setIsMenuOpen(false);
+    setSortOrder(false);
 
     if (newStatus === "all") {
       setFilteredProjects(projects);
@@ -59,7 +58,7 @@ const ProjectsSearchFilter = ({ projects, setFilteredProjects }) => {
           <img src={filterIconImg} alt="filter projects" />
         </div>
 
-        {isMenuOpen && (
+        {sortOrder && (
           <div className="absolute top-[60px] right-0 bg-[#191A30]  rounded-lg  shadow-md z-10">
             <button
               onClick={() => handleStatusSelect("active")}

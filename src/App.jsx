@@ -14,6 +14,7 @@ import {
   SchemaVisualizer,
   Tables,
   Indexes,
+  CreateIndex,
 } from "./pages";
 
 import { loader as projectHomeLoader } from "./pages/ProjectHome";
@@ -57,6 +58,7 @@ const router = createBrowserRouter([
                   { path: "schema-visualizer", element: <SchemaVisualizer /> },
                   { path: "Tables", element: <Tables /> },
                   { path: "Indexes", element: <Indexes /> },
+                  { path: "Indexes/create", element: <CreateIndex /> },
                 ],
               },
               {

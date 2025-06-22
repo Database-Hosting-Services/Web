@@ -13,3 +13,4 @@ export { default as SqlEditor } from "./sqlEditor";
 export { default as SchemaVisualizer } from "./SchemaVisualizer";
 export { default as Tables } from "./Tables";
 export { default as Indexes } from "./Indexes";
+export { default as CreateIndex } from "./createIndex";

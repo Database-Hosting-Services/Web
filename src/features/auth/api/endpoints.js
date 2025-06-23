@@ -3,7 +3,7 @@ export const AUTH_ENDPOINTS = {
   updatePassword: () => "/users/update-password", // PUT (current, new, confirm)
 
   // When a user forgets their password
-  forgotPassword: () => "/user/forgot-password", // POST (email)
+  forgotPassword: () => "/user/forget-password", // POST (email)
   resetPassword: () => "/user/forget-password/verify", // POST (code, email, password[new])
 
   // After signing up, a user needs to verify their email

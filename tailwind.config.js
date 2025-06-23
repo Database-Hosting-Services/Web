@@ -28,6 +28,7 @@ const gradientStyles = {
 // Define typography settings
 const typographySettings = {
   fontFamily: {
+    sans: ["Roboto", "sans-serif"],
     roboto: ["Roboto", "sans-serif"],
   },
   fontSize: {
@@ -46,6 +47,7 @@ const typographySettings = {
     normal: "400",
     medium: "500",
     semibold: "600",
+    bold: "700",
   },
 };
 
@@ -69,7 +71,7 @@ const themeExtensions = {
 
 // Export the configuration
 export default {
-  content: ["./index.html", "./src/*/.{js,ts,jsx,tsx}"], // Define where Tailwind will be used
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"], // Define where Tailwind will be used
   theme: {
     extend: themeExtensions,
   },

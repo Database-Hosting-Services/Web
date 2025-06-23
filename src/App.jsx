@@ -15,6 +15,7 @@ import {
 } from "./pages";
 
 import { loader as projectHomeLoader } from "./pages/ProjectHome";
+import TableEditor from "./pages/TableEditor";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
               {
                 path: "table-editor/",
                 children: [
-                  { index: true, element: <div>Table Editor Page</div> },
+                  { index: true, element: <TableEditor/> },
                 ],
               },
               {

@@ -11,3 +11,4 @@ export { default as ResetPassword } from "./ResetPassword";
 export { default as Verification } from "./Verification";
 export { default as SqlEditor } from "./sqlEditor";
 export { default as DatabaseSchema } from "./DatabaseSchema";
+export { default as MessageDialogDemo } from "./MessageDialogDemo";

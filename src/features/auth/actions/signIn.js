@@ -10,21 +10,23 @@ export default async function action({ request }) {
   const password = formData.get("password");
 
   try {
-    const { data, status } = await publicAxios.post(AUTH_ENDPOINTS.signIn(), {
+    const { data } = await publicAxios.post(AUTH_ENDPOINTS.signIn(), {
       email,
       password,
     });
 
-    if (status === 200) {
-      successToast("Login successfully");
+    successToast("Login successfully");
 
-      setToken(data.token);
-      return redirect("/");
-    } else if (status === 302) {
+    setToken(data.token);
+    return redirect("/");
+  } catch (err) {
+    const status = err?.response?.status;
+
+    if (status === 302) {
       successToast("Login successfully, please verify your email");
       return redirect(`/verify-email/?email=${encodeURIComponent(email)}`);
     }
-  } catch (err) {
+
     console.error(err);
 
     errorToast(err?.response?.data?.message || "Login failed");

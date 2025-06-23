@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const publicAxios = axios.create({
-  baseURL: "https://dbhs-api.fly.dev/api",
+  baseURL: "https://orbix.fly.dev/api",
   headers: {
     "Content-Type": "application/json",
   },

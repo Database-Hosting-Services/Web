@@ -97,9 +97,21 @@ const IndexesPage = () => {
         </table>
       </div>
       {showCreateIndex && (
-        <div className="fixed inset-2  backdrop-blur-sm  bg-opacity-0 z-2 flex items-center justify-center">
-          <CreateIndexPage onClose={() => setShowCreateIndex(false)} />
-        </div>
+        <>
+          {/* Overlay بخلفية شفافة + blur */}
+          <div
+            className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
+            onClick={() => setShowCreateIndex(false)}
+          />
+          {/* الشريط الجانبي */}
+          <div
+            className={`fixed inset-y-0 right-15 w-[600px] bg-[#06071A] z-50 shadow-lg transform transition-transform duration-300 
+          ${showCreateIndex ? `translate-x-0` : `translate-x-full`}`}
+          >
+            <CreateIndexPage onClose={() => setShowCreateIndex(false)} /> 
+          </div>
+            
+        </>
       )}
     </div>
   );

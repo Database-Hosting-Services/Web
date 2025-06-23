@@ -5,6 +5,10 @@ const VerifyAndResetPassword = () => {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
 
+  const email = new URLSearchParams(window.location.search).get("email") || "";
+  const otpCode =
+    new URLSearchParams(window.location.search).get("otpCode") || "";
+
   const navigate = useNavigate();
 
   return (
@@ -15,20 +19,8 @@ const VerifyAndResetPassword = () => {
           method="post"
           className="flex flex-col justify-evenly items-center h-[600px]"
         >
-          <input
-            type="hidden"
-            name="email"
-            value={
-              new URLSearchParams(window.location.search).get("email") || ""
-            }
-          />
-          <input
-            type="hidden"
-            name="otpCode"
-            value={
-              new URLSearchParams(window.location.search).get("otpCode") || ""
-            }
-          />
+          <input type="hidden" name="email" value={email} />
+          <input type="hidden" name="otpCode" value={otpCode} />
           <InputGroup
             inputWidth="600px"
             label={"Create New Password"}

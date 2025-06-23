@@ -18,7 +18,7 @@ export default async function verifyAndResetPasswordAction({ request }) {
   try {
     await publicAxios.post(AUTH_ENDPOINTS.resetPassword(), {
       email,
-      otpCode,
+      code: otpCode,
       password,
     });
 

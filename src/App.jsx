@@ -6,10 +6,6 @@ import {
   ProjectHome,
   DashboardLayout,
   UserProjects,
-  SignIn,
-  SignUp,
-  Verification,
-  ResetPassword,
   SqlEditor,
   DatabaseSchema,
 } from "./pages";
@@ -17,16 +13,14 @@ import {
 import { loader as projectHomeLoader } from "./pages/ProjectHome";
 import TableEditor from "./pages/TableEditor/TableEditor";
 
+import authRoutes from "./features/auth/routes";
+
 const router = createBrowserRouter([
   {
     path: "/",
     children: [
       { index: true, element: <Landing /> },
-      { path: "/signup", element: <SignUp /> },
-      { path: "/signup/verify-email", element: <Verification /> },
-      { path: "/signin", element: <SignIn /> },
-      { path: "/reset-password", element: <ResetPassword /> },
-
+      ...authRoutes,
       {
         path: "/dashboard/",
         element: <DashboardLayout />,

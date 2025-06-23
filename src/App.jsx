@@ -4,22 +4,16 @@ import {
   ProjectHome,
   UserDashboardLayout,
   UserProjects,
-  SignIn,
-  SignUp,
-  Verification,
-  ResetPassword,
 } from "./pages";
+
+import authRoutes from "./features/auth/routes";
 
 const router = createBrowserRouter([
   {
     path: "/",
     children: [
       { index: true, element: <Landing /> },
-      { path: "/signup", element: <SignUp /> },
-      { path: "/signup/verify-email", element: <Verification /> },
-      { path: "/signin", element: <SignIn /> },
-      { path: "/reset-password", element: <ResetPassword /> },
-
+      ...authRoutes,
       {
         path: "/user-dashboard/",
         children: [

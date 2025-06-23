@@ -8,16 +8,16 @@ export default async function forgotPassword({ request }) {
   const email = formData.get("email");
 
   try {
-    // await publicAxios.post(AUTH_ENDPOINTS.forgotPassword(), { email });
+    await publicAxios.post(AUTH_ENDPOINTS.forgotPassword(), { email });
 
-    successToast("Password reset link sent to your email");
+    successToast("OTP sent to your email");
 
     return redirect(
       "/forgot-password/reset-otp" + `?email=${encodeURIComponent(email)}`,
     );
   } catch (err) {
-    return errorToast(
-      err?.response?.data?.message || "Failed to send password reset link",
-    );
+    console.log(err);
+
+    return errorToast(err?.response?.data?.message || "Failed to send OTP");
   }
 }

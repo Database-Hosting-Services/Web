@@ -78,9 +78,9 @@ const ColumnList = ({ columns, onColumnChange, onAddColumn }) => {
       ))}
       
       {/* Add column button */}
-      <div className="border border-dashed border-[#262840] rounded-md p-3 flex justify-center">
+      <div className="border border-dashed border-[#262840] rounded-md p-3 flex justify-center hover:cursor-pointer">
         <button 
-          className="text-gray-400 text-sm"
+          className="text-gray-400 text-sm "
           onClick={onAddColumn}
         >
           Add column

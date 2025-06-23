@@ -54,7 +54,7 @@ const DiscardChangesExample = () => {
         />
         <button
           onClick={handleCloseAttempt}
-          className="px-4 py-2 bg-[#2A2C42] text-white rounded-md"
+          className="px-4 py-2 bg-[#2A2C42] text-white rounded-md hover:cursor-pointer"
         >
           Close Panel
         </button>

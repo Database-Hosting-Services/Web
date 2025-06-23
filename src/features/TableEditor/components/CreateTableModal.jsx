@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import ForeignKeys from "./ForeignKeys";
 import ColumnList from "./ColumnList";
 import { useEffect, useState } from "react";
-import MessageDialog from "../ui/MessageDialog";
+import MessageDialog from "../../../components/ui/MessageDialog";
 
 // Helper function to deep clone objects
 const deepClone = (obj) => {
@@ -141,13 +141,13 @@ const CreateTableModal = ({
             {/* Action buttons */}
             <div className="flex justify-end space-x-3 mt-5">
               <button
-                className="px-5 py-2 rounded-md bg-secondary text-white font-normal border border-tertiary"
+                className="px-5 py-2 rounded-md bg-secondary text-white font-normal border border-tertiary hover:cursor-pointer"
                 onClick={attemptClose}
               >
                 Cancel
               </button>
               <button
-                className="px-5 py-2 rounded-md custom-gradient text-white font-normal"
+                className="px-5 py-2 rounded-md custom-gradient text-white font-normal hover:cursor-pointer"
                 onClick={() => {
                   setHasChanges(false);
                   onSave(tableData);

@@ -12,7 +12,7 @@ const EmptyState = ({ onCreateTable }) => {
       </p>
       <div>
         <button
-          className="custom-gradient text-white font-normal px-5 py-2 rounded-lg inline-block text"
+          className="custom-gradient text-white font-normal px-5 py-2 rounded-lg inline-block text hover:cursor-pointer"
           onClick={onCreateTable}
         >
           Create new table

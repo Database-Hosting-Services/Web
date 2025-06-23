@@ -1,5 +1,5 @@
-import SeachIcon from "../../assets/searchIcon.svg";
-import FilterIcon from "../../assets/Filtericon.svg";
+import SeachIcon from "../../../assets/searchIcon.svg";
+import FilterIcon from "../../../assets/Filtericon.svg";
 import { useState } from "react";
 
 const SqlEditorContent = ({ privateMessages = [] }) => {

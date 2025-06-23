@@ -15,7 +15,7 @@ import {
 } from "./pages";
 
 import { loader as projectHomeLoader } from "./pages/ProjectHome";
-import TableEditor from "./pages/TableEditor";
+import TableEditor from "./pages/TableEditor/TableEditor";
 
 const router = createBrowserRouter([
   {

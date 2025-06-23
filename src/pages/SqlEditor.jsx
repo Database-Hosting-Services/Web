@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { sql } from "@codemirror/lang-sql";
 import { EditorView } from "@codemirror/view";
-import SqlEditorContent from "../components/Sidebar/SqlEditorContent";
+import SqlEditorContent from "../features/Sidebar/components/SqlEditorContent";
 
 const SqlEditor = () => {
   const [activeTab, setActiveTab] = useState("results");

@@ -1,5 +1,5 @@
-import SeachIcon from "../../assets/searchIcon.svg";
-import FilterIcon from "../../assets/Filtericon.svg";
+import SeachIcon from "../../../assets/searchIcon.svg";
+import FilterIcon from "../../../assets/Filtericon.svg";
 
 const TableEditorContent = () => (
   <div className="h-full">

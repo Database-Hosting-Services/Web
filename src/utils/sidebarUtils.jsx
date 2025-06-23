@@ -3,11 +3,10 @@ import TableIcon from "../assets/oui_editor-table.svg";
 import TerminalIcon from "../assets/sqleditor.svg";
 import DatabaseIcon from "../assets/databaseIconSidebar.svg";
 import Secure from "../assets/lock.svg";
-import React from "react";
-import TableEditorContent from "../components/Sidebar/TableEditorContent";
-import SqlEditorContent from "../components/Sidebar/SqlEditorContent";
-import DatabaseContent from "../components/Sidebar/DatabaseContent";
-import RolesContent from "../components/Sidebar/RolesContent";
+import TableEditorContent from "../features/Sidebar/components/TableEditorContent";
+import SqlEditorContent from "../features/Sidebar/components/SqlEditorContent";
+import DatabaseContent from "../features/Sidebar/components/DatabaseContent";
+import RolesContent from "../features/Sidebar/components/RolesContent";
 
 export const NAV_ITEMS = [
   {

@@ -3,15 +3,15 @@ import {
   setActiveTab,
   selectActiveTab,
   selectShowSecondary,
-} from "../../store/sidebarSlice";
+} from "../../../store/sidebarSlice.jsx";
 import NavButton from "./NavButton";
 import {
   NAV_ITEMS,
   getNavGroups,
   renderSecondary,
-} from "../../utils/sidebarUtils.jsx";
+} from "../../../utils/sidebarUtils.jsx";
 
-import logo from "../../assets/orbix.svg";
+import logo from "../../../assets/orbix.svg";
 
 const Sidebar = () => {
   const dispatch = useDispatch();

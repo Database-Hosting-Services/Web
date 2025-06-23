@@ -29,7 +29,7 @@ const MessageDialog = ({
           <h3 className="text-white text-xl font-medium">{title}</h3>
           <button
             onClick={onCancel}
-            className="text-gray-400 hover:text-white"
+            className="text-gray-400 hover:text-white hover:cursor-pointer"
             aria-label="Close"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -50,13 +50,13 @@ const MessageDialog = ({
         {/* Action buttons */}
         <div className="flex justify-between mt-4">
           <button
-            className="w-[217px] px-8 py-2 rounded-md bg-secondary text-white font-medium border border-tertiary"
+            className="w-[217px] px-8 py-2 rounded-md bg-secondary text-white font-medium border border-tertiary hover:cursor-pointer"
             onClick={onCancel}
           >
             {cancelText}
           </button>
           <button
-            className={` w-[217px] px-8 py-2 custom-gradient rounded-md ${confirmButtonClass} text-white font-medium`}
+            className={`w-[217px] px-8 py-2 custom-gradient rounded-md ${confirmButtonClass} text-white font-medium hover:cursor-pointer hover:opacity-80 `}
             onClick={onConfirm}
           >
             {confirmText}

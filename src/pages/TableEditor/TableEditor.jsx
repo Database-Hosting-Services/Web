@@ -3,7 +3,7 @@ import {
   EmptyState,
   TableList,
   CreateTableModal,
-} from "../components/TableEditor";
+} from "../../features/TableEditor/components";
 
 export default function TableEditor() {
   const [showCreateModal, setShowCreateModal] = useState(false);

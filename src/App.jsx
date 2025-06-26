@@ -14,6 +14,8 @@ import { loader as projectHomeLoader } from "./pages/dashboard/ProjectHome";
 import { loader as userProjectsLoader } from "./pages/dashboard/UserProjects";
 import TableEditor from "./pages/TableEditor/TableEditor";
 
+import { newProjectAction } from "./features/dashboard/actions";
+
 import authRoutes from "./features/auth/routes";
 
 const router = createBrowserRouter([
@@ -31,7 +33,11 @@ const router = createBrowserRouter([
             element: <UserProjects />,
             loader: userProjectsLoader,
           },
-          { path: "new-project/", element: <NewProject /> },
+          {
+            path: "new-project/",
+            element: <NewProject />,
+            action: newProjectAction,
+          },
           {
             path: "project/:projectId/",
             children: [

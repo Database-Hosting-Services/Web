@@ -36,9 +36,7 @@ const router = createBrowserRouter([
               },
               {
                 path: "table-editor/",
-                children: [
-                  { index: true, element: <TableEditor/> },
-                ],
+                children: [{ index: true, element: <TableEditor /> }],
               },
               {
                 path: "sql-editor/",

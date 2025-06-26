@@ -1,20 +1,11 @@
 import { useState } from "react";
-import { useNavigate, useSubmit } from "react-router-dom";
+import { Form, useNavigate, useNavigation } from "react-router-dom";
 
 const NewProject = () => {
-  const submit = useSubmit();
-
   const navigate = useNavigate();
 
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
-
-  const handleSubmit = () => {
-    const formData = new FormData();
-    formData.append("projectName", projectName);
-    formData.append("projectDescription", projectDescription);
-    submit(formData, { method: "post", action: "/dashboard/new-project" });
-  };
 
   const handleCancel = () => {
     navigate("/dashboard");
@@ -24,9 +15,7 @@ const NewProject = () => {
     <div className="z-50 fixed inset-0">
       <div
         className="absolute inset-0 backdrop-brightness-50"
-        onClick={() => {
-          navigate("/dashboard");
-        }}
+        onClick={handleCancel}
       ></div>
 
       {/* Popup content */}
@@ -44,7 +33,11 @@ const NewProject = () => {
           setData={setProjectDescription}
           placeholder={"Enter project description"}
         />
-        <ProjectButtons onSubmit={handleSubmit} onCancel={handleCancel} />
+        <ProjectButtons
+          onCancel={handleCancel}
+          projectName={projectName}
+          projectDescription={projectDescription}
+        />
       </div>
     </div>
   );
@@ -88,21 +81,36 @@ const ProjectDataInput = ({ data, setData, label, placeholder }) => {
   );
 };
 
-const ProjectButtons = ({ onSubmit, onCancel }) => {
+const ProjectButtons = ({ onCancel, projectName, projectDescription }) => {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+
   return (
-    <div className="flex justify-end items-center gap-4 pt-6">
+    <Form
+      method="POST"
+      action="/dashboard/new-project"
+      className="flex justify-end items-center gap-4 pt-6"
+    >
+      <input type="hidden" name="projectName" value={projectName} />
+      <input
+        type="hidden"
+        name="projectDescription"
+        value={projectDescription}
+      />
       <button
+        type="button"
         onClick={onCancel}
         className="bg-[#191A30] [box-shadow:0_0_1000px_1000px#191A30_inset] px-6 py-2 rounded-2xl font-medium text-white cursor-pointer"
       >
         Cancel
       </button>
       <button
-        onClick={onSubmit}
+        type="submit"
         className="bg-custom-linear-gradient px-6 py-2 rounded-2xl font-medium text-white cursor-pointer"
+        disabled={isSubmitting}
       >
-        Create New Project
+        {isSubmitting ? "Creating..." : "Create New Project"}
       </button>
-    </div>
+    </Form>
   );
 };

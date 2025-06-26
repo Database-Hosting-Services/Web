@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom";
-import { publicAxios } from "../../../api";
+import { publicAxios, setToken } from "../../../api";
 import { errorToast, successToast } from "../../../utils/toastConfig";
 import { AUTH_ENDPOINTS } from "../api/endpoints";
 
@@ -11,7 +11,7 @@ export default async function verifyAction({ request }) {
   try {
     await publicAxios.post(AUTH_ENDPOINTS.verifyAccount(), {
       email,
-      otpCode,
+      code: otpCode,
     });
 
     successToast("Email verified successfully");

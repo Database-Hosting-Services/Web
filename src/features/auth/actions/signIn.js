@@ -17,7 +17,7 @@ export default async function action({ request }) {
 
     successToast("Login successfully");
 
-    setToken(data.token);
+    setToken(data.data.token);
     return redirect("/");
   } catch (err) {
     const status = err?.response?.status;

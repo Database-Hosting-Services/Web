@@ -9,12 +9,14 @@ export default async function verifyAction({ request }) {
   const otpCode = formData.get("otpCode");
 
   try {
-    await publicAxios.post(AUTH_ENDPOINTS.verifyAccount(), {
+    const { data } = await publicAxios.post(AUTH_ENDPOINTS.verifyAccount(), {
       email,
       code: otpCode,
     });
 
     successToast("Email verified successfully");
+
+    setToken(data.data.token);
 
     return redirect("/");
   } catch (err) {

@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
-import { ProjectsSearchFilter, SingleProject } from "../components";
-import projects from "../data/projects";
+import {
+  ProjectsSearchFilter,
+  SingleProject,
+} from "../../features/dashboard/components";
+import projects from "../../features/dashboard/data/projects";
 
-import orbixFloatingImg from "../assets/orbixFloating.svg";
-import { useDashboardContext } from "../store/DashboardContext";
+import orbixFloatingImg from "../../assets/orbixFloating.svg";
+import { useDashboardContext } from "../../features/dashboard/store/DashboardContext";
 
 const UserProjects = () => {
   const { updateProjectData } = useDashboardContext();

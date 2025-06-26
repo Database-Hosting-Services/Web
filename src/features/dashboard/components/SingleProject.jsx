@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
 import rightArrow from "../assets/rightArrow.svg";
-import ProjectsSearchFilter from "./ProjectsSearchFilter";
 
 const truncateDescription = (description) => {
   if (description.length > 30) {

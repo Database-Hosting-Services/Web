@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 
-import { useDashboardContext } from "../store/DashboardContext";
-import ProjectStats from "../components/ProjectStats";
-import StatsData from "../data/StatsData";
-import projectsData from "../data/projects";
-import ConnectingProject from "../components/ConnectingProject";
+import { useDashboardContext } from "../../features/dashboard/store/DashboardContext";
+import ProjectStats from "../../features/dashboard/components/ProjectStats";
+import StatsData from "../../features/dashboard/data/StatsData";
+import projectsData from "../../features/dashboard/data/projects";
+import ConnectingProject from "../../features/dashboard/components/ConnectingProject";
 
 export const loader = async ({ params }) => {
   const { projectId } = params;

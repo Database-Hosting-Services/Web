@@ -1,16 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store";
-import {
-  Landing,
-  ProjectHome,
-  DashboardLayout,
-  UserProjects,
-  SqlEditor,
-  DatabaseSchema,
-} from "./pages";
 
-import { loader as projectHomeLoader } from "./pages/ProjectHome";
+import { Landing, SqlEditor, DatabaseSchema } from "./pages";
+import { DashboardLayout, ProjectHome, UserProjects } from "./pages/dashboard";
+
+import { loader as projectHomeLoader } from "./pages/dashboard/ProjectHome";
 import TableEditor from "./pages/TableEditor/TableEditor";
 
 import authRoutes from "./features/auth/routes";

@@ -1,5 +1,3 @@
-import React from "react";
-
 const ConnectingProject = () => {
   return (
     <div className="gap-4 grid grid-cols-2 p-7">

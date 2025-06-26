@@ -2,8 +2,11 @@ import { useState } from "react";
 
 import searchIconImg from "../assets/searchIcon.svg";
 import filterIconImg from "../assets/filterIcon.svg";
+import { useNavigate } from "react-router-dom";
 
 const ProjectsSearchFilter = ({ projects, setFilteredProjects }) => {
+  const navigate = useNavigate();
+
   const [filterStatus, setFilterStatus] = useState("all");
 
   const handleFilterClick = () => {
@@ -29,6 +32,7 @@ const ProjectsSearchFilter = ({ projects, setFilteredProjects }) => {
 
   return (
     <div className="flex gap-3 p-7">
+      {/* --------------- Search input --------------- */}
       <div className="relative w-[367px] h-[50px]">
         <input
           type="search"
@@ -40,6 +44,7 @@ const ProjectsSearchFilter = ({ projects, setFilteredProjects }) => {
           <img src={searchIconImg} alt="search" />
         </span>
       </div>
+      {/* --------------- Filter --------------- */}
       <div
         onClick={handleFilterClick}
         className={`flex justify-center items-center border-[#282939] border-1 border-dashed w-[50px] h-[50px] cursor-pointer
@@ -54,6 +59,17 @@ const ProjectsSearchFilter = ({ projects, setFilteredProjects }) => {
         title="Sorted By"
       >
         <img src={filterIconImg} alt="filter projects" />
+      </div>
+      {/* --------------- New Project Button --------------- */}
+      <div className="flex justify-center items-center">
+        <button
+          className="bg-custom-linear-gradient rounded-xl w-[170px] h-[50px] cursor-pointer"
+          onClick={() => {
+            navigate("/dashboard/new-project");
+          }}
+        >
+          New Project
+        </button>
       </div>
     </div>
   );

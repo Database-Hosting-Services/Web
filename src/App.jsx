@@ -3,9 +3,15 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 
 import { Landing, SqlEditor, DatabaseSchema } from "./pages";
-import { DashboardLayout, ProjectHome, UserProjects } from "./pages/dashboard";
+import {
+  DashboardLayout,
+  ProjectHome,
+  UserProjects,
+  NewProject,
+} from "./pages/dashboard";
 
 import { loader as projectHomeLoader } from "./pages/dashboard/ProjectHome";
+import { loader as userProjectsLoader } from "./pages/dashboard/UserProjects";
 import TableEditor from "./pages/TableEditor/TableEditor";
 
 import authRoutes from "./features/auth/routes";
@@ -20,7 +26,12 @@ const router = createBrowserRouter([
         path: "/dashboard/",
         element: <DashboardLayout />,
         children: [
-          { index: true, element: <UserProjects /> },
+          {
+            index: true,
+            element: <UserProjects />,
+            loader: userProjectsLoader,
+          },
+          { path: "new-project/", element: <NewProject /> },
           {
             path: "project/:projectId/",
             children: [

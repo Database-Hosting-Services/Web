@@ -4,18 +4,18 @@ import { useNavigate } from "react-router-dom";
 import rightArrow from "../assets/rightArrow.svg";
 import ProjectsSearchFilter from "./ProjectsSearchFilter";
 
-const ProjectsContainer = ({ allprojects }) => {
-  const setFilteredProjects = useState(allprojects)[1];
+// const ProjectsContainer = ({ allprojects }) => {
+//   const setFilteredProjects = useState(allprojects)[1];
 
-  return (
-    <>
-      <ProjectsSearchFilter
-        projects={allprojects}
-        setFilteredProjects={setFilteredProjects}
-      />
-    </>
-  );
-};
+//   return (
+//     <>
+//       <ProjectsSearchFilter
+//         projects={allprojects}
+//         setFilteredProjects={setFilteredProjects}
+//       />
+//     </>
+//   );
+// };
 
 const truncateDescription = (description) => {
   if (description.length > 30) {

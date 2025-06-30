@@ -65,29 +65,32 @@ const IndexesPage = () => {
         </button>
       </div>
 
-      <div className="bg-[#191A30] rounded-lg p-6 border border-[#282939]">
+      <div className="bg-[#191A30] rounded-lg border border-[#282939]">
         <table className="w-full text-left">
           <thead>
             <tr className="text-[#FFFFFF] font-normal border-b border-[#282939]">
-              <th className="pb-3">Schema</th>
-              <th className="pb-3">Table</th>
-              <th className="pb-3">Name</th>
+              <th className="py-5 m-3 pl-4">Schema</th>
+              <th className="py-5 m-3 pl-4">Table</th>
+              <th className="py-5 m-3 pl-4">Name</th>
             </tr>
           </thead>
           <tbody>
             {Indexes ? (
               indexes.map((index, i) => (
-                <tr key={i} className="border-b border-[#282939] ">
-                  <td className="py-3">{index.schemaName}</td>
-                  <td className="py-3">{index.tableName}</td>
-                  <td className="py-3">{index.indexName}</td>
+                <tr
+                  key={i}
+                  className="border-b bg-[#282939]  border-[#282939] "
+                >
+                  <td className="py-5 m-3 pl-4  ">{index.schemaName}</td>
+                  <td className="py-5 m-3 pl-4 ">{index.tableName}</td>
+                  <td className="py-5 m-3 pl-4 ">{index.indexName}</td>
                 </tr>
               ))
             ) : (
               <tr>
                 <td colSpan="3" className="py-6 text-left text-[#FFFFFF]">
-                  <div className="mb-2">No indexes created yet</div>
-                  <span className="text-sm text-gray-500">
+                  <div className="m-2 pl-3">No indexes created yet</div>
+                  <span className="text-sm m-2 pl-3 text-gray-500">
                     There are no indexes found in the schema.
                   </span>
                 </td>
@@ -108,9 +111,8 @@ const IndexesPage = () => {
             className={`fixed inset-y-0 right-15 w-[600px] bg-[#06071A] z-50 shadow-lg transform transition-transform duration-300 
           ${showCreateIndex ? `translate-x-0` : `translate-x-full`}`}
           >
-            <CreateIndexPage onClose={() => setShowCreateIndex(false)} /> 
+            <CreateIndexPage onClose={() => setShowCreateIndex(false)} />
           </div>
-            
         </>
       )}
     </div>

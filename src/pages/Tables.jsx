@@ -8,7 +8,6 @@ const TablesPage = () => {
     {
       Name: "Name",
       tableName: "users",
-      indexName: "users_pkey",
       rows: 0,
       size: "1024 bytes",
     },

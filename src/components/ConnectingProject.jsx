@@ -2,7 +2,7 @@ import React from "react";
 
 const ConnectingProject = () => {
   return (
-    <div className="gap-4 grid grid-cols-2 ">
+    <div className="gap-4 grid grid-cols-2 p-8">
       <div>
         <h3 className="mb-2 font-semibold text-2xl">
           Connecting to your new project

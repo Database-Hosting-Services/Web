@@ -13,7 +13,7 @@ const TablesPage = () => {
 
   const tables = [
     {
-      Name: "Users Table",
+      Name: "Name",
       tableName: "users",
       rows: 0,
       size: "1024 bytes",

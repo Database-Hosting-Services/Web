@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import searchIconImg from "../assets/searchIcon.svg";
 import filterIconImg from "../assets/filterIcon.svg";
 import Button from "../components/TablesButton/Button";
-import matiral from "../assets/matiral.svg"; // Assuming this is the correct path for the material icon
+import matiral from "../assets/matiral.svg";
 const TablesPage = () => {
   const tables = [
     {
@@ -92,12 +92,21 @@ const TablesPage = () => {
                       </button>
 
                       {openMenuIndex === i && (
-                        <Button
-                          onView={() => console.log("View table")}
-                          onEdit={() => console.log("Edit table")}
-                          onDuplicate={() => console.log("Duplicate table")}
-                          onDelete={() => console.log("Delete table")}
-                        />
+                        <>
+                          {/*  Blur Overlay */}
+                          <div
+                            className="fixed inset-0  backdrop-brightness-85 z-10"
+                            onClick={() => setOpenMenuIndex(null)}
+                          ></div>
+                          <div className="absolute right-0 mt-2 z-20">
+                            <Button
+                              onView={() => console.log("View table")}
+                              onEdit={() => console.log("Edit table")}
+                              onDuplicate={() => console.log("Duplicate table")}
+                              onDelete={() => console.log("Delete table")}
+                            />
+                          </div>
+                        </>
                       )}
                     </td>
                   </tr>

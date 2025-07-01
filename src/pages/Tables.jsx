@@ -4,10 +4,16 @@ import searchIconImg from "../assets/searchIcon.svg";
 import filterIconImg from "../assets/filterIcon.svg";
 import Button from "../components/TablesButton/Button";
 import matiral from "../assets/matiral.svg";
+import DeleteTable from "../components/TablesButton/DeletTable";
+
 const TablesPage = () => {
+  const [openMenuIndex, setOpenMenuIndex] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [tableToDelete, setTableToDelete] = useState(null);
+
   const tables = [
     {
-      Name: "Name",
+      Name: "Users Table",
       tableName: "users",
       rows: 0,
       size: "1024 bytes",
@@ -15,6 +21,16 @@ const TablesPage = () => {
   ];
 
   const hasTables = tables.length > 0;
+
+  const toggleMenu = (rowIndex) => {
+    setOpenMenuIndex(openMenuIndex === rowIndex ? null : rowIndex);
+  };
+
+  const handleDelete = (tableName) => {
+    setTableToDelete(tableName);
+    setShowDeleteModal(true);
+    setOpenMenuIndex(null);
+  };
 
   return (
     <div className="min-h-screen bg-[#06071A] font-medium text-24 text-[#FFFFFF] p-7">
@@ -51,67 +67,56 @@ const TablesPage = () => {
         </button>
       </div>
 
-      <div className="bg-[#191A30] rounded-lg  border border-[#282939]">
-        <table className="w-full text-left table-fixed ">
+      <div className="bg-[#191A30] rounded-lg border border-[#282939]">
+        <table className="w-full text-left table-fixed">
           <thead>
-            <tr className="text-[#FFFFFF] font-medium border-b text-lg  border-[#282939]">
-              <th className="py-5 m-3 pl-4 ">Name</th>
-              <th className="py-5 m-3 pl-4 ">Description</th>
-              <th className="py-5 m-3 pl-4 ">Rows</th>
-              <th className="py-5 m-3 pl-4 ">Size</th>
+            <tr className="text-[#FFFFFF] font-medium border-b text-lg border-[#282939]">
+              <th className="py-5 m-3 pl-4">Name</th>
+              <th className="py-5 m-3 pl-4">Description</th>
+              <th className="py-5 m-3 pl-4">Rows</th>
+              <th className="py-5 m-3 pl-4">Size</th>
             </tr>
           </thead>
 
           <tbody>
             {hasTables ? (
-              tables.map((index, i) => {
-                const [openMenuIndex, setOpenMenuIndex] = useState(null);
+              tables.map((index, i) => (
+                <tr
+                  key={i}
+                  className="border-b border-[#282939] bg-[#282939] text-[#FFFFFF]"
+                >
+                  <td className="py-5 pl-4">{index.Name}</td>
+                  <td className="py-5 pl-4">{index.tableName}</td>
+                  <td className="py-5 pl-4">{index.rows}</td>
+                  <td className="py-5 pl-4">{index.size}</td>
 
-                const toggleMenu = (rowIndex) => {
-                  setOpenMenuIndex(
-                    openMenuIndex === rowIndex ? null : rowIndex,
-                  );
-                };
+                  <td className="py-5 pr-4 text-right relative">
+                    <button
+                      onClick={() => toggleMenu(i)}
+                      className="text-white cursor-pointer text-xl hover:text-gray-300"
+                    >
+                      <img src={matiral} alt="matiral" />
+                    </button>
 
-                return (
-                  <tr
-                    key={i}
-                    className="border-b border-[#282939] bg-[#282939] text-[#FFFFFF]"
-                  >
-                    <td className="py-5 pl-4">{index.Name}</td>
-                    <td className="py-5 pl-4">{index.tableName}</td>
-                    <td className="py-5 pl-4">{index.rows}</td>
-                    <td className="py-5 pl-4">{index.size}</td>
-
-                    <td className="py-5 pr-4 text-right relative">
-                      <button
-                        onClick={() => toggleMenu(i)}
-                        className="text-white text-xl hover:text-gray-300"
-                      >
-                        <img src={matiral} alt="matiral" />
-                      </button>
-
-                      {openMenuIndex === i && (
-                        <>
-                          {/*  Blur Overlay */}
-                          <div
-                            className="fixed inset-0  backdrop-brightness-85 z-10"
-                            onClick={() => setOpenMenuIndex(null)}
-                          ></div>
-                          <div className="absolute right-0 mt-2 z-20">
-                            <Button
-                              onView={() => console.log("View table")}
-                              onEdit={() => console.log("Edit table")}
-                              onDuplicate={() => console.log("Duplicate table")}
-                              onDelete={() => console.log("Delete table")}
-                            />
-                          </div>
-                        </>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })
+                    {openMenuIndex === i && (
+                      <>
+                        <div
+                          className="fixed inset-0 backdrop-brightness-85 z-10"
+                          onClick={() => setOpenMenuIndex(null)}
+                        ></div>
+                        <div className="absolute right-0 mt-2 z-20">
+                          <Button
+                            onView={() => {}}
+                            onEdit={() => {}}
+                            onDuplicate={() => {}}
+                            onDelete={() => handleDelete(index.Name)}
+                          />
+                        </div>
+                      </>
+                    )}
+                  </td>
+                </tr>
+              ))
             ) : (
               <tr>
                 <td colSpan="5" className="py-6 text-left text-[#FFFFFF]">
@@ -125,6 +130,14 @@ const TablesPage = () => {
           </tbody>
         </table>
       </div>
+
+      {showDeleteModal && (
+        <DeleteTable
+          tableName={tableToDelete}
+          onCancel={() => setShowDeleteModal(false)}
+          onConfirm={() => setShowDeleteModal(false)}
+        />
+      )}
     </div>
   );
 };

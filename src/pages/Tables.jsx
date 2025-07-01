@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import searchIconImg from "../assets/searchIcon.svg";
 import filterIconImg from "../assets/filterIcon.svg";
-
+import Button from "../components/TablesButton/Button";
+import matiral from "../assets/matiral.svg"; // Assuming this is the correct path for the material icon
 const TablesPage = () => {
   const tables = [
     {
@@ -60,22 +61,51 @@ const TablesPage = () => {
               <th className="py-5 m-3 pl-4 ">Size</th>
             </tr>
           </thead>
+
           <tbody>
             {hasTables ? (
-              tables.map((index, i) => (
-                <tr
-                  key={i}
-                  className="border-b border-[#282939] bg-[#282939]  text-[#FFFFFF] "
-                >
-                  <td className="py-5 m-3 pl-4 ">{index.Name}</td>
-                  <td className="py-5 m-3 pl-4">{index.tableName}</td>
-                  <td className="py-5 m-3 pl-4">{index.rows}</td>
-                  <td className="py-5 m-3 pl-4">{index.size}</td>
-                </tr>
-              ))
+              tables.map((index, i) => {
+                const [openMenuIndex, setOpenMenuIndex] = useState(null);
+
+                const toggleMenu = (rowIndex) => {
+                  setOpenMenuIndex(
+                    openMenuIndex === rowIndex ? null : rowIndex,
+                  );
+                };
+
+                return (
+                  <tr
+                    key={i}
+                    className="border-b border-[#282939] bg-[#282939] text-[#FFFFFF]"
+                  >
+                    <td className="py-5 pl-4">{index.Name}</td>
+                    <td className="py-5 pl-4">{index.tableName}</td>
+                    <td className="py-5 pl-4">{index.rows}</td>
+                    <td className="py-5 pl-4">{index.size}</td>
+
+                    <td className="py-5 pr-4 text-right relative">
+                      <button
+                        onClick={() => toggleMenu(i)}
+                        className="text-white text-xl hover:text-gray-300"
+                      >
+                        <img src={matiral} alt="matiral" />
+                      </button>
+
+                      {openMenuIndex === i && (
+                        <Button
+                          onView={() => console.log("View table")}
+                          onEdit={() => console.log("Edit table")}
+                          onDuplicate={() => console.log("Duplicate table")}
+                          onDelete={() => console.log("Delete table")}
+                        />
+                      )}
+                    </td>
+                  </tr>
+                );
+              })
             ) : (
               <tr>
-                <td colSpan="4" className="py-6 text-left text-[#FFFFFF]">
+                <td colSpan="5" className="py-6 text-left text-[#FFFFFF]">
                   <div className="m-2 pl-3">No Tables created yet</div>
                   <span className="text-sm m-2 pl-3 text-gray-500">
                     There are no tables found in the schema.

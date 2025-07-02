@@ -1,16 +1,29 @@
 import { redirect } from "react-router-dom";
-import { successToast } from "../../../utils/toastConfig";
+import { errorToast, successToast } from "../../../utils/toastConfig";
+import { PROJECTS_ENDPOINTS } from "../api/endpoints";
+import { privateAxios } from "../../../api";
 
 export default async function action({ request }) {
   const formData = await request.formData();
   const projectName = formData.get("projectName");
   const projectDescription = formData.get("projectDescription");
 
-  // Perform any necessary actions with the project data
-  console.log("Project Name:", projectName);
-  console.log("Project Description:", projectDescription);
+  try {
+    const { data } = await privateAxios.post(
+      PROJECTS_ENDPOINTS.createProject(),
+      {
+        name: projectName,
+        description: projectDescription,
+      },
+    );
 
-  successToast("Project created successfully!");
+    console.log(data.data);
 
-  return redirect("/dashboard");
+    successToast("Project created successfully!");
+
+    return redirect("/dashboard");
+  } catch (err) {
+    errorToast(err?.response?.data?.message || "Failed to create project");
+    return redirect("/dashboard");
+  }
 }

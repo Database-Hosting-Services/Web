@@ -18,7 +18,7 @@ export default async function action({ request }) {
     successToast("Login successfully");
 
     setToken(data.data.token);
-    return redirect("/");
+    return redirect("/dashboard/");
   } catch (err) {
     const status = err?.response?.status;
 

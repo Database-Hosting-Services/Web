@@ -41,7 +41,7 @@ const ProjectHome = () => {
   }, [fetchedProjectData]);
 
   return (
-    <div className="mx-15">
+    <div className="mx-15 mb-10">
       <div className="flex justify-between items-center">
         <h2 className="mt-5 mb-15 font-bold text-4xl">
           {fetchedProjectData.title}

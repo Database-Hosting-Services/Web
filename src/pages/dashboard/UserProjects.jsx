@@ -3,7 +3,7 @@ import {
   ProjectsSearchFilter,
   SingleProject,
 } from "../../features/dashboard/components";
-import theProjects from "../../features/dashboard/data/projects";
+// import theProjects from "../../features/dashboard/data/projects";
 
 import orbixFloatingImg from "../../assets/orbixFloating.svg";
 // import { useDashboardContext } from "../../features/dashboard/store/DashboardContext";
@@ -13,7 +13,6 @@ import { errorToast } from "../../utils/toastConfig";
 import { Outlet, redirect, useLoaderData } from "react-router-dom";
 
 export const loader = async () => {
-  return { projects: theProjects };
   try {
     const { data } = await privateAxios.get(PROJECTS_ENDPOINTS.getProjects());
 
@@ -38,7 +37,7 @@ const UserProjects = () => {
     <div className="relative flex flex-col flex-1">
       <Outlet />
       <ProjectsSearchFilter />
-      {projects.length > 0 ? (
+      {projects?.length > 0 ? (
         <div className="gap-4 grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 xl:grid-cols-3 mt-10">
           {projects.map((project) => (
             <SingleProject

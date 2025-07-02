@@ -5,9 +5,12 @@ import { privateAxios } from "../../api";
 import { PROJECTS_ENDPOINTS } from "../../features/dashboard/api/endpoints";
 import { errorToast } from "../../utils/toastConfig";
 
-import ProjectStats from "../../features/dashboard/components/ProjectStats";
+import {
+  ProjectStats,
+  ConnectingProject,
+} from "../../features/dashboard/components";
+
 import StatsData from "../../features/dashboard/data/StatsData";
-import ConnectingProject from "../../features/dashboard/components/ConnectingProject";
 
 import { useDashboardContext } from "../../features/dashboard/store/DashboardContext";
 

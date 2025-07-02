@@ -33,12 +33,12 @@ const SingleProject = ({ _id, title, description, isActive }) => {
         {isActive ? (
           <>
             <p className="font-bold">Active</p>
-            <span className="bg-[#00E100] rounded-full w-[12px] h-[12px]"></span>
+            <span className="bg-success rounded-full w-[12px] h-[12px]"></span>
           </>
         ) : (
           <>
             <p className="font-bold">Paused</p>
-            <span className="bg-[#E1E100] rounded-full w-[12px] h-[12px]"></span>
+            <span className="bg-warning rounded-full w-[12px] h-[12px]"></span>
           </>
         )}
       </div>

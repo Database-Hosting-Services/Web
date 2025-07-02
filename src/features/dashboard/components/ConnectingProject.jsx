@@ -1,4 +1,11 @@
-const ConnectingProject = () => {
+const truncateString = (text) => {
+  if (text.length > 30) {
+    return text.substring(0, 30) + "...";
+  }
+  return text;
+};
+
+const ConnectingProject = ({ API_URL, API_KEY }) => {
   return (
     <div className="flex justify-between items-start">
       <div>
@@ -28,7 +35,7 @@ const ConnectingProject = () => {
             <input
               type="text"
               readOnly
-              value="the link"
+              value={API_URL ? truncateString(API_URL) : "unknown"}
               className="mb-3 p-3 border-2 border-tertiary rounded-2xl outline-none w-[387px] font-normal text-sm"
             />
             <p className="max-w-99 font-normal text-sm">
@@ -43,7 +50,7 @@ const ConnectingProject = () => {
             <input
               type="text"
               readOnly
-              value="the link"
+              value={API_KEY ? truncateString(API_KEY) : "unknown"}
               className="mb-3 p-3 border-2 border-tertiary rounded-2xl outline-none w-[387px] font-normal text-sm"
             />
             <p className="max-w-99 font-normal text-sm">

@@ -71,7 +71,10 @@ const ProjectHome = () => {
           />
         ))}
       </div>
-      <ConnectingProject />
+      <ConnectingProject
+        API_URL={fetchedProjectData.API_URL}
+        API_KEY={fetchedProjectData.API_key}
+      />
     </div>
   );
 };

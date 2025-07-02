@@ -1,9 +1,12 @@
+import { useEffect } from "react";
+
 import {
   ProjectsSearchFilter,
   SingleProject,
 } from "../../features/dashboard/components";
 
 import orbixFloatingImg from "../../assets/orbixFloating.svg";
+import { useDashboardContext } from "../../features/dashboard/store/DashboardContext";
 import { privateAxios } from "../../api";
 import { PROJECTS_ENDPOINTS } from "../../features/dashboard/api/endpoints";
 import { errorToast } from "../../utils/toastConfig";
@@ -29,6 +32,11 @@ export const loader = async () => {
 
 const UserProjects = () => {
   const { projects } = useLoaderData();
+  const { updateProjectData } = useDashboardContext();
+
+  useEffect(() => {
+    updateProjectData(null, null);
+  }, []);
 
   return (
     <div className="relative flex flex-col flex-1">

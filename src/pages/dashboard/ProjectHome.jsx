@@ -38,7 +38,7 @@ const ProjectHome = () => {
 
   useEffect(() => {
     updateProjectData(fetchedProjectData._id, fetchedProjectData.title);
-  }, []);
+  }, [fetchedProjectData]);
 
   return (
     <div>

@@ -11,6 +11,8 @@ import dashboardRoutes, {
   projectHomeRoutes,
 } from "./features/dashboard/routes";
 
+import { loader as projectHomeLoader } from "./pages/dashboard/ProjectHome";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,7 +24,9 @@ const router = createBrowserRouter([
         children: [
           ...dashboardRoutes.children,
           {
+            id: "project-home",
             path: "project/:projectId/",
+            loader: projectHomeLoader,
             children: [
               projectHomeRoutes,
               {

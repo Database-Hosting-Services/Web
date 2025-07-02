@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { redirect, useLoaderData } from "react-router-dom";
+import { redirect, useRouteLoaderData } from "react-router-dom";
 
 import { privateAxios } from "../../api";
 import { PROJECTS_ENDPOINTS } from "../../features/dashboard/api/endpoints";
@@ -32,7 +32,8 @@ export const loader = async ({ params }) => {
 };
 
 const ProjectHome = () => {
-  const { projectData: fetchedProjectData } = useLoaderData();
+  const { projectData: fetchedProjectData } =
+    useRouteLoaderData("project-home");
 
   const { updateProjectData } = useDashboardContext();
 

@@ -7,7 +7,7 @@ import {
 import { newProjectAction } from "./actions";
 
 import { loader as userProjectsLoader } from "../../pages/dashboard/UserProjects";
-import { loader as projectHomeLoader } from "../../pages/dashboard/ProjectHome";
+// import { loader as projectHomeLoader } from "../../pages/dashboard/ProjectHome";
 
 const dashboardRoutes = {
   path: "/dashboard/",
@@ -41,7 +41,7 @@ const dashboardRoutes = {
 export const projectHomeRoutes = {
   index: true,
   element: <ProjectHome />,
-  loader: projectHomeLoader,
+  // loader: projectHomeLoader,
 };
 
 export default dashboardRoutes;

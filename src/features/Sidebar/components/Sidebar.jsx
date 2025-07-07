@@ -12,30 +12,22 @@ import {
 } from "../../../utils/sidebarUtils.jsx";
 
 import logo from "../../../assets/orbix.svg";
-
-// const extractProjectIdFromUrl = (url) => {
-//   const regex = /\/project\/([a-f0-9\-]{36})/;
-//   const match = url.match(regex);
-//   return match ? match[1] : null;
-// };
+import { useDashboardContext } from "../../dashboard/store/DashboardContext.jsx";
 
 const Sidebar = () => {
+  const {
+    projectData: { _id: projectId },
+  } = useDashboardContext();
   const dispatch = useDispatch();
   const activeTab = useSelector(selectActiveTab);
   const showSecondary = useSelector(selectShowSecondary);
 
-  // const url = window.location.href;
-  // const projectId = extractProjectIdFromUrl(url);
-  // console.log(`Project ID: ${projectId}`);
+  const editedNavItems = NAV_ITEMS.map((item) => ({
+    ...item,
+    path: item.path.replace(":projectId", projectId || "defaultProjectId"),
+  }));
 
-  // const editedNavItems = NAV_ITEMS.map((item) => ({
-  //   ...item,
-  //   path: item.path.replace(":projectId", projectId || "defaultProjectId"),
-  // }));
-
-  // console.log(`Edited NAV_ITEMS: ${JSON.stringify(editedNavItems)}`);
-
-  const { homeNav, middleNavs, bottomNavs } = getNavGroups(NAV_ITEMS);
+  const { homeNav, middleNavs, bottomNavs } = getNavGroups(editedNavItems);
 
   return (
     <>

@@ -65,8 +65,17 @@ export const getTableDataAndEdges = (fetchedTables = []) => {
         targetColumn.targetId = targetHandle;
       }
 
+  const nodes = tableData.map((table) => ({
+    id: table.tableName,
+    type: "tableNode",
+    position: { x: 0, y: 0 }, 
+    data: table,
+  }));
+
+  console.log(nodes);
+
   return {
     edges,
-    tableData,
+    nodes,
   };
 };

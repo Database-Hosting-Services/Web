@@ -3,6 +3,12 @@ import { MiniMap, ReactFlow, applyNodeChanges } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 import { Flow, Table } from "../features/schema-visualizer/components";
+import {
+  tmpFetchedTables,
+  tmpFetchedTables2,
+} from "../features/schema-visualizer/data/tmp";
+import { useLoaderData } from "react-router-dom";
+import { getTableDataAndEdges } from "../features/schema-visualizer/utils/getTableDataAndEdges";
 
 const nodeTypes = { tableNode: Table };
 
@@ -35,39 +41,45 @@ const nodeTypes = { tableNode: Table };
 //   },
 // ];
 
-const initialNodes = [
-  {
-    id: "1",
-    data: { label: "Hello" },
-    position: { x: 0, y: 0 },
-    type: "input",
-  },
-  {
-    id: "2",
-    data: { label: "World" },
-    position: { x: 100, y: 100 },
-  },
-  {
-    id: "3",
-    data: { label: "World" },
-    position: { x: 100, y: 100 },
-  },
-  {
-    id: "4",
-    data: { label: "World" },
-    position: { x: 100, y: 100 },
-  },
-];
+// const initialNodes = [
+//   {
+//     id: "1",
+//     data: { label: "Hello" },
+//     position: { x: 0, y: 0 },
+//     type: "input",
+//   },
+//   {
+//     id: "2",
+//     data: { label: "World" },
+//     position: { x: 100, y: 100 },
+//   },
+//   {
+//     id: "3",
+//     data: { label: "World" },
+//     position: { x: 100, y: 100 },
+//   },
+//   {
+//     id: "4",
+//     data: { label: "World" },
+//     position: { x: 100, y: 100 },
+//   },
+// ];
 
-const initialEdges = [
-  { id: "e1-2", source: "1", target: "2" },
-  { id: "e1-3", source: "1", target: "3" },
-  { id: "e1-4", source: "1", target: "4" },
-];
+// const initialEdges = [
+//   { id: "e2-3", source: "2", target: "3" },
+//   { id: "e1-3", source: "1", target: "3" },
+//   { id: "e2-4", source: "2", target: "4" },
+//   { id: "e3-4", source: "3", target: "4" },
+// ];
 
 const DatabaseSchema = () => {
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
+  const tableDataAndEdges = useLoaderData();
+  const { nodes: generatedNodes, edges: generatedEdges } = tableDataAndEdges;
+  // console.log("Generated Nodes:", generatedNodes);
+  // console.log("Generated Edges:", generatedEdges);
+
+  const [nodes, setNodes] = useState(generatedNodes);
+  const [edges] = useState(generatedEdges);
 
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -101,6 +113,8 @@ const DatabaseSchema = () => {
   );
 };
 
-export const loader = async () => {};
+export const loader = async () => {
+  return getTableDataAndEdges(tmpFetchedTables2);
+};
 
 export default DatabaseSchema;

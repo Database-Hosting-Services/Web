@@ -1,1 +1,1 @@
-- [ ] edit the dashboard context (I just need the title, no need for the id)
+- [ ] you need to add a projectHomeLayout: to call the loader and the updateProjectData from the context, to make sure, when opening any project related pages, we are getting the id and the project name updated accordingly, so we will add projectHomeLayout and under it we will rest routes as children

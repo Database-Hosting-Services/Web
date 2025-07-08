@@ -12,9 +12,13 @@ const Navbar = () => {
 
   useEffect(() => {
     const currentUrl = window.location.href;
-    const projectIdIndex =
-      currentUrl.split("/").findIndex((segment) => segment === "project") + 1;
-    const projectId = currentUrl.split("/")[projectIdIndex];
+
+    const urlSegments = currentUrl.split("/");
+
+    const projectWordIndex = urlSegments.findIndex((seg) => seg === "project");
+
+    const projectId =
+      projectWordIndex === -1 ? null : urlSegments[projectWordIndex + 1];
 
     if (projectId && projectId !== projectData?._id) {
       updateProjectData(projectId, "Dashboard");

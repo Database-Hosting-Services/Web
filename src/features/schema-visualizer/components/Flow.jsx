@@ -5,13 +5,11 @@ import { getElkLayout } from "../utils";
 const Flow = () => {
   const { setNodes, setEdges, getNodes, getEdges, fitView } = useReactFlow();
   useEffect(() => {
-    console.log("Hello from DatabaseSchema.jsx");
-
     const setAutoLayout = async () => {
       const { nodes: layoutedNodes, edges: layoutedEdges } = await getElkLayout(
         getNodes(),
         getEdges(),
-        "RIGHT",
+        "LEFT",
       );
       setNodes(layoutedNodes);
       setEdges(layoutedEdges);

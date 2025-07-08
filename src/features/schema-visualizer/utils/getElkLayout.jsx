@@ -8,7 +8,7 @@ const DIRECTIONS = {
 export default async function getElkLayout(
   nodes = [],
   edges = [],
-  direction = "RIGHT",
+  direction = "LEFT",
 ) {
   const isRight = direction === DIRECTIONS.RIGHT;
   const isLeft = direction === DIRECTIONS.LEFT;
@@ -37,10 +37,17 @@ export default async function getElkLayout(
     layoutOptions: {
       "elk.algorithm": "layered",
       "elk.direction": direction,
-      "elk.edgeRouting": "POLYLINE",
-      "elk.spacing.nodeNode": "200",
-      "elk.spacing.edgeNode": "200",
-      "elk.layered.spacing.nodeNodeBetweenLayers": "200",
+      "elk.edgeRouting": "ORTHOGONAL",
+      "elk.spacing.nodeNode": "80",
+      "elk.spacing.edgeNode": "50",
+      "elk.spacing.edgeEdge": "40", // 👈 Key for avoiding overlap
+      "elk.layered.spacing.nodeNodeBetweenLayers": "120",
+      "elk.padding": "[top=50,left=50,bottom=50,right=50]",
+      "elk.layered.nodePlacement.strategy": "NETWORK_SIMPLEX",
+      "elk.layered.crossingMinimization.strategy": "LAYER_SWEEP",
+      "elk.layered.considerModelOrder": "true",
+      "elk.layered.nodePlacement.favorStraightEdges": "true",
+      "elk.layered.crossingMinimization.semiInteractive": "true",
     },
     children: nodes.map((node) => ({
       id: node.id,
@@ -48,6 +55,8 @@ export default async function getElkLayout(
         x: node.position?.x,
         y: node.position?.y,
       },
+      width: node.width ?? 322,
+      height: node.height ?? 322,
     })),
     edges: edges.map((edge) => ({
       id: edge.id,

@@ -1,11 +1,14 @@
 import "@xyflow/react/dist/style.css";
 import { useCallback, useState } from "react";
 import { MiniMap, ReactFlow, applyNodeChanges } from "@xyflow/react";
-import { useLoaderData } from "react-router-dom";
+import { redirect, useLoaderData } from "react-router-dom";
 
 import { Flow, Table } from "../features/schema-visualizer/components";
-import { tmpFetchedTables2 } from "../features/schema-visualizer/data/tmp";
 import { getTableDataAndEdges } from "../features/schema-visualizer/utils/";
+import { SCHEMA_VISUALIZER_ENDPOINTS } from "../features/schema-visualizer/api/endpoints";
+
+import { privateAxios } from "../api";
+import { errorToast } from "../utils/toastConfig";
 
 const nodeTypes = { tableNode: Table };
 
@@ -48,8 +51,24 @@ const DatabaseSchema = () => {
   );
 };
 
-export const loader = async () => {
-  return getTableDataAndEdges(tmpFetchedTables2);
+export const loader = async ({ params }) => {
+  const { projectId } = params;
+
+  try {
+    const {
+      data: { data: fetchedTables },
+    } = await privateAxios.get(
+      SCHEMA_VISUALIZER_ENDPOINTS.getTables(projectId),
+    );
+
+    console.log(fetchedTables);
+
+    return getTableDataAndEdges(fetchedTables || []);
+  } catch (err) {
+    errorToast(err?.response?.data?.message || "Failed to fetch tables data");
+
+    return redirect("/dashboard");
+  }
 };
 
 export default DatabaseSchema;

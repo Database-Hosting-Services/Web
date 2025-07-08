@@ -8,7 +8,7 @@ const addEdge = (id, source, sourceHandleId, target, targetHandleId, edges) => {
   });
 };
 
-export const getTableDataAndEdges = (fetchedTables = []) => {
+const getTableDataAndEdges = (fetchedTables = []) => {
   const edges = [];
 
   const tableData = fetchedTables.map((table) => ({
@@ -79,3 +79,5 @@ export const getTableDataAndEdges = (fetchedTables = []) => {
     nodes,
   };
 };
+
+export default getTableDataAndEdges;

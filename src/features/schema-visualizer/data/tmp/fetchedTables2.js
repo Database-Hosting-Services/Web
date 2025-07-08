@@ -1,0 +1,306 @@
+const fetchedTables = [
+  {
+    id: "1",
+    name: "customers",
+    schema: {
+      Columns: [
+        {
+          ColumnName: "id",
+          DataType: "serial",
+          IsNullable: false,
+          isPrimaryKey: true,
+          isUnique: true,
+          isIdentity: true,
+        },
+        {
+          ColumnName: "email",
+          DataType: "varchar(255)",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: true,
+          isIdentity: false,
+        },
+        {
+          ColumnName: "first_name",
+          DataType: "varchar(50)",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        },
+        {
+          ColumnName: "last_name",
+          DataType: "varchar(50)",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        }
+      ],
+      Constraints: []
+    }
+  },
+  {
+    id: "2",
+    name: "addresses",
+    schema: {
+      Columns: [
+        {
+          ColumnName: "id",
+          DataType: "serial",
+          IsNullable: false,
+          isPrimaryKey: true,
+          isUnique: true,
+          isIdentity: true,
+        },
+        {
+          ColumnName: "customer_id",
+          DataType: "integer",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        },
+        {
+          ColumnName: "street",
+          DataType: "varchar(100)",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        },
+        {
+          ColumnName: "city",
+          DataType: "varchar(50)",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        },
+        {
+          ColumnName: "country",
+          DataType: "varchar(50)",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        }
+      ],
+      Constraints: [
+        {
+          ColumnName: "customer_id",
+          ForeignTableName: "customers",
+          ForeignColumnName: "id"
+        }
+      ]
+    }
+  },
+  {
+    id: "3",
+    name: "products",
+    schema: {
+      Columns: [
+        {
+          ColumnName: "id",
+          DataType: "serial",
+          IsNullable: false,
+          isPrimaryKey: true,
+          isUnique: true,
+          isIdentity: true,
+        },
+        {
+          ColumnName: "name",
+          DataType: "varchar(100)",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: true,
+          isIdentity: false,
+        },
+        {
+          ColumnName: "price",
+          DataType: "decimal(10,2)",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        },
+        {
+          ColumnName: "category_id",
+          DataType: "integer",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        }
+      ],
+      Constraints: [
+        {
+          ColumnName: "category_id",
+          ForeignTableName: "categories",
+          ForeignColumnName: "id"
+        }
+      ]
+    }
+  },
+  {
+    id: "4",
+    name: "categories",
+    schema: {
+      Columns: [
+        {
+          ColumnName: "id",
+          DataType: "serial",
+          IsNullable: false,
+          isPrimaryKey: true,
+          isUnique: true,
+          isIdentity: true,
+        },
+        {
+          ColumnName: "name",
+          DataType: "varchar(50)",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: true,
+          isIdentity: false,
+        },
+        {
+          ColumnName: "parent_id",
+          DataType: "integer",
+          IsNullable: true,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        }
+      ],
+      Constraints: [
+        {
+          ColumnName: "parent_id",
+          ForeignTableName: "categories",
+          ForeignColumnName: "id"
+        }
+      ]
+    }
+  },
+  {
+    id: "5",
+    name: "orders",
+    schema: {
+      Columns: [
+        {
+          ColumnName: "id",
+          DataType: "serial",
+          IsNullable: false,
+          isPrimaryKey: true,
+          isUnique: true,
+          isIdentity: true,
+        },
+        {
+          ColumnName: "customer_id",
+          DataType: "integer",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        },
+        {
+          ColumnName: "order_date",
+          DataType: "timestamp",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        },
+        {
+          ColumnName: "status",
+          DataType: "varchar(20)",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        },
+        {
+          ColumnName: "shipping_address_id",
+          DataType: "integer",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        }
+      ],
+      Constraints: [
+        {
+          ColumnName: "customer_id",
+          ForeignTableName: "customers",
+          ForeignColumnName: "id"
+        },
+        {
+          ColumnName: "shipping_address_id",
+          ForeignTableName: "addresses",
+          ForeignColumnName: "id"
+        }
+      ]
+    }
+  },
+  {
+    id: "6",
+    name: "order_items",
+    schema: {
+      Columns: [
+        {
+          ColumnName: "id",
+          DataType: "serial",
+          IsNullable: false,
+          isPrimaryKey: true,
+          isUnique: true,
+          isIdentity: true,
+        },
+        {
+          ColumnName: "order_id",
+          DataType: "integer",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        },
+        {
+          ColumnName: "product_id",
+          DataType: "integer",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        },
+        {
+          ColumnName: "quantity",
+          DataType: "integer",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        },
+        {
+          ColumnName: "unit_price",
+          DataType: "decimal(10,2)",
+          IsNullable: false,
+          isPrimaryKey: false,
+          isUnique: false,
+          isIdentity: false,
+        }
+      ],
+      Constraints: [
+        {
+          ColumnName: "order_id",
+          ForeignTableName: "orders",
+          ForeignColumnName: "id"
+        },
+        {
+          ColumnName: "product_id",
+          ForeignTableName: "products",
+          ForeignColumnName: "id"
+        }
+      ]
+    }
+  }
+];
+
+export default fetchedTables;

@@ -22,13 +22,27 @@ const Table = ({ data }) => {
     <div className="flex flex-col rounded-lg w-[322px] overflow-hidden text-white">
       <TableHead tableName={tableName} tableId={tableId} />
       {columns.map((item, index) => {
-        if (item.isId === true) {
+        if (item.sourceId) {
           return (
             <div style={{ position: "relative" }} key={index}>
               <Handle
                 type="source"
                 position={Position.Left}
                 style={{ opacity: 0 }}
+                id={item.sourceId}
+              />
+              <TableRow ColumnName={item.ColumnName} dataType={item.dataType} />
+            </div>
+          );
+        }
+        if (item.targetId) {
+          return (
+            <div style={{ position: "relative" }} key={index}>
+              <Handle
+                type="target"
+                position={Position.Right}
+                style={{ opacity: 0 }}
+                id={item.targetId}
               />
               <TableRow ColumnName={item.ColumnName} dataType={item.dataType} />
             </div>

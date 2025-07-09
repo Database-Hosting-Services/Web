@@ -1,48 +1,50 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap'); */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap");
 
 @import "tailwindcss";
 
-@theme {
-  --color-some-color: #801AE5;
-  --color-primary: #06071A;
-  --color-secondary: #191A30;
-  --color-tertiary: #282939;
-  --color-highlight: #4C75FF;
-  --color-black: #000000;
-  --color-text: #FFFFFF;
-  --color-gradientStart: #682EC7;
-  --color-gradientEnd: #5A12D3;
-  --color-gradientHover: #6D4DEF;
-  --color-radial-start: #5505A4;
-  --color-radialMiddle: #801AE5;
-  --color-radialEnd: #060714;
-  --color-danger: #FF0000;
-  --color-dangerOpacity: rgba(255, 0, 0, 0.8);
-  --color-success: #00E100;
-  --color-warning: #E1E100;
-  --color-fill: #06071A;
-  --custom-gradient: linear-gradient(90deg, var(--color-gradientStart)_0%, var(--color-gradientEnd)_100%);
+body,
+html {
+  font-family: "Roboto", sans-serif;
 }
 
-/* .gradient-opacity-btn {
-    @apply relative p-2 rounded-3xl w-full font-semibold text-text cursor-pointer;
-    background: linear-gradient(to top, var(--gradient-end), var(--gradient-start));
+@theme {
+  --color-some-color: #801ae5;
+  --color-primary: #06071a;
+  --color-secondary: #191a30;
+  --color-tertiary: #282939;
+  --color-highlight: #4c75ff;
+  --color-black: #000000;
+  --color-text: #ffffff;
+  --color-gradientStart: #682ec7;
+  --color-gradientEnd: #5a12d3;
+  --color-gradientHover: #6d4def;
+  --color-radial-start: #5505a4;
+  --color-radialMiddle: #801ae5;
+  --color-radialEnd: #060714;
+  --color-danger: #ff0000;
+  --color-dangerOpacity: rgba(255, 0, 0, 0.8);
+  --color-success: #00e100;
+  --color-warning: #e1e100;
+}
+
+@layer utilities {
+  .border-b-gradient {
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(0.25turn, #38029b00, #5a12d3, #38029b00);
+    border-image-slice: 1;
+    width: 100%;
   }
-  
-  .gradient-opacity-btn::before {
-    @apply absolute inset-0 opacity-0 hover:opacity-70 rounded-3xl transition-opacity duration-300;
-    content: '';
-    background: linear-gradient(to top, var(--gradient-end), var(--gradient-start));
-    z-index:-1;
-  } */
-/* .Toast-custom{
-  @apply flex justify-between items-center bg-secondary shadow-lg p-4 rounded-lg text-text;
-} */
+
+  .bg-custom-linear-gradient {
+    @apply bg-gradient-to-b from-gradientStart to-gradientEnd;
+  }
+}
 
 .custom-radial-gradient {
   @apply bg-radial from-0% from-radial-start via-50% via-radialMiddle to-100% to-radialEnd;
 }
 
-body {
-  font-family: 'Roboto', sans-serif;
+input:-webkit-autofill {
+  -webkit-text-fill-color: white !important;
+  transition: background-color 5000s ease-in-out 0s;
 }

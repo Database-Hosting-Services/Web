@@ -26,7 +26,7 @@ const getTableDataAndEdges = (fetchedTables = []) => {
 
   for (const table of fetchedTables)
     for (const constraint of table.schema.Constraints)
-      if (constraint.ForeignColumnName && constraint.ForeignColumnName !== "") {
+      if (constraint.ForeignColumnName && constraint.ForeignColumnName !== "" && constraint.ForeignColumnName !== "null") {
         const sourceTableName = table.name;
         const sourceColumnName = constraint.ColumnName;
 
@@ -52,6 +52,11 @@ const getTableDataAndEdges = (fetchedTables = []) => {
         const sourceColumn = sourceTable.columns.find(
           (c) => c.ColumnName === sourceColumnName,
         );
+
+        if (!sourceColumn) {
+          console.log("ERRRRRRRR:  " + sourceColumnName);
+          
+        }
 
         sourceColumn.sourceId = sourceHandle;
 

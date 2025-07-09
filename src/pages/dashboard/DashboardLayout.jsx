@@ -1,13 +1,12 @@
-import React from "react";
-import { Navbar } from "../components";
+import { Navbar } from "../../features/dashboard/components/";
 import { Outlet } from "react-router-dom";
-import DashboardContextProvider from "../store/DashboardContext";
-import Sidebar from "../features/Sidebar/components/Sidebar.jsx";
+import DashboardContextProvider from "../../features/dashboard/store/DashboardContext.jsx";
+import Sidebar from "../../features/Sidebar/components/Sidebar.jsx";
 
 const DashboardLayout = () => {
   return (
     <DashboardContextProvider>
-      <div className="grid grid-cols-[auto_1fr]  bg-[#06071A] text-white">
+      <div className="grid grid-cols-[auto_1fr] bg-[#06071A] text-white">
         <div className="flex">
           <Sidebar />
         </div>

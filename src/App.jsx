@@ -1,20 +1,18 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store";
-import {
-  Landing,
-  ProjectHome,
-  DashboardLayout,
-  UserProjects,
-  SqlEditor,
-  DatabaseSchema,
-} from "./pages";
 
-import { loader as projectHomeLoader } from "./pages/ProjectHome";
+import { Landing, SqlEditor, DatabaseSchema } from "./pages";
+
 import TableEditor from "./pages/TableEditor/TableEditor";
 import { loader as tableEditorLoader } from "./pages/TableEditor/loader";
 
 import authRoutes from "./features/auth/routes";
+import dashboardRoutes, {
+  projectHomeRoutes,
+} from "./features/dashboard/routes";
+
+import { loader as projectHomeLoader } from "./pages/dashboard/ProjectHome";
 
 const router = createBrowserRouter([
   {
@@ -23,18 +21,15 @@ const router = createBrowserRouter([
       { index: true, element: <Landing /> },
       ...authRoutes,
       {
-        path: "/dashboard/",
-        element: <DashboardLayout />,
+        ...dashboardRoutes,
         children: [
-          { index: true, element: <UserProjects /> },
+          ...dashboardRoutes.children,
           {
+            id: "project-home",
             path: "project/:projectId/",
+            loader: projectHomeLoader,
             children: [
-              {
-                index: true,
-                element: <ProjectHome />,
-                loader: projectHomeLoader,
-              },
+              projectHomeRoutes,
               {
                 path: "table-editor/",
                 children: [

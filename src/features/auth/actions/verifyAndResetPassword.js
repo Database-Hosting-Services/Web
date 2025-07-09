@@ -1,4 +1,4 @@
-import { errorToast } from "../../../utils/toastConfig";
+import { errorToast, successToast } from "../../../utils/toastConfig";
 
 import { publicAxios } from "../../../api";
 import { AUTH_ENDPOINTS } from "../api/endpoints";
@@ -22,7 +22,11 @@ export default async function verifyAndResetPasswordAction({ request }) {
       password,
     });
 
-    redirect("/sign-in");
+    successToast(
+      "Password reset successfully, please sign in with new password",
+    );
+
+    return redirect("/signin");
   } catch (err) {
     return errorToast(err?.response?.data?.message || "Password reset failed");
   }

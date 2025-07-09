@@ -26,14 +26,6 @@ html {
   --color-success: #00e100;
   --color-warning: #e1e100;
 }
-@layer utilities {
-  .border-b-gradient {
-    border-bottom: 2px solid transparent;
-    border-image: linear-gradient(0.25turn, #38029b00, #5a12d3, #38029b00);
-    border-image-slice: 1;
-    width: 100%;
-  }
-}
 
 @layer utilities {
   .border-b-gradient {
@@ -42,15 +34,16 @@ html {
     border-image-slice: 1;
     width: 100%;
   }
-}
 
-.custom-gradient {
-  @apply bg-gradient-to-r from-0% from-gradientStart to-100% to-gradientEnd;
+  .bg-custom-linear-gradient {
+    @apply bg-gradient-to-b from-gradientStart to-gradientEnd;
+  }
 }
 
 .custom-radial-gradient {
   @apply bg-radial from-0% from-radial-start via-50% via-radialMiddle to-100% to-radialEnd;
 }
+
 input:-webkit-autofill {
   -webkit-text-fill-color: white !important;
   transition: background-color 5000s ease-in-out 0s;
@@ -58,3 +51,4 @@ input:-webkit-autofill {
 button:hover{
   cursor: pointer;
 }
+

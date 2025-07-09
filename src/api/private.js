@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getToken } from "./";
 
 const privateAxios = axios.create({
   baseURL: "https://orbix.fly.dev/api",
@@ -9,6 +10,7 @@ const privateAxios = axios.create({
 
 privateAxios.interceptors.request.use(
   (request) => {
+    request.headers.Authorization = `Bearer ${getToken()}`;
     return request;
   },
   (error) => {

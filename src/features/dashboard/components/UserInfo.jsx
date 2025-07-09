@@ -1,5 +1,3 @@
-import React from "react";
-
 const UserInfo = () => {
   return (
     <div className="flex items-center gap-[13px] bg-[#191A30] px-3 border-[#282939] border-1 rounded-2xl w-[350px] h-[75px] text-white">

@@ -8,9 +8,15 @@ import {
 } from "../assets";
 
 import TopIcon from "./ui/TopIcon";
+import { useDashboardContext } from "../../dashboard/store/DashboardContext";
 
 const Chat = ({ onSwitchToAgent }) => {
   const navigate = useNavigate();
+  const {
+    projectData: { _id: projectId },
+  } = useDashboardContext();
+
+  console.log(projectId);
 
   return (
     <div className="flex flex-col gap-5.5 px-8 py-10 w-full h-full">
@@ -53,6 +59,7 @@ const Chat = ({ onSwitchToAgent }) => {
           className="bg-secondary px-5 py-2.5 border-2 border-tertiary rounded-2xl focus:outline-none w-full"
           placeholder="Ask Anything..."
         />
+        <input type="hidden" name="projectId" value={projectId} />
         <button className="cursor-pointer" type="submit">
           <img src={sendTextImg} alt="Send" />
         </button>

@@ -2,9 +2,15 @@ import { Form, useNavigate } from "react-router-dom";
 
 import { xImg, historyClockImg, sendTextImg } from "../assets";
 import TopIcon from "./ui/TopIcon";
+import { useDashboardContext } from "../../dashboard/store/DashboardContext";
 
 const Agent = ({ onSwitchToChat }) => {
   const navigate = useNavigate();
+  const {
+    projectData: { _id: projectId },
+  } = useDashboardContext();
+
+  console.log(projectId);
 
   return (
     <>
@@ -41,6 +47,7 @@ const Agent = ({ onSwitchToChat }) => {
             className="bg-secondary px-5 py-2.5 border-2 border-tertiary rounded-2xl focus:outline-none w-full"
             placeholder="Ask Anything..."
           />
+          <input type="hidden" name="projectId" value={projectId} />
           <button className="cursor-pointer" type="submit">
             <img src={sendTextImg} alt="Send" />
           </button>
@@ -57,6 +64,7 @@ const Agent = ({ onSwitchToChat }) => {
           </div>
 
           <Form method="post" action="">
+            <input type="hidden" name="projectId" value={projectId} />
             <button
               type="submit"
               className="bg-[#FF5C5C] opacity-80 hover:opacity-100 px-4 py-2 rounded-lg w-55 text-white text-center transition-colors cursor-pointer"
@@ -65,6 +73,7 @@ const Agent = ({ onSwitchToChat }) => {
             </button>
           </Form>
           <Form method="post" action="">
+            <input type="hidden" name="projectId" value={projectId} />
             <button
               type="submit"
               className="bg-success opacity-80 hover:opacity-100 px-4 py-2 rounded-lg w-55 text-white text-center transition-colors cursor-pointer"

@@ -5,7 +5,6 @@ import {
   SingleProject,
 } from "../../features/dashboard/components";
 
-import orbixFloatingImg from "../../assets/orbixFloating.svg";
 import { useDashboardContext } from "../../features/dashboard/store/DashboardContext";
 import { privateAxios } from "../../api";
 import { PROJECTS_ENDPOINTS } from "../../features/dashboard/api/endpoints";
@@ -59,10 +58,6 @@ const UserProjects = () => {
           <p className="">No projects found</p>
         </div>
       )}
-
-      <span className="right-5 bottom-5 absolute">
-        <img src={orbixFloatingImg} alt="" />
-      </span>
     </div>
   );
 };

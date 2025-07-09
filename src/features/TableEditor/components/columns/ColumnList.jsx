@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import ColumnRow from "./ColumnRow";
 
 const ColumnList = ({ columns, onColumnChange, onAddColumn }) => {
@@ -12,19 +12,22 @@ const ColumnList = ({ columns, onColumnChange, onAddColumn }) => {
     });
 
     onColumnChange({
-      columns: updatedColumns,
+      Columns: updatedColumns,
     });
   };
 
   // Set column as primary
-  const handleSetPrimary = (index) => {
-    const updatedColumns = columns.map((col, i) => ({
-      ...col,
-      primary: i === index,
-    }));
+  const handleSetPrimary = () => {
+    // Update the Columns - mark the selected one as primary
+    const updatedColumns = [...columns];
+
+    // We would need to also update the Constraints and Indexes to reflect this primary key
+    // in a real implementation
 
     onColumnChange({
-      columns: updatedColumns,
+      Columns: updatedColumns,
+      // Additional updates to Constraints and Indexes would be needed here
+      // in a real implementation
     });
   };
 
@@ -32,38 +35,66 @@ const ColumnList = ({ columns, onColumnChange, onAddColumn }) => {
   const handleRemoveColumn = (index) => {
     const updatedColumns = columns.filter((_, i) => i !== index);
     onColumnChange({
-      columns: updatedColumns,
+      Columns: updatedColumns,
     });
   };
 
   return (
     <div className="mb-10">
       <h4 className="text-white text-lg font-normal mb-4">Column</h4>
-      
+
       {/* Column headers */}
       <div className="mb-2 flex text-sm text-gray-400">
         <div className="w-1/4 pl-7">
           <span className="flex items-center">
-            Name 
+            Name
             <svg className="w-4 h-4 ml-1" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1"></circle>
-              <text x="12" y="16" textAnchor="middle" fontSize="14" fill="currentColor">i</text>
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="1"
+              ></circle>
+              <text
+                x="12"
+                y="16"
+                textAnchor="middle"
+                fontSize="14"
+                fill="currentColor"
+              >
+                i
+              </text>
             </svg>
           </span>
         </div>
         <span className="w-1/4">Type</span>
         <div className="w-1/4">
           <span className="flex items-center">
-            Default value 
+            Default value
             <svg className="w-4 h-4 ml-1" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1"></circle>
-              <text x="12" y="16" textAnchor="middle" fontSize="14" fill="currentColor">i</text>
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="1"
+              ></circle>
+              <text
+                x="12"
+                y="16"
+                textAnchor="middle"
+                fontSize="14"
+                fill="currentColor"
+              >
+                i
+              </text>
             </svg>
           </span>
         </div>
-        <span className="w-1/4">primary</span>
+        <span className="w-1/4">Primary</span>
       </div>
-      
+
       {/* Column rows */}
       {columns.map((column, index) => (
         <ColumnRow
@@ -76,13 +107,10 @@ const ColumnList = ({ columns, onColumnChange, onAddColumn }) => {
           disableRemove={columns.length <= 1}
         />
       ))}
-      
+
       {/* Add column button */}
       <div className="border border-dashed border-[#262840] rounded-md p-3 flex justify-center hover:cursor-pointer">
-        <button 
-          className="text-gray-400 text-sm "
-          onClick={onAddColumn}
-        >
+        <button className="text-gray-400 text-sm " onClick={onAddColumn}>
           Add column
         </button>
       </div>
@@ -93,14 +121,19 @@ const ColumnList = ({ columns, onColumnChange, onAddColumn }) => {
 ColumnList.propTypes = {
   columns: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      default: PropTypes.string.isRequired,
-      primary: PropTypes.bool.isRequired
-    })
+      CharacterMaximumLength: PropTypes.number,
+      ColumnDefault: PropTypes.string,
+      ColumnName: PropTypes.string.isRequired,
+      DataType: PropTypes.string.isRequired,
+      IsNullable: PropTypes.bool.isRequired,
+      NumericPrecision: PropTypes.number,
+      NumericScale: PropTypes.number,
+      OrdinalPosition: PropTypes.number.isRequired,
+      TableName: PropTypes.string.isRequired,
+    }),
   ).isRequired,
   onColumnChange: PropTypes.func.isRequired,
-  onAddColumn: PropTypes.func.isRequired
+  onAddColumn: PropTypes.func.isRequired,
 };
 
 export default ColumnList;

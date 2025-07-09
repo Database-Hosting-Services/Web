@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-import ForeignKeys from "./ForeignKeys";
-import ColumnList from "./ColumnList";
+import { ForeignKeys } from "../columns";
+import { ColumnList } from "../columns";
 import { useEffect, useState } from "react";
-import MessageDialog from "../../../components/ui/MessageDialog";
+import MessageDialog from "../../../../components/ui/MessageDialog";
 
 // Helper function to deep clone objects
 const deepClone = (obj) => {
@@ -52,11 +52,24 @@ const CreateTableModal = ({
 
   const handleAddColumn = () => {
     setHasChanges(true);
+    const columns = [...tableData.schema.Columns];
+    columns.push({
+      CharacterMaximumLength: null,
+      ColumnDefault: null,
+      ColumnName: "",
+      DataType: "VARCHAR",
+      IsNullable: true,
+      NumericPrecision: null,
+      NumericScale: null,
+      OrdinalPosition: columns.length + 1,
+      TableName: tableData.name,
+    });
+
     onTableDataChange({
-      columns: [
-        ...tableData.columns,
-        { name: "", type: "int 8", default: "Null", primary: false },
-      ],
+      schema: {
+        ...tableData.schema,
+        Columns: columns,
+      },
     });
   };
 
@@ -88,8 +101,13 @@ const CreateTableModal = ({
   };
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
-      {/* Overlay for click detection only - no background color */}
-      <div className="fixed inset-0" onClick={attemptClose}></div>
+      {/* Overlay with subtle dark background */}
+      <div
+        className={`fixed inset-0 bg-black transition-opacity duration-300 ease-in-out ${
+          isOpen ? "opacity-30" : "opacity-0"
+        }`}
+        onClick={attemptClose}
+      ></div>
 
       {/* Sidebar container */}
       <div className="absolute inset-y-0 right-0 max-w-full flex">
@@ -127,10 +145,15 @@ const CreateTableModal = ({
             <div className="border-b-gradient w-[60px] mx-auto mb-3"></div>
             {/* Column section */}
             <ColumnList
-              columns={tableData.columns}
+              columns={tableData.schema.Columns}
               onColumnChange={(columnData) => {
                 setHasChanges(true);
-                onTableDataChange(columnData);
+                onTableDataChange({
+                  schema: {
+                    ...tableData.schema,
+                    ...columnData,
+                  },
+                });
               }}
               onAddColumn={handleAddColumn}
             />
@@ -182,14 +205,44 @@ CreateTableModal.propTypes = {
   tableData: PropTypes.shape({
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    columns: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        default: PropTypes.string.isRequired,
-        primary: PropTypes.bool.isRequired,
-      }),
-    ).isRequired,
+    schema: PropTypes.shape({
+      Columns: PropTypes.arrayOf(
+        PropTypes.shape({
+          CharacterMaximumLength: PropTypes.number,
+          ColumnDefault: PropTypes.string,
+          ColumnName: PropTypes.string.isRequired,
+          DataType: PropTypes.string.isRequired,
+          IsNullable: PropTypes.bool.isRequired,
+          NumericPrecision: PropTypes.number,
+          NumericScale: PropTypes.number,
+          OrdinalPosition: PropTypes.number.isRequired,
+          TableName: PropTypes.string.isRequired,
+        }),
+      ).isRequired,
+      Constraints: PropTypes.arrayOf(
+        PropTypes.shape({
+          CheckClause: PropTypes.string,
+          ColumnName: PropTypes.string.isRequired,
+          ConstraintName: PropTypes.string.isRequired,
+          ConstraintType: PropTypes.string.isRequired,
+          ForeignColumnName: PropTypes.string,
+          ForeignTableName: PropTypes.string,
+          OrdinalPosition: PropTypes.number.isRequired,
+          TableName: PropTypes.string.isRequired,
+        }),
+      ).isRequired,
+      Indexes: PropTypes.arrayOf(
+        PropTypes.shape({
+          ColumnName: PropTypes.string.isRequired,
+          IndexName: PropTypes.string.isRequired,
+          IndexType: PropTypes.string.isRequired,
+          IsPrimary: PropTypes.bool.isRequired,
+          IsUnique: PropTypes.bool.isRequired,
+          TableName: PropTypes.string.isRequired,
+        }),
+      ).isRequired,
+      TableName: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
   onTableDataChange: PropTypes.func.isRequired,
 };

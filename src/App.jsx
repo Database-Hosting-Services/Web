@@ -12,6 +12,7 @@ import {
 
 import { loader as projectHomeLoader } from "./pages/ProjectHome";
 import TableEditor from "./pages/TableEditor/TableEditor";
+import { loader as tableEditorLoader } from "./pages/TableEditor/loader";
 
 import authRoutes from "./features/auth/routes";
 
@@ -37,7 +38,11 @@ const router = createBrowserRouter([
               {
                 path: "table-editor/",
                 children: [
-                  { index: true, element: <TableEditor/> },
+                  {
+                    index: true,
+                    element: <TableEditor />,
+                    loader: tableEditorLoader,
+                  },
                 ],
               },
               {

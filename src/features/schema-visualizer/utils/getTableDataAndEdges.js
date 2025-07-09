@@ -17,16 +17,17 @@ const getTableDataAndEdges = (fetchedTables = []) => {
     columns: table.schema.Columns.map((col) => ({
       ColumnName: col.ColumnName,
       dataType: col.DataType,
-      isNullable: col.IsNullable,
-      isPrimaryKey: col.isPrimaryKey,
-      isUnique: col.isUnique,
-      isIdentity: col.isIdentity,
+      isNullable: col.IsNullable || false,
+      isPrimaryKey: col.isPrimaryKey || false,
+      isUnique: col.isUnique || false,
+      isIdentity: col.isIdentity || false,
     })),
   }));
 
+
   for (const table of fetchedTables)
     for (const constraint of table.schema.Constraints)
-      if (constraint.ForeignColumnName && constraint.ForeignColumnName !== "" && constraint.ForeignColumnName !== "null") {
+      if (constraint.ForeignColumnName && constraint.ForeignColumnName !== "" && constraint.ForeignColumnName !== "null") {        
         const sourceTableName = table.name;
         const sourceColumnName = constraint.ColumnName;
 
@@ -53,11 +54,6 @@ const getTableDataAndEdges = (fetchedTables = []) => {
           (c) => c.ColumnName === sourceColumnName,
         );
 
-        if (!sourceColumn) {
-          console.log("ERRRRRRRR:  " + sourceColumnName);
-          
-        }
-
         sourceColumn.sourceId = sourceHandle;
 
         const targetTable = tableData.find(
@@ -76,8 +72,6 @@ const getTableDataAndEdges = (fetchedTables = []) => {
     position: { x: 0, y: 0 }, 
     data: table,
   }));
-
-  console.log(nodes);
 
   return {
     edges,

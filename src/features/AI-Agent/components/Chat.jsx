@@ -52,7 +52,11 @@ const Chat = ({ onSwitchToAgent }) => {
       </div>
 
       {/* ========================= Chat Input ========================= */}
-      <Form method="post" action="" className="flex items-center gap-1">
+      <Form
+        method="post"
+        action="ask-chat-bot/"
+        className="flex items-center gap-1"
+      >
         <input
           name="question"
           type="text"

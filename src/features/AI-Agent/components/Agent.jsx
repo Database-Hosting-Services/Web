@@ -40,7 +40,11 @@ const Agent = ({ onSwitchToChat }) => {
           </p>
         </div>
         {/* ========================= Chat Input ========================= */}
-        <Form method="post" action="" className="flex items-center gap-1">
+        <Form
+          method="post"
+          action="send-prompt/"
+          className="flex items-center gap-1"
+        >
           <input
             name="question"
             type="text"
@@ -63,7 +67,7 @@ const Agent = ({ onSwitchToChat }) => {
             </button>
           </div>
 
-          <Form method="post" action="">
+          <Form method="post" action="cancel-query/">
             <input type="hidden" name="projectId" value={projectId} />
             <button
               type="submit"
@@ -72,7 +76,7 @@ const Agent = ({ onSwitchToChat }) => {
               Cancel
             </button>
           </Form>
-          <Form method="post" action="">
+          <Form method="post" action="accept-query/">
             <input type="hidden" name="projectId" value={projectId} />
             <button
               type="submit"

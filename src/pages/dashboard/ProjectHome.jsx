@@ -1,4 +1,4 @@
-import { Link, useRouteLoaderData } from "react-router-dom";
+import { Link, Outlet, useRouteLoaderData } from "react-router-dom";
 
 import {
   ProjectStats,
@@ -50,10 +50,12 @@ const ProjectHome = () => {
 
       <Link
         className="right-5 bottom-5 fixed hover:scale-105 transition-transform duration-300"
-        to=""
+        to="ai/"
       >
         <img src={orbixFloatingImg} alt="" />
       </Link>
+
+      <Outlet />
     </div>
   );
 };

@@ -7,6 +7,7 @@ import {
 import { newProjectAction } from "./actions";
 
 import { loader as userProjectsLoader } from "../../pages/dashboard/UserProjects";
+import { Layout } from "../../pages/AI-Agent";
 // import { loader as projectHomeLoader } from "../../pages/dashboard/ProjectHome";
 
 const dashboardRoutes = {
@@ -39,9 +40,10 @@ const dashboardRoutes = {
 };
 
 export const projectHomeRoutes = {
-  index: true,
+  path: "",
   element: <ProjectHome />,
   // loader: projectHomeLoader,
+  children: [{ path: "ai/", element: <Layout /> }],
 };
 
 export default dashboardRoutes;

@@ -11,6 +11,7 @@ import dashboardRoutes, {
   projectHomeRoutes,
 } from "./features/dashboard/routes";
 
+import { loader as schemaLoader } from "./pages/DatabaseSchema";
 import { loader as projectHomeLoader } from "./pages/dashboard/ProjectLayout";
 import { ProjectLayout } from "./pages/dashboard";
 
@@ -41,7 +42,13 @@ const router = createBrowserRouter([
               },
               {
                 path: "database/",
-                children: [{ index: true, element: <DatabaseSchema /> }],
+                children: [
+                  {
+                    index: true,
+                    element: <DatabaseSchema />,
+                    loader: schemaLoader,
+                  },
+                ],
               },
               {
                 path: "roles/",

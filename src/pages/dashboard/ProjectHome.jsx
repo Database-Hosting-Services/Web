@@ -1,9 +1,4 @@
-import { useEffect } from "react";
-import { redirect, useRouteLoaderData } from "react-router-dom";
-
-import { privateAxios } from "../../api";
-import { PROJECTS_ENDPOINTS } from "../../features/dashboard/api/endpoints";
-import { errorToast } from "../../utils/toastConfig";
+import { useRouteLoaderData } from "react-router-dom";
 
 import {
   ProjectStats,
@@ -12,34 +7,9 @@ import {
 
 import StatsData from "../../features/dashboard/data/StatsData";
 
-import { useDashboardContext } from "../../features/dashboard/store/DashboardContext";
-
-export const loader = async ({ params }) => {
-  const { projectId } = params;
-
-  try {
-    const {
-      data: { data },
-    } = await privateAxios.get(PROJECTS_ENDPOINTS.getProject(projectId));
-
-    console.log(data);
-
-    return { projectData: { ...data, _id: data.oid, title: data.name } };
-  } catch (err) {
-    errorToast(err?.response?.data?.message || "Failed to fetch project data");
-    return redirect("/dashboard");
-  }
-};
-
 const ProjectHome = () => {
   const { projectData: fetchedProjectData } =
     useRouteLoaderData("project-home");
-
-  const { updateProjectData } = useDashboardContext();
-
-  useEffect(() => {
-    updateProjectData(fetchedProjectData._id, fetchedProjectData.title);
-  }, [fetchedProjectData]);
 
   return (
     <div className="mx-15 mb-10">

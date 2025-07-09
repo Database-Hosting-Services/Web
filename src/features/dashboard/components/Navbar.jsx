@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserInfo from "./UserInfo";
 import NotificationsContainer from "./NotificationsContainer";
 import { useDashboardContext } from "../store/DashboardContext";
@@ -7,8 +7,23 @@ import inviteUsersImg from "../assets/inviteUsers.svg";
 import bellImg from "../assets/bell.svg";
 
 const Navbar = () => {
-  const { projectData } = useDashboardContext();
+  const { projectData, updateProjectData } = useDashboardContext();
   const [showNotifications, setShowNotifications] = useState(false);
+
+  useEffect(() => {
+    const currentUrl = window.location.href;
+
+    const urlSegments = currentUrl.split("/");
+
+    const projectWordIndex = urlSegments.findIndex((seg) => seg === "project");
+
+    const projectId =
+      projectWordIndex === -1 ? null : urlSegments[projectWordIndex + 1];
+
+    if (projectId && projectId !== projectData?._id) {
+      updateProjectData(projectId, "Dashboard");
+    }
+  }, [projectData?._id]);
 
   const toggleShowNotifications = () => {
     setShowNotifications((prevShowNotifications) => !prevShowNotifications);

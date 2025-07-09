@@ -12,22 +12,31 @@ import {
 } from "../../../utils/sidebarUtils.jsx";
 
 import logo from "../../../assets/orbix.svg";
+import { useDashboardContext } from "../../dashboard/store/DashboardContext.jsx";
 
 const Sidebar = () => {
+  const {
+    projectData: { _id: projectId },
+  } = useDashboardContext();
   const dispatch = useDispatch();
   const activeTab = useSelector(selectActiveTab);
   const showSecondary = useSelector(selectShowSecondary);
 
-  const { homeNav, middleNavs, bottomNavs } = getNavGroups(NAV_ITEMS);
+  const editedNavItems = NAV_ITEMS.map((item) => ({
+    ...item,
+    path: item.path.replace(":projectId", projectId || "defaultProjectId"),
+  }));
+
+  const { homeNav, middleNavs, bottomNavs } = getNavGroups(editedNavItems);
 
   return (
     <>
-      <div className="left-0 top-0 h-screen w-[88px] flex flex-col items-center py-5 bg-primary border-r border-tertiary z-10">
+      <div className="top-0 left-0 z-10 flex flex-col items-center bg-primary py-5 border-tertiary border-r w-[88px] h-screen">
         {/* only logo */}
-        <div className="w-17 flex items-center justify-center mb-5 ">
+        <div className="flex justify-center items-center mb-5 w-17">
           <img src={logo} alt="logo" className="w-full h-full" />
         </div>
-        <nav className="flex flex-col space-y-4 items-center justify-between w-full">
+        <nav className="flex flex-col justify-between items-center space-y-4 w-full">
           <div className="pt-2 pb-2">
             <NavButton
               item={homeNav}
@@ -36,9 +45,9 @@ const Sidebar = () => {
             />
           </div>
 
-          <div className="border-b-gradient w-[60px] mx-auto"></div>
+          <div className="mx-auto border-b-gradient w-[60px]"></div>
 
-          <div className="pt-2 pb-2 flex flex-col space-y-4">
+          <div className="flex flex-col space-y-4 pt-2 pb-2">
             {middleNavs.map((item) => (
               <NavButton
                 key={item.id}
@@ -49,9 +58,9 @@ const Sidebar = () => {
             ))}
           </div>
 
-          <div className="border-b-gradient w-[60px] mx-auto"></div>
+          <div className="mx-auto border-b-gradient w-[60px]"></div>
 
-          <div className="pt-2 pb-2 flex flex-col space-y-4">
+          <div className="flex flex-col space-y-4 pt-2 pb-2">
             {bottomNavs.map((item) => (
               <NavButton
                 key={item.id}
@@ -65,7 +74,7 @@ const Sidebar = () => {
       </div>
 
       {showSecondary && (
-        <div className="h-screen w-[250px] bg-primary border-r border-tertiary z-5">
+        <div className="z-5 bg-primary border-tertiary border-r w-[250px] h-screen">
           {renderSecondary(activeTab)}
         </div>
       )}

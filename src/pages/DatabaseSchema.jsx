@@ -1,7 +1,74 @@
-import React from "react";
+import "@xyflow/react/dist/style.css";
+import { useCallback, useState } from "react";
+import { MiniMap, ReactFlow, applyNodeChanges } from "@xyflow/react";
+import { redirect, useLoaderData } from "react-router-dom";
+
+import { Flow, Table } from "../features/schema-visualizer/components";
+import { getTableDataAndEdges } from "../features/schema-visualizer/utils/";
+import { SCHEMA_VISUALIZER_ENDPOINTS } from "../features/schema-visualizer/api/endpoints";
+
+import { privateAxios } from "../api";
+import { errorToast } from "../utils/toastConfig";
+
+const nodeTypes = { tableNode: Table };
 
 const DatabaseSchema = () => {
-  return <div className="p-8">Database Schema Page</div>;
+  const tableDataAndEdges = useLoaderData();
+  const { nodes: generatedNodes, edges: generatedEdges } = tableDataAndEdges;
+
+  const [nodes, setNodes] = useState(generatedNodes);
+  const [edges] = useState(generatedEdges);
+
+  const onNodesChange = useCallback(
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    [setNodes],
+  );
+
+  return (
+    <div style={{ height: "calc(100vh - 95px)", width: "100%" }}>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        nodeTypes={nodeTypes}
+        fitView
+      >
+        <Flow />
+        <MiniMap
+          zoomable
+          pannable
+          maskColor="#1e1e2f80"
+          nodeColor="#4A5568"
+          nodeStrokeWidth={3}
+          style={{
+            backgroundColor: "#06071A",
+            border: "1px solid #282939",
+            borderRadius: "8px",
+          }}
+        />
+      </ReactFlow>
+    </div>
+  );
+};
+
+export const loader = async ({ params }) => {
+  const { projectId } = params;
+
+  try {
+    const {
+      data: { data: fetchedTables },
+    } = await privateAxios.get(
+      SCHEMA_VISUALIZER_ENDPOINTS.getTables(projectId),
+    );
+
+    console.log(fetchedTables);
+
+    return getTableDataAndEdges(fetchedTables || []);
+  } catch (err) {
+    errorToast(err?.response?.data?.message || "Failed to fetch tables data");
+
+    return redirect("/dashboard");
+  }
 };
 
 export default DatabaseSchema;

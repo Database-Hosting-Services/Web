@@ -3,14 +3,16 @@ import { Form, useNavigate } from "react-router-dom";
 import { xImg, historyClockImg, sendTextImg } from "../assets";
 import TopIcon from "./ui/TopIcon";
 import { useDashboardContext } from "../../dashboard/store/DashboardContext";
+import Visualizer from "./Visualizer";
+
+import { getTableDataAndEdges } from "../../schema-visualizer/utils";
+import { tmpFetchedTables2 } from "../../schema-visualizer/data/tmp";
 
 const Agent = ({ onSwitchToChat }) => {
   const navigate = useNavigate();
   const {
     projectData: { _id: projectId },
   } = useDashboardContext();
-
-  console.log(projectId);
 
   return (
     <>
@@ -89,7 +91,11 @@ const Agent = ({ onSwitchToChat }) => {
       </div>
 
       {/* ****************************** Right Part (Schema Visualizer) ****************************** */}
-      <div className="bg-[#131424]"></div>
+      <div className="bg-[#131424]">
+        <Visualizer
+          tableNodesAndEdges={getTableDataAndEdges(tmpFetchedTables2)}
+        />
+      </div>
     </>
   );
 };

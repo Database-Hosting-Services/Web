@@ -1,11 +1,9 @@
-import { askChatBot } from "./actions";
+import { askChatBot, sendPrompt } from "./actions";
 
 export const aiRoutes = [
   {
     path: "send-prompt/",
-    action: () => {
-      console.log("Send Prompt Action Triggered");
-    },
+    action: sendPrompt,
     element: null,
   },
   {

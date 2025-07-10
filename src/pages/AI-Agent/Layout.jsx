@@ -19,8 +19,7 @@ const Layout = () => {
     containerStyle = {
       width: "calc(100% - 100px - 20px)",
       height: "calc(100% - 20px - 10px)",
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
+      display: "flex",
     };
   } else {
     containerStyle = {

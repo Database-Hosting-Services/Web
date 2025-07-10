@@ -1,23 +1,67 @@
-import { Form, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Form, useFetcher, useNavigate } from "react-router-dom";
 
 import { xImg, historyClockImg, sendTextImg } from "../assets";
 import TopIcon from "./ui/TopIcon";
 import { useDashboardContext } from "../../dashboard/store/DashboardContext";
 import Visualizer from "./Visualizer";
-
-import { getTableDataAndEdges } from "../../schema-visualizer/utils";
-import { tmpFetchedTables2 } from "../../schema-visualizer/data/tmp";
+import ChatText from "./ChatText";
 
 const Agent = ({ onSwitchToChat }) => {
+  const chatContainerRef = useRef();
+
+  const [questionInput, setQuestionInput] = useState("");
+
+  const [messages, setMessages] = useState([]);
+
+  const [dbSchema, setDbSchema] = useState([]);
+
+  const [counter, setCounter] = useState(0);
+
+  const fetcher = useFetcher();
+  const { data: { responseText, newSchema } = {} } = fetcher;
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (responseText) {
+      setMessages((prevMessages) => {
+        const newMessages = [...prevMessages];
+        newMessages.pop();
+        newMessages.push({ text: responseText, type: "response" });
+        return newMessages;
+      });
+
+      setDbSchema(newSchema || []);
+      setCounter((prevCnt) => prevCnt + 1);
+    }
+  }, [responseText, newSchema]);
+
+  useEffect(() => {
+    if (fetcher.state === "submitting") {
+      setQuestionInput("");
+    }
+  }, [fetcher.state]);
+
   const {
     projectData: { _id: projectId },
   } = useDashboardContext();
 
+  const scrollToBottom = () => {
+    if (!chatContainerRef.current) return;
+
+    chatContainerRef.current.scrollTo({
+      top: chatContainerRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  };
+
+  scrollToBottom();
+
   return (
     <>
       {/* ****************************** Left Part (Chat) ****************************** */}
-      <div className="flex flex-col gap-5.5 px-8 py-10">
+      <div className="flex flex-col gap-5.5 px-8 py-10 w-1/2 h-full">
         {/* ==================== Top Icons ==================== */}
         <div className="flex justify-between gap-6">
           <TopIcon
@@ -33,16 +77,16 @@ const Agent = ({ onSwitchToChat }) => {
           <span className="text-[#682EC7]"> orbix </span>
           AI Agent!
         </h3>
-        {/* ==================== Welcome ==================== */}
-        <div className="flex-1 p-4 border-2 border-tertiary border-solid rounded-lg overflow-y-auto">
-          <p className="text-white text-sm">
-            This is a chat interface where you can interact with the AI agent.
-            You can ask questions, get help with your project, or just have a
-            conversation. The AI is here to assist you with anything you need.
-          </p>
+        {/* ==================== Chat Text ==================== */}
+        <div
+          ref={chatContainerRef}
+          className="flex flex-col flex-1 gap-1 p-4 border-2 border-tertiary border-solid rounded-lg overflow-y-auto scroll-smooth"
+        >
+          <ChatText messages={messages} />
         </div>
+
         {/* ========================= Chat Input ========================= */}
-        <Form
+        <fetcher.Form
           method="post"
           action="send-prompt/"
           className="flex items-center gap-1"
@@ -52,12 +96,29 @@ const Agent = ({ onSwitchToChat }) => {
             type="text"
             className="bg-secondary px-5 py-2.5 border-2 border-tertiary rounded-2xl focus:outline-none w-full"
             placeholder="Ask Anything..."
+            value={questionInput}
+            onChange={(e) => setQuestionInput(e.target.value)}
           />
           <input type="hidden" name="projectId" value={projectId} />
-          <button className="cursor-pointer" type="submit">
+          <button
+            disabled={fetcher.state === "submitting" || !questionInput.trim()}
+            className={
+              fetcher.state === "submitting" || !questionInput.trim()
+                ? "cursor-not-allowed"
+                : "cursor-pointer"
+            }
+            type="submit"
+            onClick={() => {
+              setMessages((prevMessages) => [
+                ...prevMessages,
+                { text: questionInput, type: "prompt" },
+                {},
+              ]);
+            }}
+          >
             <img src={sendTextImg} alt="Send" />
           </button>
-        </Form>
+        </fetcher.Form>
         {/* ========================= Agent Actions ========================= */}
         <div className="flex justify-center items-center gap-8">
           <div className="flex justify-center items-center">
@@ -91,10 +152,8 @@ const Agent = ({ onSwitchToChat }) => {
       </div>
 
       {/* ****************************** Right Part (Schema Visualizer) ****************************** */}
-      <div className="bg-[#131424]">
-        <Visualizer
-          tableNodesAndEdges={getTableDataAndEdges(tmpFetchedTables2)}
-        />
+      <div className="bg-[#131424] w-1/2 h-full">
+        <Visualizer key={counter} tableNodesAndEdges={dbSchema} />
       </div>
     </>
   );

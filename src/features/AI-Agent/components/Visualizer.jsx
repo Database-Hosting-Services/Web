@@ -1,5 +1,5 @@
 import "@xyflow/react/dist/style.css";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { MiniMap, ReactFlow, applyNodeChanges } from "@xyflow/react";
 
 import { Flow, Table } from "../../schema-visualizer/components";
@@ -8,6 +8,8 @@ const nodeTypes = { tableNode: Table };
 
 const Visualizer = ({ tableNodesAndEdges }) => {
   const { nodes: generatedNodes, edges: generatedEdges } = tableNodesAndEdges;
+
+  console.log("Table Nodes and Edges:", tableNodesAndEdges);
 
   const [nodes, setNodes] = useState(generatedNodes);
   const [edges] = useState(generatedEdges);

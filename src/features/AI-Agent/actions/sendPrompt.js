@@ -3,7 +3,7 @@ import { errorToast } from "../../../utils/toastConfig";
 import { AI_ENDPOINTS } from "../api/endpoints";
 
 import { getTableDataAndEdges } from "../../schema-visualizer/utils";
-import { tmpFetchedTables2 } from "../../schema-visualizer/data/tmp";
+import { tmpFetchedTables2, tmpGymManagementData } from "../../schema-visualizer/data/tmp";
 
 const tmpText = `
 ## First Step
@@ -27,6 +27,10 @@ export default async function action({ request }) {
   await new Promise((resolve) => {
     setTimeout(() => resolve(""), 2000);
   });
+
+  // const theTables = JSON.parse(tmpGymManagementData);
+  // console.log(theTables);
+  
 
   return {
     responseText: tmpText,

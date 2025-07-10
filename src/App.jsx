@@ -11,6 +11,7 @@ import dashboardRoutes, {
   projectHomeRoutes,
 } from "./features/dashboard/routes";
 
+import executeQueryAction from "./features/sqlEditor/actions/executeQuery";
 import { loader as schemaLoader } from "./pages/DatabaseSchema";
 import { loader as projectHomeLoader } from "./pages/dashboard/ProjectLayout";
 import { ProjectLayout } from "./pages/dashboard";
@@ -38,7 +39,8 @@ const router = createBrowserRouter([
               },
               {
                 path: "sql-editor/",
-                children: [{ index: true, element: <SqlEditor /> }],
+                element: <SqlEditor />,
+                action: executeQueryAction,
               },
               {
                 path: "database/",

@@ -35,10 +35,10 @@ const fetchedTables = [
           isPrimaryKey: false,
           isUnique: false,
           isIdentity: false,
-        }
+        },
       ],
-      Constraints: []
-    }
+      Constraints: [],
+    },
   },
   {
     id: "2",
@@ -84,16 +84,17 @@ const fetchedTables = [
           isPrimaryKey: false,
           isUnique: false,
           isIdentity: false,
-        }
+        },
       ],
       Constraints: [
         {
           ColumnName: "customer_id",
           ForeignTableName: "customers",
-          ForeignColumnName: "id"
-        }
-      ]
-    }
+          ForeignColumnName: "id",
+          ConstraintType: "FOREIGN KEY",
+        },
+      ],
+    },
   },
   {
     id: "3",
@@ -131,16 +132,17 @@ const fetchedTables = [
           isPrimaryKey: false,
           isUnique: false,
           isIdentity: false,
-        }
+        },
       ],
       Constraints: [
         {
           ColumnName: "category_id",
           ForeignTableName: "categories",
-          ForeignColumnName: "id"
-        }
-      ]
-    }
+          ForeignColumnName: "id",
+          ConstraintType: "FOREIGN KEY",
+        },
+      ],
+    },
   },
   {
     id: "4",
@@ -170,16 +172,17 @@ const fetchedTables = [
           isPrimaryKey: false,
           isUnique: false,
           isIdentity: false,
-        }
+        },
       ],
       Constraints: [
         {
           ColumnName: "parent_id",
           ForeignTableName: "categories",
-          ForeignColumnName: "id"
-        }
-      ]
-    }
+          ForeignColumnName: "id",
+          ConstraintType: "FOREIGN KEY",
+        },
+      ],
+    },
   },
   {
     id: "5",
@@ -225,21 +228,23 @@ const fetchedTables = [
           isPrimaryKey: false,
           isUnique: false,
           isIdentity: false,
-        }
+        },
       ],
       Constraints: [
         {
           ColumnName: "customer_id",
           ForeignTableName: "customers",
-          ForeignColumnName: "id"
+          ForeignColumnName: "id",
+          ConstraintType: "FOREIGN KEY",
         },
         {
           ColumnName: "shipping_address_id",
           ForeignTableName: "addresses",
-          ForeignColumnName: "id"
-        }
-      ]
-    }
+          ForeignColumnName: "id",
+          ConstraintType: "FOREIGN KEY",
+        },
+      ],
+    },
   },
   {
     id: "6",
@@ -285,22 +290,24 @@ const fetchedTables = [
           isPrimaryKey: false,
           isUnique: false,
           isIdentity: false,
-        }
+        },
       ],
       Constraints: [
         {
           ColumnName: "order_id",
           ForeignTableName: "orders",
-          ForeignColumnName: "id"
+          ForeignColumnName: "id",
+          ConstraintType: "FOREIGN KEY",
         },
         {
           ColumnName: "product_id",
           ForeignTableName: "products",
-          ForeignColumnName: "id"
-        }
-      ]
-    }
-  }
+          ForeignColumnName: "id",
+          ConstraintType: "FOREIGN KEY",
+        },
+      ],
+    },
+  },
 ];
 
 export default fetchedTables;

@@ -27,7 +27,7 @@ const getTableDataAndEdges = (fetchedTables = []) => {
 
   for (const table of fetchedTables)
     for (const constraint of table.schema.Constraints)
-      if (constraint.ForeignColumnName && constraint.ForeignColumnName !== "" && constraint.ForeignColumnName !== "null") {        
+      if (constraint.ConstraintType === "FOREIGN KEY") {
         const sourceTableName = table.name;
         const sourceColumnName = constraint.ColumnName;
 

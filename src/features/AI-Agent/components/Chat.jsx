@@ -1,58 +1,64 @@
-import { Form, Link, useNavigate } from "react-router-dom";
+import { useFetcher } from "react-router-dom";
 
-import {
-  historyClockImg,
-  externalLinkImg,
-  closeChatImg,
-  sendTextImg,
-} from "../assets";
+import { sendTextImg } from "../assets";
 
-import TopIcon from "./ui/TopIcon";
 import { useDashboardContext } from "../../dashboard/store/DashboardContext";
+import { useEffect, useRef, useState } from "react";
+import ChatText from "./ChatText";
+import ChatHeader from "./ChatHeader";
 
 const Chat = ({ onSwitchToAgent }) => {
-  const navigate = useNavigate();
+  const chatContainerRef = useRef();
+
   const {
     projectData: { _id: projectId },
   } = useDashboardContext();
 
-  console.log(projectId);
+  const [questionInput, setQuestionInput] = useState("");
+
+  const [messages, setMessages] = useState([]);
+
+  const fetcher = useFetcher();
+  const { data: { responseText } = {} } = fetcher;
+
+  useEffect(() => {
+    if (responseText) {
+      setMessages((prevMessages) => {
+        const newMessages = [...prevMessages];
+        newMessages.pop();
+        newMessages.push({ text: responseText, type: "response" });
+        return newMessages;
+      });
+    }
+  }, [responseText]);
+
+  useEffect(() => {
+    if (fetcher.state === "submitting") {
+      setQuestionInput("");
+    }
+  }, [fetcher.state]);
+
+  const scrollToBottom = () => {
+    if (!chatContainerRef.current) return;
+    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+  };
+
+  scrollToBottom();
 
   return (
     <div className="flex flex-col gap-5.5 px-8 py-10 w-full h-full">
-      {/* ========================= Top Icons ========================= */}
-      <div className="flex justify-end gap-6">
-        <TopIcon icon={historyClockImg} alt="History" onClick={null} />
-        <TopIcon
-          icon={externalLinkImg}
-          alt="External Link"
-          onClick={() => alert("External link clicked")}
-        />
-        <TopIcon
-          icon={closeChatImg}
-          alt="Close Chat"
-          onClick={() => navigate("../")}
-        />
-      </div>
-
-      {/* ========================= Welcome ========================= */}
-      <h3 className="font-medium text-2xl text-center">
-        Welcome to
-        <span className="text-[#682EC7]"> orbix </span>
-        chat!
-      </h3>
-
+      {/* ========================= Chat Header ========================= */}
+      <ChatHeader />
       {/* ========================= Chat Text ========================= */}
-      <div className="flex-1 p-4 border-2 border-tertiary border-solid rounded-lg overflow-y-auto">
-        <p className="text-white text-sm">
-          This is a chat interface where you can interact with the AI agent. You
-          can ask questions, get help with your project, or just have a
-          conversation. The AI is here to assist you with anything you need.
-        </p>
+      <div
+        ref={chatContainerRef}
+        className="flex flex-col flex-1 gap-1 p-4 border-2 border-tertiary border-solid rounded-lg overflow-y-auto"
+      >
+        <ChatText messages={messages} />
       </div>
 
       {/* ========================= Chat Input ========================= */}
-      <Form
+      <fetcher.Form
         method="post"
         action="ask-chat-bot/"
         className="flex items-center gap-1"
@@ -62,12 +68,29 @@ const Chat = ({ onSwitchToAgent }) => {
           type="text"
           className="bg-secondary px-5 py-2.5 border-2 border-tertiary rounded-2xl focus:outline-none w-full"
           placeholder="Ask Anything..."
+          value={questionInput}
+          onChange={(e) => setQuestionInput(e.target.value)}
         />
         <input type="hidden" name="projectId" value={projectId} />
-        <button className="cursor-pointer" type="submit">
+        <button
+          disabled={fetcher.state === "submitting" || !questionInput.trim()}
+          className={
+            fetcher.state === "submitting" || !questionInput.trim()
+              ? "cursor-not-allowed"
+              : "cursor-pointer"
+          }
+          type="submit"
+          onClick={() => {
+            setMessages((prevMessages) => [
+              ...prevMessages,
+              { text: questionInput, type: "prompt" },
+              {},
+            ]);
+          }}
+        >
           <img src={sendTextImg} alt="Send" />
         </button>
-      </Form>
+      </fetcher.Form>
 
       {/* ========================= switch to Agent mode ========================= */}
       <div className="flex justify-center items-center">

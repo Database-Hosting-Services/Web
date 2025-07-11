@@ -7,7 +7,10 @@ import {
 import { newProjectAction } from "./actions";
 
 import { loader as userProjectsLoader } from "../../pages/dashboard/UserProjects";
+
 import { Layout } from "../../pages/AI-Agent";
+import userDataRoutes from "../user-data/routes";
+
 // import { loader as projectHomeLoader } from "../../pages/dashboard/ProjectHome";
 
 import { aiRoutes } from "../AI-Agent/routes";
@@ -36,6 +39,7 @@ const dashboardRoutes = {
           element: <div>Delete Project Modal</div>,
           action: () => {},
         },
+        ...userDataRoutes,
       ],
     },
   ],

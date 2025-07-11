@@ -37,10 +37,10 @@ const UserInfo = () => {
         </div>
       ) : (
         <div
-          className="flex items-center gap-[13px] w-full h-full cursor-pointer"
-          onClick={() => {
-            setIsFullControl(true);
-          }}
+          className="flex items-center gap-[13px] w-full h-full"
+          // onClick={() => {
+          //   setIsFullControl(true);
+          // }}
         >
           <img
             src={userImg}

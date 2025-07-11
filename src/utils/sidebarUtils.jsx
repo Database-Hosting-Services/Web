@@ -48,6 +48,13 @@ export const NAV_ITEMS = [
 
 // Helper function to group navigation items
 export const getNavGroups = (items) => {
+  if(items === null || items.length === 0) { 
+    return {
+      homeNav: null,
+      middleNavs: [],
+      bottomNavs: [],
+    };
+  }
   return {
     homeNav: items[0],
     middleNavs: items.slice(1, 3),

@@ -1,7 +1,7 @@
 import { privateAxios } from "../../../api";
 import { SIDEBAR_ENDPOINTS } from "../api/endpoints";
 import { errorToast } from "../../../utils/toastConfig";
-import { setTables } from "../../../store/tableEditorSlice";
+import { setTables, setTableData } from "../../../store/tableEditorSlice";
 
 /**
  * Fetches all tables for a project and updates the Redux store
@@ -18,10 +18,17 @@ export const fetchTables = async (projectId, dispatch) => {
     if (response.data && response.data.data) {
       const tables = response.data.data;
 
-      // Update the Redux store with the fetched tables
-      dispatch(setTables(tables));
+      // Make sure each table has an ID for internal reference
+      // (if they don't already have one)
+      const tablesWithIds = tables.map((table, index) => ({
+        ...table,
+        id: table.id || index + 1, // Use existing ID or generate one
+      }));
 
-      return tables;
+      // Update the Redux store with the fetched tables
+      dispatch(setTables(tablesWithIds));
+
+      return tablesWithIds;
     }
 
     return [];
@@ -50,7 +57,7 @@ export const fetchTableById = async (projectId, tableId) => {
 
     return null;
   } catch (error) {
-    console.error("Error fetching table:", error);
+    console.error("Error fetching table details:", error);
     errorToast(
       error?.response?.data?.message || "Failed to fetch table details",
     );
@@ -59,19 +66,59 @@ export const fetchTableById = async (projectId, tableId) => {
 };
 
 /**
- * Fetches the data for a specific table
+ * Fetches table data with pagination, sorting, and filtering
  * @param {string|number} projectId - The ID of the project
  * @param {string|number} tableId - The ID of the table
+ * @param {Function} dispatch - Redux dispatch function
+ * @param {Object} options - Pagination, sorting, and filtering options
+ * @param {number} options.page - Page number (default: 1)
+ * @param {number} options.limit - Records per page (default: 50)
+ * @param {string} options.orderBy - Column to order by
+ * @param {string} options.order - Sort order (asc or desc)
+ * @param {string} options.filter - Filter condition
  * @returns {Promise<Object|null>} - The table data or null if error
  */
-export const fetchTableData = async (projectId, tableId) => {
-  try {
-    const response = await privateAxios.get(
-      SIDEBAR_ENDPOINTS.getTableData(projectId, tableId),
-    );
+export const fetchTableData = async (
+  projectId,
+  tableId,
+  dispatch,
+  options = {},
+) => {
+  const {
+    page = 1,
+    limit = 50,
+    orderBy = "",
+    order = "",
+    filter = "",
+  } = options;
 
-    if (response.data && response.data.data) {
-      return response.data.data;
+  try {
+    // Build query parameters
+    let queryParams = `page=${page}&limit=${limit}`;
+    if (orderBy) queryParams += `&order_by=${orderBy}`;
+    if (order) queryParams += `&order=${order}`;
+    if (filter) queryParams += `&filter=${filter}`;
+
+    const url = `/projects/${projectId}/tables/${tableId}?${queryParams}`;
+    const response = await privateAxios.get(url);
+
+    if (response.data) {
+      // The API response has the format:
+      // { data: { columns: [...], rows: [...] }, message: "Operation successful" }
+      const tableData = response.data;
+
+      // If dispatch is provided, update Redux store
+      // Store table data using the OID (tableId is the OID in this case)
+      if (dispatch) {
+        dispatch(
+          setTableData({
+            tableId, // This is the OID
+            data: tableData,
+          }),
+        );
+      }
+
+      return tableData;
     }
 
     return null;

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { ForeignKeys } from "../../components/columns";
 
 const AddColumnModal = ({ onClose, onSave, tableName }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,6 +9,10 @@ const AddColumnModal = ({ onClose, onSave, tableName }) => {
     Description: "",
     DataType: "VARCHAR",
     DefaultValue: "",
+    isPrimaryKey: false,
+    isNullable: true,
+    isUnique: false,
+    checkConstraint: "",
   });
 
   // Open the sidebar with a slight delay to ensure animation works
@@ -37,11 +42,6 @@ const AddColumnModal = ({ onClose, onSave, tableName }) => {
     handleClose();
   };
 
-  const handleAddForeignKey = () => {
-    // Placeholder for adding a foreign key
-    console.log("Add foreign key");
-  };
-
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
       {/* Overlay with subtle dark background */}
@@ -67,10 +67,10 @@ const AddColumnModal = ({ onClose, onSave, tableName }) => {
             <div className="border-b-gradient w-[60px] mx-auto mb-5"></div>
 
             {/* Name field */}
-            <div className="mb-6">
-              <label className="block text-white mb-2">Name</label>
+            <div className="mb-6 flex items-center">
+              <label className="text-white mr-4 w-24">Name</label>
               <input
-                className="w-full bg-secondary border border-tertiary rounded-md py-2 px-3 text-white"
+                className="flex-1 bg-secondary border border-tertiary rounded-md py-2 px-3 text-white"
                 type="text"
                 value={columnData.ColumnName}
                 onChange={(e) => handleInputChange(e, "ColumnName")}
@@ -79,10 +79,10 @@ const AddColumnModal = ({ onClose, onSave, tableName }) => {
             </div>
 
             {/* Description field */}
-            <div className="mb-6">
-              <label className="block text-white mb-2">Description</label>
+            <div className="mb-10 flex items-center">
+              <label className="text-white mr-4 w-24">Description</label>
               <input
-                className="w-full bg-secondary border border-tertiary rounded-md py-2 px-3 text-white"
+                className="flex-1 bg-secondary border border-tertiary rounded-md py-2 px-3 text-white"
                 type="text"
                 value={columnData.Description}
                 onChange={(e) => handleInputChange(e, "Description")}
@@ -90,33 +90,30 @@ const AddColumnModal = ({ onClose, onSave, tableName }) => {
               />
             </div>
 
-            <div className="border-b-gradient w-full mb-6"></div>
+            <div className="border-b-gradient w-[60px] mx-auto mb-3"></div>
 
             {/* Data Type section */}
-            <div className="mb-6">
-              <label className="block text-white mb-2">Data Type</label>
-              <div className="flex">
-                <label className="mr-4 text-white">Type</label>
-                <select
-                  className="flex-1 bg-secondary border border-tertiary rounded-md py-2 px-3 text-white appearance-none"
-                  value={columnData.DataType}
-                  onChange={(e) => handleInputChange(e, "DataType")}
-                >
-                  <option value="VARCHAR">VARCHAR</option>
-                  <option value="INTEGER">INTEGER</option>
-                  <option value="TEXT">TEXT</option>
-                  <option value="BOOLEAN">BOOLEAN</option>
-                  <option value="DATE">DATE</option>
-                  <option value="TIMESTAMP">TIMESTAMP</option>
-                </select>
-              </div>
+            <div className="mb-6 flex items-center">
+              <label className="text-white mr-4 w-24">Data Type</label>
+              <select
+                className="flex-1 bg-secondary border border-tertiary rounded-md py-2 px-3 text-white appearance-none"
+                value={columnData.DataType}
+                onChange={(e) => handleInputChange(e, "DataType")}
+              >
+                <option value="VARCHAR">VARCHAR</option>
+                <option value="INTEGER">INTEGER</option>
+                <option value="TEXT">TEXT</option>
+                <option value="BOOLEAN">BOOLEAN</option>
+                <option value="DATE">DATE</option>
+                <option value="TIMESTAMP">TIMESTAMP</option>
+              </select>
             </div>
 
             {/* Default Value field */}
-            <div className="mb-8">
-              <label className="block text-white mb-2">Default Value</label>
+            <div className="mb-8 flex items-center">
+              <label className="text-white mr-4 w-24">Default Value</label>
               <input
-                className="w-full bg-secondary border border-tertiary rounded-md py-2 px-3 text-white"
+                className="flex-1 bg-secondary border border-tertiary rounded-md py-2 px-3 text-white"
                 type="text"
                 value={columnData.DefaultValue}
                 onChange={(e) => handleInputChange(e, "DefaultValue")}
@@ -124,22 +121,109 @@ const AddColumnModal = ({ onClose, onSave, tableName }) => {
               />
             </div>
 
-            <div className="border-b-gradient w-full mb-6"></div>
+            <div className="border-b-gradient w-[60px] mx-auto mb-3"></div>
 
             {/* Foreign keys section */}
+            <ForeignKeys />
+
+            <div className="border-b-gradient w-[60px] mx-auto mb-3"></div>
+
+            {/* Constraints section */}
             <div className="mb-8">
-              <div className="flex justify-between items-center mb-4">
-                <label className="text-white">Foreign keys</label>
-                <button
-                  className="bg-secondary text-white py-1 px-3 rounded-md text-sm border border-tertiary"
-                  onClick={handleAddForeignKey}
-                >
-                  Add foreign key
-                </button>
+              <h4 className="mb-4 font-normal text-white text-lg">
+                Constraints
+              </h4>
+
+              {/* Is Primary Key */}
+              <div className="mb-4 flex items-start">
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="isPrimaryKey"
+                    className="w-5 h-5 mr-3"
+                    onChange={(e) => handleInputChange(e, "isPrimaryKey")}
+                  />
+                  <div>
+                    <label
+                      htmlFor="isPrimaryKey"
+                      className="text-white font-medium"
+                    >
+                      Is Primary Key
+                    </label>
+                    <p className="text-gray-400 text-sm mt-1">
+                      A primary key indicates that a column or group of columns
+                      can be used as a unique identifier for rows in the table
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Allow Nullable */}
+              <div className="mb-4 flex items-start">
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="allowNullable"
+                    className="w-5 h-5 mr-3"
+                    defaultChecked
+                    onChange={(e) => handleInputChange(e, "isNullable")}
+                  />
+                  <div>
+                    <label
+                      htmlFor="allowNullable"
+                      className="text-white font-medium"
+                    >
+                      Allow Nullable
+                    </label>
+                    <p className="text-gray-400 text-sm mt-1">
+                      Allow the column to assume a NULL value if no value is
+                      provided
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Is Unique */}
+              <div className="mb-4 flex items-start">
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="isUnique"
+                    className="w-5 h-5 mr-3"
+                    onChange={(e) => handleInputChange(e, "isUnique")}
+                  />
+                  <div>
+                    <label
+                      htmlFor="isUnique"
+                      className="text-white font-medium"
+                    >
+                      Is Unique
+                    </label>
+                    <p className="text-gray-400 text-sm mt-1">
+                      Enforce values in the column to be unique across rows
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Check Constraint */}
+              <div className="mt-6">
+                <div className="flex justify-between mb-2">
+                  <label className="text-white font-medium">
+                    CHECK Constraint
+                  </label>
+                  <span className="text-gray-400 text-sm">Optional</span>
+                </div>
+                <input
+                  type="text"
+                  className="w-full bg-secondary border border-tertiary rounded-md py-2 px-3 text-white"
+                  placeholder="Enter a check constraint expression"
+                  onChange={(e) => handleInputChange(e, "checkConstraint")}
+                />
               </div>
             </div>
 
-            <div className="border-b-gradient w-full mb-6"></div>
+            <div className="border-b-gradient w-[60px] mx-auto mb-3"></div>
 
             {/* Action buttons */}
             <div className="flex justify-end space-x-3 mt-5">

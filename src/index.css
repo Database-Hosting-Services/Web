@@ -44,6 +44,10 @@ html {
   @apply bg-radial from-0% from-radial-start via-50% via-radialMiddle to-100% to-radialEnd;
 }
 
+.custom-gradient {
+  @apply bg-gradient-to-r from-0% from-gradientStart to-100% to-gradientEnd;
+}
+
 input:-webkit-autofill {
   -webkit-text-fill-color: white !important;
   transition: background-color 5000s ease-in-out 0s;

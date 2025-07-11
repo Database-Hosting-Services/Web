@@ -5,7 +5,8 @@ import PropTypes from "prop-types";
 const TableData = ({ data, tableName = "Table" }) => {
   const [showAddColumnModal, setShowAddColumnModal] = useState(false);
 
-  if (!data || data.length === 0) {
+  // Check if data is missing or empty
+  if (!data) {
     return (
       <div className="flex items-center justify-center h-full">
         <p className="text-gray-400">No data available for this table</p>
@@ -13,8 +14,42 @@ const TableData = ({ data, tableName = "Table" }) => {
     );
   }
 
-  // Extract column names from the first data item
-  const columns = Object.keys(data[0]);
+  // Handle both API format and legacy format
+  let columns = [];
+  let rows = [];
+
+  // Check if data is in API format (has columns and rows properties)
+  if (data.columns && data.rows) {
+    // API format: { data: { columns: [...], rows: [...] }, message: "..." }
+    columns = data.columns.map((col) => col.name);
+    rows = data.rows;
+  }
+  // Check if data has nested data property (from API response)
+  else if (data.data && data.data.columns && data.data.rows) {
+    // Unwrap the nested data structure
+    columns = data.data.columns.map((col) => col.name);
+    rows = data.data.rows;
+  }
+  // Legacy format (array of objects)
+  else if (Array.isArray(data)) {
+    if (data.length === 0) {
+      return (
+        <div className="flex items-center justify-center h-full">
+          <p className="text-gray-400">This table has no data</p>
+        </div>
+      );
+    }
+    columns = Object.keys(data[0]);
+    rows = data;
+  }
+  // If it's neither format, show an error
+  else {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <p className="text-gray-400">Invalid data format</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-primary overflow-auto w-full">
@@ -42,7 +77,7 @@ const TableData = ({ data, tableName = "Table" }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((row, index) => (
+          {rows.map((row, index) => (
             <tr
               key={index}
               className="border-b border-tertiary hover:bg-secondary"
@@ -50,34 +85,54 @@ const TableData = ({ data, tableName = "Table" }) => {
               {columns.map((column) => (
                 <td
                   key={`${index}-${column}`}
-                  className="py-3 px-4 text-sm text-white whitespace-nowrap border-r border-tertiary"
+                  className="py-2 px-4 text-sm text-white border-r border-tertiary"
                 >
-                  {row[column]}
+                  {row[column] !== null && row[column] !== undefined
+                    ? String(row[column])
+                    : "NULL"}
                 </td>
               ))}
-              <td className="py-3 px-4 text-right border-l border-tertiary"></td>
+              <td className="border-tertiary w-12"></td>
             </tr>
           ))}
         </tbody>
       </table>
+
       {showAddColumnModal && (
         <AddColumnModal
-          tableName={tableName}
           onClose={() => setShowAddColumnModal(false)}
-          onSave={(columnData) => {
-            console.log("New column data:", columnData);
-            // Here you would typically add the column to your table
-            setShowAddColumnModal(false);
-          }}
+          tableName={tableName}
         />
       )}
     </div>
   );
 };
 
-// Add PropTypes
 TableData.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.shape({
+      columns: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string.isRequired,
+          type: PropTypes.string.isRequired,
+        }),
+      ),
+      rows: PropTypes.arrayOf(PropTypes.object),
+    }),
+    PropTypes.shape({
+      data: PropTypes.shape({
+        columns: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            type: PropTypes.string.isRequired,
+          }),
+        ),
+        rows: PropTypes.arrayOf(PropTypes.object),
+      }),
+      message: PropTypes.string,
+    }),
+  ]),
   tableName: PropTypes.string,
 };
 

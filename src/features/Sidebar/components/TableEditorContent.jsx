@@ -1,37 +1,17 @@
 import SeachIcon from "../../../assets/searchIcon.svg";
 import FilterIcon from "../../../assets/filterIcon.svg";
 import TableIcon from "../assets/material-symbols_table.png";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import { useState } from "react";
 import {
   openCreateTableModal,
   setSelectedTable,
 } from "../../../store/tableEditorSlice";
-import { fetchTables } from "../actions";
-import { useProject } from "../../../store/ProjectContext";
 
 const TableEditorContent = () => {
   const dispatch = useDispatch();
   const { tables, selectedTableId } = useSelector((state) => state.tableEditor);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isRefreshing, setIsRefreshing] = useState(false);
-
-  // Get the current project ID from context
-  const { currentProjectId } = useProject();
-
-  // Function to manually refresh tables
-  const refreshTables = async () => {
-    setIsRefreshing(true);
-    try {
-      await fetchTables(currentProjectId, dispatch);
-    } catch (error) {
-      console.error("Error refreshing tables:", error);
-    } finally {
-      setIsRefreshing(false);
-    }
-  };
 
   const handleNewTable = () => {
     dispatch(openCreateTableModal());
@@ -77,53 +57,20 @@ const TableEditorContent = () => {
               <input
                 type="text"
                 placeholder="Search"
-                className="bg-transparent w-full focus:outline-none text-white"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                className="bg-transparent outline-none w-full text-white placeholder-gray-300"
               />
             </div>
           </div>
-          <div className="flex gap-2">
-            <button
-              className="text-gray-400 hover:text-white"
-              onClick={refreshTables}
-              title="Refresh tables"
-            >
-              {isRefreshing ? "..." : "↻"}
-            </button>
-            <span className="text-gray-400">
-              <img src={FilterIcon} alt="Filter logo" />
-            </span>
-          </div>
+          <span className="text-gray-400 cursor-pointer">
+            <img src={FilterIcon} alt="Filter logo" />
+          </span>
         </div>
 
         {/* Table list */}
         <div className="mt-4 space-y-0.5">
-          {isRefreshing ? (
-            // Refreshing state
-            <div className="flex items-center justify-center py-4">
-              <div className="animate-pulse text-gray-400">
-                Refreshing tables...
-              </div>
-            </div>
-          ) : tables.length === 0 ? (
-            // Empty state
-            <div className="text-gray-400 py-2 px-2">
-              No tables found. Create a new table to get started.
-              <button
-                className="underline ml-2 text-sm"
-                onClick={refreshTables}
-              >
-                Refresh
-              </button>
-            </div>
-          ) : filteredTables.length === 0 ? (
-            // No search results
-            <div className="text-gray-400 py-2 px-2">
-              No tables match your search.
-            </div>
-          ) : (
-            // Tables list
+          {filteredTables.length > 0 ? (
             filteredTables.map((table) => (
               <div
                 key={table.id}
@@ -143,6 +90,10 @@ const TableEditorContent = () => {
                 <span className="text-sm">{table.name}</span>
               </div>
             ))
+          ) : (
+            <div className="text-gray-400 text-center py-2">
+              No tables found
+            </div>
           )}
         </div>
       </div>

@@ -4,7 +4,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isModalOpen: false,
   isColumnModalOpen: false,
+  isRowModalOpen: false,
   selectedTableId: null,
+  tableDataLoading: false,
+  tableDataError: null,
+  apiTableData: {}, // Will contain table data from API for each table ID: { [tableId]: { columns, rows } }
   tables: [
     {
       description: "Stores user information",
@@ -227,6 +231,14 @@ const tableEditorSlice = createSlice({
     closeColumnModal: (state) => {
       state.isColumnModalOpen = false;
     },
+    // Open the add row modal
+    openRowModal: (state) => {
+      state.isRowModalOpen = true;
+    },
+    // Close the add row modal
+    closeRowModal: (state) => {
+      state.isRowModalOpen = false;
+    },
     // Update the table data
     updateTableData: (state, action) => {
       state.tableData = {
@@ -267,6 +279,26 @@ const tableEditorSlice = createSlice({
       // Set tables directly from an array
       state.tables = action.payload;
     },
+    // New reducer to set table data
+    setTableData: (state, action) => {
+      const { tableId, data } = action.payload;
+      // Store the data under the table's OID (tableId is actually the OID in this case)
+      state.apiTableData = {
+        ...state.apiTableData,
+        [tableId]: data,
+      };
+      state.tableDataLoading = false;
+      state.tableDataError = null;
+    },
+    // New reducer to set loading state
+    setTableDataLoading: (state, action) => {
+      state.tableDataLoading = action.payload;
+    },
+    // New reducer to set error state
+    setTableDataError: (state, action) => {
+      state.tableDataError = action.payload;
+      state.tableDataLoading = false;
+    },
   },
 });
 
@@ -276,6 +308,8 @@ export const {
   closeCreateTableModal,
   openColumnModal,
   closeColumnModal,
+  openRowModal,
+  closeRowModal,
   updateTableData,
   resetTableData,
   addTable,
@@ -283,6 +317,9 @@ export const {
   setSelectedTable,
   setTablesFromApi,
   setTables,
+  setTableData,
+  setTableDataLoading,
+  setTableDataError,
 } = tableEditorSlice.actions;
 
 // Export the reducer

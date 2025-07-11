@@ -1,6 +1,9 @@
 import { useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { openColumnModal } from "../../../../store/tableEditorSlice";
+import {
+  openColumnModal,
+  openRowModal,
+} from "../../../../store/tableEditorSlice";
 
 const InsertPanel = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -37,7 +40,13 @@ const InsertPanel = ({ isOpen, onClose }) => {
     >
       <div className="p-2">
         {/* Insert Row Option */}
-        <div className="p-3 hover:bg-[#353644] rounded-md cursor-pointer">
+        <div
+          className="p-3 hover:bg-[#353644] rounded-md cursor-pointer"
+          onClick={() => {
+            dispatch(openRowModal());
+            onClose(); // Close the panel after selecting an option
+          }}
+        >
           <div className="flex items-center">
             <div className="flex-shrink-0 mr-3">
               <svg

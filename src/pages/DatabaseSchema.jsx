@@ -65,7 +65,11 @@ export const loader = async ({ params }) => {
 
     return getTableDataAndEdges(fetchedTables || []);
   } catch (err) {
-    errorToast(err?.response?.data?.message || "Failed to fetch tables data");
+    errorToast(
+      err?.response?.data?.message ||
+        err.message ||
+        "Failed to fetch tables data",
+    );
 
     return redirect("/dashboard");
   }

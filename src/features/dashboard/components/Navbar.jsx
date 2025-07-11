@@ -40,7 +40,7 @@ const Navbar = () => {
       >
         {projectTitle || "Dashboard"}
       </h1>
-      {projectTitle && (
+      {/* {projectTitle && (
         <span className="mr-5 p-1 cursor-pointer">
           <img
             className="hover:scale-110 transition"
@@ -48,7 +48,7 @@ const Navbar = () => {
             alt="invite users"
           />
         </span>
-      )}
+      )} */}
       <div className="relative mr-5">
         <button
           className="p-1 cursor-pointer"

@@ -1,0 +1,2 @@
+- [ ] make the input fields (textarea), when clicking enter (don't submit the form) it should add a new line.
+- [ ] check if you can make the code blocks more beautiful in the markdown

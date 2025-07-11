@@ -16,7 +16,7 @@ const ChatText = ({ messages }) => {
       return (
         <div key={index} className="flex justify-end">
           <div className="bg-[#682EC7] p-3 rounded-2xl rounded-tr-none max-w-[80%] text-white">
-            <p className="text-sm">{message.text}</p>
+            <pre className="text-sm">{message.text}</pre>
           </div>
         </div>
       );

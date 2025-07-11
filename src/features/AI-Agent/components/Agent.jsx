@@ -9,6 +9,7 @@ import ChatText from "./ChatText";
 
 const Agent = ({ onSwitchToChat }) => {
   const chatContainerRef = useRef();
+  const textareaRef = useRef();
 
   const [questionInput, setQuestionInput] = useState("");
 
@@ -42,6 +43,20 @@ const Agent = ({ onSwitchToChat }) => {
       setQuestionInput("");
     }
   }, [fetcher.state]);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+
+      const maxHeight = 200; // adjust this (e.g. ~5-6 lines)
+      const scrollHeight = textareaRef.current.scrollHeight;
+
+      textareaRef.current.style.height =
+        Math.min(scrollHeight, maxHeight) + "px";
+      textareaRef.current.style.overflowY =
+        scrollHeight > maxHeight ? "auto" : "hidden";
+    }
+  }, [questionInput]);
 
   const {
     projectData: { _id: projectId },
@@ -91,14 +106,34 @@ const Agent = ({ onSwitchToChat }) => {
           action="send-prompt/"
           className="flex items-center gap-1"
         >
-          <input
+          <textarea
+            ref={textareaRef}
             name="question"
-            type="text"
-            className="bg-secondary px-5 py-2.5 border-2 border-tertiary rounded-2xl focus:outline-none w-full"
+            rows={1}
+            style={{ maxHeight: "200px" }}
+            className="bg-secondary px-5 py-2.5 border-2 border-tertiary rounded-2xl focus:outline-none w-full overflow-y-auto resize-none scroll-smooth"
             placeholder="Ask Anything..."
             value={questionInput}
             onChange={(e) => setQuestionInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.ctrlKey && !e.shiftKey) {
+                e.preventDefault(); // prevent form submit
+                setQuestionInput((prev) => prev + "\n"); // add new line
+              } else if (e.key === "Enter" && (e.ctrlKey || e.shiftKey)) {
+                // allow Ctrl+Enter or Shift+Enter to submit
+                e.preventDefault();
+                if (questionInput.trim()) {
+                  setMessages((prevMessages) => [
+                    ...prevMessages,
+                    { text: questionInput, type: "prompt" },
+                    {},
+                  ]);
+                  e.target.form.requestSubmit(); // manually submit the form
+                }
+              }
+            }}
           />
+
           <input type="hidden" name="projectId" value={projectId} />
           <button
             disabled={fetcher.state === "submitting" || !questionInput.trim()}

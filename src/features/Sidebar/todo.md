@@ -1,0 +1,2 @@
+- [ ] handle when the additional sidebar is closed or opened, either we have to make context that is called on the dashboardLayout, or check the window.url
+- [ ] 

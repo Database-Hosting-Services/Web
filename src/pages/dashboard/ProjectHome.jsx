@@ -1,9 +1,10 @@
-import { useRouteLoaderData } from "react-router-dom";
+import { Link, Outlet, useRouteLoaderData } from "react-router-dom";
 
 import {
   ProjectStats,
   ConnectingProject,
 } from "../../features/dashboard/components";
+import orbixFloatingImg from "../../assets/orbixFloating.svg";
 
 import StatsData from "../../features/dashboard/data/StatsData";
 
@@ -12,7 +13,7 @@ const ProjectHome = () => {
     useRouteLoaderData("project-home");
 
   return (
-    <div className="mx-15 mb-10">
+    <div className="mx-15 mb-36">
       <div className="flex justify-between items-center">
         <h2 className="mt-5 mb-15 font-bold text-4xl">
           {fetchedProjectData.title}
@@ -46,6 +47,15 @@ const ProjectHome = () => {
         API_URL={fetchedProjectData.API_URL}
         API_KEY={fetchedProjectData.API_key}
       />
+
+      <Link
+        className="right-5 bottom-5 fixed hover:scale-105 transition-transform duration-300"
+        to="ai/"
+      >
+        <img src={orbixFloatingImg} alt="" />
+      </Link>
+
+      <Outlet />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import ColumnRow from "./ColumnRow";
 
-const ColumnList = ({ columns, onColumnChange, onAddColumn }) => {
+const ColumnList = ({ columns, onColumnChange, onAddColumn, tableData }) => {
   // Handler for column modification
   const handleColumnChange = (index, field, value) => {
     const updatedColumns = columns.map((col, i) => {
@@ -16,19 +16,102 @@ const ColumnList = ({ columns, onColumnChange, onAddColumn }) => {
     });
   };
 
-  // Set column as primary
-  const handleSetPrimary = () => {
-    // Update the Columns - mark the selected one as primary
-    const updatedColumns = [...columns];
+  // Toggle column as primary key
+  const handleSetPrimary = (index) => {
+    const selectedColumn = columns[index];
 
-    // We would need to also update the Constraints and Indexes to reflect this primary key
-    // in a real implementation
+    console.log("Toggling primary key on column:", selectedColumn.ColumnName);
 
+    // Check if this column is already a primary key
+    const isPrimaryKey = tableData?.schema?.Constraints?.some(
+      (constraint) =>
+        constraint.ConstraintType === "PRIMARY KEY" &&
+        constraint.ColumnName === selectedColumn.ColumnName,
+    );
+
+    // Get existing constraints
+    const existingConstraints = tableData?.schema?.Constraints || [];
+    let updatedConstraints = [];
+    let updatedIndexes = tableData?.schema?.Indexes || [];
+
+    if (isPrimaryKey) {
+      // If it's already a primary key, remove the constraint
+      console.log(
+        "Removing PRIMARY KEY constraint from column:",
+        selectedColumn.ColumnName,
+      );
+      updatedConstraints = existingConstraints.filter(
+        (constraint) =>
+          !(
+            constraint.ConstraintType === "PRIMARY KEY" &&
+            constraint.ColumnName === selectedColumn.ColumnName
+          ),
+      );
+
+      // Also remove the matching index
+      updatedIndexes = updatedIndexes.filter(
+        (index) =>
+          !(index.IsPrimary && index.ColumnName === selectedColumn.ColumnName),
+      );
+    } else {
+      // If it's not a primary key, make it one
+
+      // First, remove any existing PRIMARY KEY constraints
+      updatedConstraints = existingConstraints.filter(
+        (constraint) => constraint.ConstraintType !== "PRIMARY KEY",
+      );
+
+      // Create a new PRIMARY KEY constraint for the selected column
+      const newPrimaryKeyConstraint = {
+        TableName: tableData?.name || "",
+        ConstraintName: `${tableData?.name || ""}_pk_${
+          selectedColumn.ColumnName
+        }`,
+        ConstraintType: "PRIMARY KEY",
+        ColumnName: selectedColumn.ColumnName,
+        ForeignTableName: null,
+        ForeignColumnName: null,
+        CheckClause: null,
+        OrdinalPosition: 1,
+      };
+
+      // Add the new constraint
+      updatedConstraints.push(newPrimaryKeyConstraint);
+
+      console.log(
+        "Created new PRIMARY KEY constraint:",
+        newPrimaryKeyConstraint,
+      );
+
+      // Remove any existing primary key indexes
+      updatedIndexes = updatedIndexes.filter((index) => !index.IsPrimary);
+
+      // Create a new primary key index
+      const newPrimaryKeyIndex = {
+        TableName: tableData?.name || "",
+        IndexName: `${tableData?.name || ""}_pk_${selectedColumn.ColumnName}`,
+        IndexType: "btree",
+        ColumnName: selectedColumn.ColumnName,
+        IsPrimary: true,
+        IsUnique: true,
+      };
+
+      // Add the new index
+      updatedIndexes.push(newPrimaryKeyIndex);
+    }
+
+    // Update the schema with new constraints and indexes
     onColumnChange({
-      Columns: updatedColumns,
-      // Additional updates to Constraints and Indexes would be needed here
-      // in a real implementation
+      Columns: columns,
+      Constraints: updatedConstraints,
+      Indexes: updatedIndexes,
     });
+
+    console.log(
+      "Updated schema with PRIMARY KEY changes for column:",
+      selectedColumn.ColumnName,
+    );
+    console.log("Constraints after update:", updatedConstraints);
   };
 
   // Remove a column
@@ -102,9 +185,10 @@ const ColumnList = ({ columns, onColumnChange, onAddColumn }) => {
           column={column}
           index={index}
           onChange={handleColumnChange}
-          onSetPrimary={handleSetPrimary}
+          onSetPrimary={() => handleSetPrimary(index)}
           onRemove={handleRemoveColumn}
           disableRemove={columns.length <= 1}
+          tableData={tableData}
         />
       ))}
 
@@ -134,6 +218,17 @@ ColumnList.propTypes = {
   ).isRequired,
   onColumnChange: PropTypes.func.isRequired,
   onAddColumn: PropTypes.func.isRequired,
+  tableData: PropTypes.shape({
+    name: PropTypes.string,
+    schema: PropTypes.shape({
+      Constraints: PropTypes.array,
+      Indexes: PropTypes.array,
+    }),
+  }),
+};
+
+ColumnList.defaultProps = {
+  tableData: null,
 };
 
 export default ColumnList;

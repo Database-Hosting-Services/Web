@@ -40,7 +40,78 @@ const AddColumnModal = ({ onClose, onSave, tableName }) => {
   };
 
   const handleSave = () => {
-    onSave(columnData);
+    // Create the column object
+    const newColumn = {
+      ColumnName: columnData.ColumnName,
+      DataType: columnData.DataType,
+      ColumnDefault: columnData.DefaultValue || null,
+      IsNullable: columnData.isNullable,
+      OrdinalPosition: 0, // Will be set by the server or parent component
+      TableName: tableName,
+      CharacterMaximumLength: columnData.DataType === "VARCHAR" ? 256 : null,
+      NumericPrecision: columnData.DataType === "INTEGER" ? 32 : null,
+      NumericScale: columnData.DataType === "INTEGER" ? 0 : null,
+    };
+
+    // Create constraint objects if needed
+    const constraints = [];
+
+    // Add PRIMARY KEY constraint if selected
+    if (columnData.isPrimaryKey) {
+      const primaryKeyConstraint = {
+        TableName: tableName,
+        ConstraintName: `${tableName}_pk_${columnData.ColumnName}`,
+        ConstraintType: "PRIMARY KEY",
+        ColumnName: columnData.ColumnName, // Use the specific column name
+        ForeignTableName: null,
+        ForeignColumnName: null,
+        CheckClause: null,
+        OrdinalPosition: 1,
+      };
+
+      constraints.push(primaryKeyConstraint);
+
+      console.log(
+        "Creating PRIMARY KEY constraint for column:",
+        columnData.ColumnName,
+      );
+      console.log("PRIMARY KEY constraint object:", primaryKeyConstraint);
+    }
+
+    // Add UNIQUE constraint if selected
+    if (columnData.isUnique) {
+      constraints.push({
+        TableName: tableName,
+        ConstraintName: `${tableName}_${columnData.ColumnName}_unique`,
+        ConstraintType: "UNIQUE",
+        ColumnName: columnData.ColumnName,
+        ForeignTableName: null,
+        ForeignColumnName: null,
+        CheckClause: null,
+        OrdinalPosition: null,
+      });
+    }
+
+    // Add CHECK constraint if provided
+    if (columnData.checkConstraint) {
+      constraints.push({
+        TableName: tableName,
+        ConstraintName: `${tableName}_${columnData.ColumnName}_check`,
+        ConstraintType: "CHECK",
+        ColumnName: columnData.ColumnName,
+        ForeignTableName: null,
+        ForeignColumnName: null,
+        CheckClause: columnData.checkConstraint,
+        OrdinalPosition: null,
+      });
+    }
+
+    // Pass the complete data to the parent component
+    onSave({
+      column: newColumn,
+      constraints: constraints,
+    });
+
     handleClose();
   };
 

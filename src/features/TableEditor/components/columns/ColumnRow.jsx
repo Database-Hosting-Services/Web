@@ -7,10 +7,17 @@ const ColumnRow = ({
   onSetPrimary,
   onRemove,
   disableRemove,
+  tableData,
 }) => {
-  // Determine if this column is a primary key by checking its name
-  // This is a workaround since we don't have direct access to Constraints/Indexes here
-  const isPrimary = column.ColumnName.toLowerCase() === "id";
+  // Determine if this column is a primary key by checking Constraints
+  const isPrimary =
+    tableData?.schema?.Constraints?.some(
+      (constraint) =>
+        constraint.ConstraintType === "PRIMARY KEY" &&
+        constraint.ColumnName === column.ColumnName,
+    ) || false;
+
+  console.log(`Column ${column.ColumnName} isPrimary:`, isPrimary);
 
   return (
     <div className="mb-3 flex items-center group">
@@ -77,7 +84,10 @@ const ColumnRow = ({
         <input
           type="checkbox"
           checked={isPrimary}
-          onChange={() => onSetPrimary(index)}
+          onChange={() => {
+            console.log(`Checkbox clicked for column ${column.ColumnName}`);
+            onSetPrimary(index);
+          }}
           className="mr-auto accent-purple-600"
         />
         <button
@@ -135,10 +145,16 @@ ColumnRow.propTypes = {
   onSetPrimary: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   disableRemove: PropTypes.bool,
+  tableData: PropTypes.shape({
+    schema: PropTypes.shape({
+      Constraints: PropTypes.array,
+    }),
+  }),
 };
 
 ColumnRow.defaultProps = {
   disableRemove: false,
+  tableData: null,
 };
 
 export default ColumnRow;

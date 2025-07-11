@@ -150,6 +150,7 @@ const CreateTableModal = ({
             {/* Column section */}
             <ColumnList
               columns={tableData.schema.Columns}
+              tableData={tableData}
               onColumnChange={(columnData) => {
                 setHasChanges(true);
                 onTableDataChange({
@@ -163,7 +164,13 @@ const CreateTableModal = ({
             />
             <div className="border-b-gradient w-[60px] mx-auto mb-3"></div>
             {/* Foreign keys section */}
-            <ForeignKeys />
+            <ForeignKeys
+              tableData={tableData}
+              onTableDataChange={(updatedData) => {
+                setHasChanges(true);
+                onTableDataChange(updatedData);
+              }}
+            />
             <div className="border-b-gradient w-[60px] mx-auto mb-3"></div>
             {/* Action buttons */}
             <div className="flex justify-end space-x-3 mt-5">
@@ -179,10 +186,77 @@ const CreateTableModal = ({
                 onClick={async () => {
                   setIsSubmitting(true);
                   try {
+                    // Create a copy of tableData to work with
+                    let dataToSync = { ...tableData };
+
+                    // Validate table data before syncing
+                    if (tableData?.schema?.Constraints) {
+                      // Ensure foreign key constraints have valid values
+                      const foreignKeyConstraints =
+                        tableData.schema.Constraints.filter(
+                          (c) => c.ConstraintType === "FOREIGN KEY",
+                        );
+
+                      console.log(
+                        "Foreign key constraints before sync:",
+                        foreignKeyConstraints,
+                      );
+
+                      // Also verify PRIMARY KEY constraints
+                      const primaryKeyConstraints =
+                        tableData.schema.Constraints.filter(
+                          (c) => c.ConstraintType === "PRIMARY KEY",
+                        );
+
+                      console.log(
+                        "PRIMARY KEY constraints before sync:",
+                        primaryKeyConstraints,
+                      );
+
+                      // Fix any constraints with missing values
+                      const updatedConstraints =
+                        tableData.schema.Constraints.map((constraint) => {
+                          if (constraint.ConstraintType === "FOREIGN KEY") {
+                            // Make sure these values are never null
+                            return {
+                              ...constraint,
+                              ForeignTableName:
+                                constraint.ForeignTableName || "",
+                              ForeignColumnName:
+                                constraint.ForeignColumnName || "",
+                            };
+                          } else if (
+                            constraint.ConstraintType === "PRIMARY KEY"
+                          ) {
+                            // Ensure PRIMARY KEY constraint has the correct column name
+                            console.log(
+                              "Preserving PRIMARY KEY constraint for column:",
+                              constraint.ColumnName,
+                            );
+                            return {
+                              ...constraint,
+                            };
+                          }
+                          return constraint;
+                        });
+
+                      // Create a new tableData object with the updated constraints
+                      dataToSync = {
+                        ...tableData,
+                        schema: {
+                          ...tableData.schema,
+                          Constraints: updatedConstraints,
+                        },
+                      };
+
+                      // Update the state with the modified table data
+                      onTableDataChange(dataToSync);
+                    }
+
                     // Sync table data with backend
                     const result = await syncTableWithBackend(
                       projectId,
-                      tableData,
+                      dataToSync,
                     );
 
                     // If successful, update the local state

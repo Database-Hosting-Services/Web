@@ -187,7 +187,7 @@ const initialState = {
         {
           CheckClause: "",
           ColumnName: "id",
-          ConstraintName: "pk_id",
+          ConstraintName: "table_pk_id",
           ConstraintType: "PRIMARY KEY",
           ForeignColumnName: "",
           ForeignTableName: "",
@@ -198,7 +198,7 @@ const initialState = {
       Indexes: [
         {
           ColumnName: "id",
-          IndexName: "pk_id",
+          IndexName: "table_pk_id",
           IndexType: "btree",
           IsPrimary: true,
           IsUnique: true,

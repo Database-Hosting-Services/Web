@@ -21,6 +21,7 @@ export const createTable = async (projectId, tableData) => {
 
     if (response.data) {
       successToast("Table created successfully");
+      console.log("Table created response:", response.data);
       return response.data;
     }
 

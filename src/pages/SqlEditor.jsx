@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { tmpResults } from "../features/sqlEditor/data/tmp";
 import Editor from "../features/sqlEditor/components/Editor";
@@ -16,7 +16,16 @@ const SqlEditor = () => {
 
   const [resultsData, setResultsData] = useState(tmpResults || []);
 
+  const [error, setError] = useState("");
+
   const fetcher = useFetcher();
+
+  useEffect(() => {
+    if (fetcher?.data?.error) {
+      setError(fetcher.data.error);
+      setResultsData([]);
+    }
+  }, [fetcher.data]);
 
   const handleRun = () => {
     console.log("Running QUERY", code);
@@ -46,7 +55,11 @@ const SqlEditor = () => {
 
         <div className="flex-1 bg-[#06071A] p-2 rounded-md overflow-auto text-[#FFFFFF] text-lg">
           {activeTab === "results" ? (
-            <SqlResults resultsData={resultsData} />
+            error ? (
+              <p className="text-red-500 text-lg">{error}</p>
+            ) : (
+              <SqlResults resultsData={resultsData} />
+            )
           ) : (
             <p className="text-lg text-center">
               Charts will be displayed here based on your SQL query results.

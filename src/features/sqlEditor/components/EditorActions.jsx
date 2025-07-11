@@ -1,5 +1,3 @@
-import { Form } from "react-router-dom";
-
 const EditorActions = ({ activeTab, setActiveTab, onRun }) => {
   return (
     <div className="flex justify-between items-center mb-4 pb-2 border-[#282939] border-b overflow-y-visible">
@@ -14,7 +12,7 @@ const EditorActions = ({ activeTab, setActiveTab, onRun }) => {
         >
           Results
         </button>
-        <button
+        {/* <button
           onClick={() => setActiveTab("charts")}
           className={`px-4 py-1 rounded-lg text-lg font-light cursor-pointer ${
             activeTab === "charts"
@@ -23,7 +21,7 @@ const EditorActions = ({ activeTab, setActiveTab, onRun }) => {
           }`}
         >
           Charts
-        </button>
+        </button> */}
       </div>
 
       <button

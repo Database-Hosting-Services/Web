@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { tmpResults } from "../features/sqlEditor/data/tmp";
 import Editor from "../features/sqlEditor/components/Editor";
 import { EditorActions, SqlResults } from "../features/sqlEditor/components";
 import { useFetcher } from "react-router-dom";
@@ -14,7 +13,7 @@ const SqlEditor = () => {
   const [activeTab, setActiveTab] = useState("results");
   const [code, setCode] = useState("-- Write your SQL query here");
 
-  const [resultsData, setResultsData] = useState(tmpResults || []);
+  const [resultsData, setResultsData] = useState([]);
 
   const [error, setError] = useState("");
 
@@ -24,6 +23,10 @@ const SqlEditor = () => {
     if (fetcher?.data?.error) {
       setError(fetcher.data.error);
       setResultsData([]);
+    }
+    if (fetcher?.data?.result) {
+      setResultsData(fetcher.data.result);
+      setError("");
     }
   }, [fetcher.data]);
 

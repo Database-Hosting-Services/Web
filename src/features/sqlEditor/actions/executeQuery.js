@@ -16,7 +16,7 @@ export default async function action({ request }) {
     });
 
     console.log(data);
-    return null;
+    return { result: data.result };
   } catch (err) {
     errorToast(err?.response?.data?.message || "Failed to execute query");
     return { error: err?.response?.data?.error || "Unknown error occurred" };

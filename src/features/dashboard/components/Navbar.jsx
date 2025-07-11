@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import UserInfo from "./UserInfo";
+import UserInfo from "../../user-data/components/UserInfo";
 import NotificationsContainer from "./NotificationsContainer";
 import { useDashboardContext } from "../store/DashboardContext";
 

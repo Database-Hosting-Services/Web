@@ -13,7 +13,8 @@ const ProjectHome = () => {
     useRouteLoaderData("project-home");
 
   return (
-    <div className="mx-15 mb-36">
+    <div className="relative px-15 pb-36 overflow-hidden">
+      {/* <div className="top-30 -right-50 -z-1 absolute bg-[radial-gradient(circle,_#5505A4_0%,_#801AE5_42%,_#06071A_78%)] opacity-60 blur-3xl rounded-full w-[485px] h-[485px]"></div> */}
       <div className="flex justify-between items-center">
         <h2 className="mt-5 mb-15 font-bold text-4xl">
           {fetchedProjectData.title}
@@ -34,7 +35,7 @@ const ProjectHome = () => {
           </span>
         </p>
       </div>
-      <div className="flex flex-row flex-wrap gap-30 mb-30">
+      {/* <div className="flex flex-row flex-wrap gap-30 mb-30">
         {StatsData.map((StatsItem) => (
           <ProjectStats
             icon={StatsItem.icon}
@@ -42,7 +43,8 @@ const ProjectHome = () => {
             key={StatsItem.text}
           />
         ))}
-      </div>
+      </div> */}
+      <SomeText />
       <ConnectingProject
         API_URL={fetchedProjectData.API_URL}
         API_KEY={fetchedProjectData.API_key}
@@ -57,6 +59,30 @@ const ProjectHome = () => {
 
       <Outlet />
     </div>
+  );
+};
+
+const SomeText = () => {
+  const data = [
+    {
+      heading: "Welcome to your project",
+      text: "Your project has been deployed on its own instance, with its own API all set up and ready to use.",
+    },
+    {
+      heading: "Get started by building out your database",
+      text: "Start building your app by creating tables and inserting data. Our Table Editor makes Postgres as easy to use as a spreadsheet, but there's also our SQL Editor if you need something more.",
+    },
+  ];
+
+  return (
+    <>
+      {data.map((block) => (
+        <div className="mb-35" key={block.heading}>
+          <h3 className="mb-2 font-medium text-2xl">{block.heading}</h3>
+          <p className="mb-6 max-w-192 font-normal text-lg">{block.text}</p>
+        </div>
+      ))}
+    </>
   );
 };
 

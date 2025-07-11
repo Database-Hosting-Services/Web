@@ -7,6 +7,7 @@ import {
 import { newProjectAction } from "./actions";
 
 import { loader as userProjectsLoader } from "../../pages/dashboard/UserProjects";
+import userDataRoutes from "../user-data/routes";
 // import { loader as projectHomeLoader } from "../../pages/dashboard/ProjectHome";
 
 const dashboardRoutes = {
@@ -33,6 +34,7 @@ const dashboardRoutes = {
           element: <div>Delete Project Modal</div>,
           action: () => {},
         },
+        ...userDataRoutes,
       ],
     },
   ],

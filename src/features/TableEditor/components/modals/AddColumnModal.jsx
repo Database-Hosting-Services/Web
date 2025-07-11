@@ -25,9 +25,11 @@ const AddColumnModal = ({ onClose, onSave, tableName }) => {
   }, []);
 
   const handleInputChange = (e, field) => {
+    const value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
     setColumnData({
       ...columnData,
-      [field]: e.target.value,
+      [field]: value,
     });
   };
 

@@ -16,10 +16,8 @@ import {
   updateTableData,
   resetTableData,
   addTable,
-  updateTables,
   setTableDataLoading,
   setTableDataError,
-  setTableData,
 } from "../../store/tableEditorSlice";
 import { fetchTableData } from "../../features/Sidebar/actions";
 import { errorToast } from "../../utils/toastConfig";
@@ -114,139 +112,57 @@ export default function TableEditor() {
 
   // Handle saving the row
   const handleSaveRow = (rowData) => {
-    // Find the selected table
-    const selectedTable = tables.find((table) => table.id === selectedTableId);
-
-    if (selectedTable) {
-      // Create a copy of the table data and add the new row
-      let updatedData = [];
-
-      // If there's existing data, use it
-      if (selectedTable.data && Array.isArray(selectedTable.data)) {
-        updatedData = [...selectedTable.data, rowData];
-      } else {
-        // Otherwise start with just the new row
-        updatedData = [rowData];
-      }
-
-      // Update the tables in the store
-      const updatedTables = tables.map((table) => {
-        if (table.id === selectedTableId) {
-          return {
-            ...table,
-            data: updatedData,
-          };
-        }
-        return table;
-      });
-
-      // Update the Redux store with local data first for immediate UI feedback
-      dispatch(updateTables(updatedTables));
-
-      // If we have API table data for this table, update it too
-      if (apiTableData[selectedTable.oid]) {
-        const currentApiData = apiTableData[selectedTable.oid];
-
-        // Prepare the updated API data
-        const updatedApiData = {
-          ...currentApiData,
-          data: {
-            ...currentApiData.data,
-            rows: currentApiData.data.rows
-              ? [...currentApiData.data.rows, rowData]
-              : [rowData],
-          },
-        };
-
-        // Update the API data in Redux store
-        dispatch(
-          setTableData({
-            tableId: selectedTable.oid,
-            data: updatedApiData,
-          }),
+    import("../../features/TableEditor/utils")
+      .then(({ prepareRowAddition, addRowAndRefreshTable }) => {
+        // First update the UI with local data
+        const selectedTable = prepareRowAddition(
+          rowData,
+          selectedTableId,
+          tables,
+          apiTableData,
+          dispatch,
         );
 
-        // Send the new row to the backend API
-        import("../../features/TableEditor/api/tableService")
-          .then(({ addRowToTable }) => {
-            // Set loading state if needed
-            // dispatch(setTableDataLoading(true));
-
-            console.log("Sending row data to backend:", rowData);
-            return addRowToTable(projectId, selectedTable.oid, rowData);
-          })
-          .then((response) => {
-            console.log("Row added successfully to backend:", response);
-            // You could update the row with any additional data returned from the API if needed
-          })
-          .catch((error) => {
-            console.error("Failed to add row to backend:", error);
-            console.error("API error details:", error.response?.data);
+        if (selectedTable) {
+          // Then send to the backend and refresh
+          addRowAndRefreshTable(
+            projectId,
+            selectedTable.oid,
+            rowData,
+            dispatch,
+          ).catch(() => {
             errorToast(
               "Failed to add row to the table. Local changes will be lost on refresh.",
             );
-            // You may want to implement a rollback mechanism here to remove the row from local state
-            // if the API call fails, or provide a retry mechanism
           });
-      }
+        }
+      })
+      .catch(() => {
+        errorToast("Failed to prepare row data");
+      });
 
-      // Close the modal
-      dispatch(closeRowModal());
-    }
+    // Close the modal
+    dispatch(closeRowModal());
   };
 
   // Handle saving the column
   const handleSaveColumn = (columnData) => {
-    // Find the selected table
-    const selectedTable = tables.find((table) => table.id === selectedTableId);
-
-    if (selectedTable) {
-      // Get the max ordinal position
-      const maxOrdinalPosition = Math.max(
-        ...selectedTable.schema.Columns.map((col) => col.OrdinalPosition),
-        0,
-      );
-
-      // Create new column object
-      const newColumn = {
-        CharacterMaximumLength: 255,
-        ColumnDefault: columnData.DefaultValue || null,
-        ColumnName: columnData.ColumnName,
-        DataType: columnData.DataType,
-        IsNullable: true,
-        NumericPrecision: null,
-        NumericScale: null,
-        OrdinalPosition: maxOrdinalPosition + 1,
-        TableName: selectedTable.name,
-      };
-
-      // Update the table's columns
-      const updatedTables = tables.map((table) => {
-        if (table.id === selectedTableId) {
-          // Add the column to the schema
-          const updatedColumns = [...table.schema.Columns, newColumn];
-
-          // Add a new field in the data for this column (with null values)
-          const updatedData = table.data.map((row) => ({
-            ...row,
-            [columnData.ColumnName]: null,
-          }));
-
-          return {
-            ...table,
-            schema: {
-              ...table.schema,
-              Columns: updatedColumns,
-            },
-            data: updatedData,
-          };
+    import("../../features/TableEditor/utils")
+      .then(({ addColumnToTable }) => {
+        const success = addColumnToTable(
+          columnData,
+          selectedTableId,
+          tables,
+          dispatch,
+        );
+        if (success) {
+          dispatch(closeColumnModal());
         }
-        return table;
+      })
+      .catch((error) => {
+        console.error("Error adding column:", error);
+        errorToast("Failed to add column to the table");
       });
-
-      dispatch(updateTables(updatedTables));
-      dispatch(closeColumnModal());
-    }
   };
 
   // Get the table data to display

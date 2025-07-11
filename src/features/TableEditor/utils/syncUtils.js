@@ -16,24 +16,38 @@ export const syncTableWithBackend = async (projectId, tableData) => {
       schema: {
         TableName: tableData.name,
         Columns:
-          tableData.schema?.Columns?.map((column) => ({
-            TableName: tableData.name,
-            ColumnName: column.ColumnName,
-            DataType: column.DataType?.toLowerCase(),
-            IsNullable:
-              column.IsNullable !== undefined ? column.IsNullable : null,
-            ColumnDefault: null,
-            // For integer types, CharacterMaximumLength must be null
-            CharacterMaximumLength:
-              column.DataType?.toLowerCase() === "integer"
-                ? null
-                : column.CharacterMaximumLength,
-            NumericPrecision:
-              column.DataType?.toLowerCase() === "integer" ? 32 : null,
-            NumericScale:
-              column.DataType?.toLowerCase() === "integer" ? 0 : null,
-            OrdinalPosition: column.OrdinalPosition || null,
-          })) || [],
+          tableData.schema?.Columns?.map((column) => {
+            // Check if this is a VARCHAR column
+            const isVarcharType = column.DataType?.toLowerCase() === "varchar";
+
+            // Determine the correct data type string
+            let dataType = column.DataType?.toLowerCase();
+            if (isVarcharType) {
+              dataType = "varchar(256)"; // Add default length for varchar
+            }
+
+            return {
+              TableName: tableData.name,
+              ColumnName: column.ColumnName,
+              DataType: dataType,
+              IsNullable:
+                column.IsNullable !== undefined ? column.IsNullable : null,
+              ColumnDefault: null,
+              // For integer types, CharacterMaximumLength must be null
+              // For varchar types, set default length of 256
+              CharacterMaximumLength:
+                column.DataType?.toLowerCase() === "integer"
+                  ? null
+                  : isVarcharType
+                  ? 256
+                  : column.CharacterMaximumLength,
+              NumericPrecision:
+                column.DataType?.toLowerCase() === "integer" ? 32 : null,
+              NumericScale:
+                column.DataType?.toLowerCase() === "integer" ? 0 : null,
+              OrdinalPosition: column.OrdinalPosition || null,
+            };
+          }) || [],
         Constraints:
           tableData.schema?.Constraints?.map((constraint) => {
             const constraintPayload = {
@@ -74,12 +88,18 @@ export const syncTableWithBackend = async (projectId, tableData) => {
 
             return constraintPayload;
           }) || [],
-        // Handle the case when Indexes is null
-        Indexes: tableData.schema?.Indexes || null,
+        // Handle the case when Indexes is null or needs TableName set
+        Indexes: tableData.schema?.Indexes
+          ? tableData.schema.Indexes.map((index) => ({
+              ...index,
+              TableName: tableData.name, // Ensure TableName is set for each index
+            }))
+          : null,
       },
+      // project_id is explicitly NOT included here
     };
 
-    // Send the payload to the API
+    // Send the payload to the API - project ID is passed as a parameter in the URL
     const result = await createTable(projectId, payload);
 
     // If successful, return the result from the backend

@@ -22,6 +22,9 @@ const Sidebar = () => {
   const activeTab = useSelector(selectActiveTab);
   const showSecondary = useSelector(selectShowSecondary);
 
+  // Check if a valid project is selected
+  const hasProject = Boolean(projectId && projectId !== "defaultProjectId");
+
   const editedNavItems = NAV_ITEMS.map((item) => ({
     ...item,
     path: item.path.replace(":projectId", projectId || "defaultProjectId"),
@@ -45,35 +48,39 @@ const Sidebar = () => {
             />
           </div>
 
-          <div className="mx-auto border-b-gradient w-[60px]"></div>
+          {hasProject && (
+            <>
+              <div className="mx-auto border-b-gradient w-[60px]"></div>
 
-          <div className="flex flex-col space-y-4 pt-2 pb-2">
-            {middleNavs.map((item) => (
-              <NavButton
-                key={item.id}
-                item={item}
-                isActive={activeTab === item.id}
-                onClick={() => dispatch(setActiveTab(item.id))}
-              />
-            ))}
-          </div>
+              <div className="flex flex-col space-y-4 pt-2 pb-2">
+                {middleNavs.map((item) => (
+                  <NavButton
+                    key={item.id}
+                    item={item}
+                    isActive={activeTab === item.id}
+                    onClick={() => dispatch(setActiveTab(item.id))}
+                  />
+                ))}
+              </div>
 
-          <div className="mx-auto border-b-gradient w-[60px]"></div>
+              <div className="mx-auto border-b-gradient w-[60px]"></div>
 
-          <div className="flex flex-col space-y-4 pt-2 pb-2">
-            {bottomNavs.map((item) => (
-              <NavButton
-                key={item.id}
-                item={item}
-                isActive={activeTab === item.id}
-                onClick={() => dispatch(setActiveTab(item.id))}
-              />
-            ))}
-          </div>
+              <div className="flex flex-col space-y-4 pt-2 pb-2">
+                {bottomNavs.map((item) => (
+                  <NavButton
+                    key={item.id}
+                    item={item}
+                    isActive={activeTab === item.id}
+                    onClick={() => dispatch(setActiveTab(item.id))}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </nav>
       </div>
 
-      {showSecondary && (
+      {hasProject && showSecondary && (
         <div className="z-5 bg-primary border-tertiary border-r w-[250px] h-screen">
           {renderSecondary(activeTab)}
         </div>

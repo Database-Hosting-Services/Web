@@ -10,12 +10,9 @@ import { errorToast, successToast } from "../../../utils/toastConfig";
  */
 export const createTable = async (projectId, tableData) => {
   try {
-    // The minimal payload is now prepared in syncTableWithBackend
-    // Just add the project_id if it's not already included
-    const payload = {
-      ...tableData,
-      project_id: parseInt(projectId),
-    };
+    // Use the payload as is, without adding project_id
+    // Project ID is already in the URL endpoint
+    const payload = tableData;
 
     const response = await privateAxios.post(
       TABLE_EDITOR_ENDPOINTS.createTable(projectId),
@@ -65,24 +62,19 @@ export const updateTable = async (projectId, tableId, tableData) => {
 /**
  * Adds a new row to a table
  * @param {number|string} projectId - The ID of the project
- * @param {number|string} tableId - The OID of the table
+ * @param {string} tableOid - The OID of the table (e.g., table_oid_1752247582297)
  * @param {object} rowData - The row data to add as an object with column names as keys
  * @returns {Promise<object|null>} - The added row or null if error
  */
-export const addRowToTable = async (projectId, tableId, rowData) => {
+export const addRowToTable = async (projectId, tableOid, rowData) => {
   try {
-    // Transform rowData from {columnName: value} format to API's expected format
-    // API expects: [{ columnName: "name", value: "value" }, ...]
-    const formattedData = Object.entries(rowData).map(
-      ([columnName, value]) => ({
-        columnName,
-        value,
-      }),
-    );
+    // Send rowData directly as an object where keys are column names and values are the actual values
+    // Example: { name: "John", age: 30, email: "john@example.com" }
+    console.log("Sending row data to API:", rowData);
 
     const response = await privateAxios.post(
-      TABLE_EDITOR_ENDPOINTS.addRow(projectId, tableId),
-      formattedData,
+      TABLE_EDITOR_ENDPOINTS.addRow(projectId, tableOid),
+      rowData,
     );
 
     if (response.data) {
@@ -94,6 +86,37 @@ export const addRowToTable = async (projectId, tableId, rowData) => {
   } catch (error) {
     console.error("Error adding row to table:", error);
     errorToast(error?.response?.data?.message || "Failed to add row to table");
+    throw error;
+  }
+};
+
+/**
+ * Gets table data by table OID with pagination
+ * @param {number|string} projectId - The ID of the project
+ * @param {string} tableOid - The OID of the table (e.g., table_oid_1752247582297)
+ * @param {number} page - The page number for pagination (default: 1)
+ * @param {number} limit - The number of rows per page (default: 50)
+ * @returns {Promise<object|null>} - The table data or null if error
+ */
+export const getTableByOid = async (
+  projectId,
+  tableOid,
+  page = 1,
+  limit = 50,
+) => {
+  try {
+    const response = await privateAxios.get(
+      TABLE_EDITOR_ENDPOINTS.getTableByOid(projectId, tableOid, page, limit),
+    );
+
+    if (response.data) {
+      return response.data;
+    }
+
+    return null;
+  } catch (error) {
+    console.error(`Error fetching table with OID ${tableOid}:`, error);
+    errorToast(error?.response?.data?.message || "Failed to fetch table data");
     throw error;
   }
 };

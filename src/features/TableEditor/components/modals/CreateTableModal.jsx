@@ -58,7 +58,7 @@ const CreateTableModal = ({
     setHasChanges(true);
     const columns = [...tableData.schema.Columns];
     columns.push({
-      CharacterMaximumLength: null,
+      CharacterMaximumLength: 256, // Default to 256 for VARCHAR
       ColumnDefault: null,
       ColumnName: "",
       DataType: "VARCHAR",

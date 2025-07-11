@@ -50,9 +50,212 @@ html {
 
 input:-webkit-autofill {
   -webkit-text-fill-color: white !important;
-  transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
 }
-button:hover{
+button:hover {
   cursor: pointer;
 }
 
+/* Error boundary animations */
+.error-container-animation {
+  animation: errorContainerFadeIn 0.5s ease-out forwards;
+}
+
+.error-content-animation {
+  animation: errorContentSlideUp 0.6s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes errorContainerFadeIn {
+  from {
+    background-color: rgba(6, 7, 26, 0);
+  }
+  to {
+    background-color: rgba(6, 7, 26, 1);
+  }
+}
+
+@keyframes errorContentSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modern Error Boundary Styles */
+.error-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  background: rgba(6, 7, 26, 0.85);
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.error-card {
+  background-color: var(--color-secondary);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  max-width: 28rem;
+  width: 100%;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(76, 117, 255, 0.2);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: slideUp 0.7s ease-out 0.1s forwards;
+}
+
+.error-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #fff, #4c75ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.error-message {
+  margin-bottom: 1rem;
+  color: #d1d5db; /* text-gray-300 */
+}
+
+.error-stack {
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+  background-color: rgba(6, 7, 26, 0.7); /* bg-primary/70 */
+  font-size: 0.875rem;
+  color: #9ca3af; /* text-gray-400 */
+  max-height: 12rem;
+  overflow: auto;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(76, 117, 255, 0.2);
+}
+
+.pulse-button {
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.375rem;
+  background-image: linear-gradient(
+    to right,
+    var(--color-gradientStart),
+    var(--color-gradientEnd)
+  );
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s;
+  animation: pulse 2s infinite;
+}
+
+.pulse-button:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  filter: brightness(1.1);
+  animation: none;
+}
+
+.typing-effect {
+  display: block;
+  font-size: 0.875rem;
+  color: #9ca3af; /* text-gray-400 */
+  margin-top: 1rem;
+  text-align: center;
+  position: relative;
+  white-space: nowrap;
+  margin: 1rem auto 0;
+  width: fit-content;
+  overflow: hidden;
+  animation: typing 3.5s steps(40, end);
+}
+
+.typing-effect::after {
+  content: "";
+  position: absolute;
+  right: -4px;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background-color: #4c75ff;
+  animation: blink-caret 0.75s step-end infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    background-color: rgba(6, 7, 26, 0);
+    backdrop-filter: blur(0px);
+  }
+  to {
+    background-color: rgba(6, 7, 26, 0.85);
+    backdrop-filter: blur(8px);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(76, 117, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(76, 117, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(76, 117, 255, 0);
+  }
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  to {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.custom-gradient {
+  background-image: linear-gradient(
+    to right,
+    var(--color-gradientStart),
+    var(--color-gradientEnd)
+  );
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: white !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+button:hover {
+  cursor: pointer;
+}

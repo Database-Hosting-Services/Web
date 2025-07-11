@@ -1,4 +1,5 @@
-- [ ] (decrease opacity when open discard massege)
-- [x] organize the compoenent in table edidtor
-- [ ] show loader while fetching the data
-
+- [ ] organize the compoenent in table edidtor
+- [x] show loader while fetching the data
+- [ ] add column
+- [ ] forigen key
+- [ ] insert column 

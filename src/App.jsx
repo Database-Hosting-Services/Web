@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import ErrorBoundary, { RouterError } from "./components/ErrorBoundary";
 
 import { Landing, SqlEditor, DatabaseSchema } from "./pages";
 
@@ -19,6 +20,7 @@ import { ProjectLayout } from "./pages/dashboard";
 const router = createBrowserRouter([
   {
     path: "/",
+    errorElement: <RouterError />,
     children: [
       { index: true, element: <Landing /> },
       ...authRoutes,
@@ -31,6 +33,7 @@ const router = createBrowserRouter([
             path: "project/:projectId/",
             loader: projectHomeLoader,
             element: <ProjectLayout />,
+            errorElement: <RouterError />,
             children: [
               projectHomeRoutes,
               {
@@ -71,9 +74,11 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </ErrorBoundary>
   );
 }
 

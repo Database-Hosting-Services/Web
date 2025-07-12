@@ -90,6 +90,7 @@ export const fetchTableData = async (
     orderBy = "",
     order = "",
     filter = "",
+    additionalFilters = [],
   } = options;
 
   try {
@@ -98,6 +99,14 @@ export const fetchTableData = async (
     if (orderBy) queryParams += `&order_by=${orderBy}`;
     if (order) queryParams += `&order=${order}`;
     if (filter) queryParams += `&filter=${filter}`;
+
+    // Add additional filter parameters for multiple filters
+    // Format should be: ?filter=id:eq:2&filter=name:like:ragnar
+    if (additionalFilters && additionalFilters.length > 0) {
+      additionalFilters.forEach((filterString) => {
+        queryParams += `&filter=${filterString}`;
+      });
+    }
 
     const url = `/projects/${projectId}/tables/${tableId}?${queryParams}`;
     const response = await privateAxios.get(url);

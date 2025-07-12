@@ -89,6 +89,10 @@ const TableRow = ({
   isUnique,
   isIdentity,
 }) => {
+  const getFirstWord = (str) => {
+    return str.split(" ")[0];
+  };
+
   return (
     <div className="flex justify-between items-center bg-tertiary p-3 border-[#06071a] border-b-1 border-solid">
       <div className="flex gap-3">
@@ -102,7 +106,7 @@ const TableRow = ({
         )}
         <p>{ColumnName}</p>
       </div>
-      <div className="dataType">{dataType}</div>
+      <div className="dataType">{getFirstWord(dataType || "")}</div>
     </div>
   );
 };

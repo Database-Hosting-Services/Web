@@ -10,13 +10,12 @@ export default async function action({ request }) {
 
   try {
     const {
-      data: { data },
+      data,
     } = await privateAxios.post(SQL_EDITOR_ENDPOINTS.runQuery(projectId), {
       query,
     });
 
-    console.log(data);
-    return { result: data.result };
+    return { result: data?.data?.result, error: data.error || "" };
   } catch (err) {
     errorToast(err?.response?.data?.message || "Failed to execute query");
     return { error: err?.response?.data?.error || "Unknown error occurred" };

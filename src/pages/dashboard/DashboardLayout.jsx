@@ -12,7 +12,8 @@ const DashboardLayout = () => {
         </div>
         <div>
           <Navbar />
-          <div className="flex flex-col border-gray-800 border-l-1 h-[calc(100vh-117px)] overflow-auto custom-scrollbar">
+          {/* <div className="flex flex-col border-gray-800 border-l-1 h-[calc(100vh-117px)] overflow-auto custom-scrollbar"> */}
+          <div className="flex flex-col border-gray-800 border-l-1 min-h-[calc(100vh-117px)]">
             <Outlet />
           </div>
         </div>

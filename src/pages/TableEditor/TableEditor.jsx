@@ -87,11 +87,13 @@ export default function TableEditor() {
 
   // Handle saving the table
   const handleSaveTable = (tableData) => {
-    // Only assign an ID for local state management
+    // The tableData should already have the real OID from the backend
+    // since syncTableWithBackend was called in the modal
     const newTable = {
       ...tableData,
       id: tables.length + 1,
-      oid: tableData.oid || `table_oid_${Date.now()}`,
+      // Use the OID from the backend response, not a temporary one
+      oid: tableData.oid,
     };
 
     // Add the new table to the store

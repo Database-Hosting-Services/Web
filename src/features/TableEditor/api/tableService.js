@@ -21,8 +21,11 @@ export const createTable = async (projectId, tableData) => {
 
     if (response.data) {
       successToast("Table created successfully");
-      console.log("Table created response:", response.data);
-      return response.data;
+      // Log the response to debug what the backend actually returns
+      console.log("Full backend response from createTable:", response.data);
+
+      // Return the actual data from the backend
+      return response.data.data || response.data;
     }
 
     return null;

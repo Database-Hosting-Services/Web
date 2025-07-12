@@ -228,10 +228,15 @@ export const syncTableWithBackend = async (projectId, tableData) => {
 
     // If successful, return the result from the backend
     if (result) {
+      // Log the actual result from the backend to debug
+      console.log("Backend response for table creation:", result);
+
       return {
-        ...tableData, // Return the original tableData with the new id and oid
-        oid: result.oid || `table_oid_${Date.now()}`,
-        // id: result.id || tableData.id,
+        ...tableData, // Return the original tableData merged with backend response
+        ...result, // Merge the backend response (should contain real oid, id, etc.)
+        // Ensure we use the backend OID if available
+        oid: result.oid || result.data?.oid || `table_oid_${Date.now()}`,
+        id: result.id || result.data?.id || tableData.id,
       };
     }
 

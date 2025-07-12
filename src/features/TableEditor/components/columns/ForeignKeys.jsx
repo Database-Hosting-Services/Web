@@ -53,28 +53,52 @@ const ForeignKeys = ({ tableId, tableData, onTableDataChange }) => {
   };
 
   const handleSaveForeignKey = (foreignKeyData) => {
-    // Find the reference table to get its name
-    const referenceTable = tables.find(
-      (t) => t.id === foreignKeyData.referenceTableId,
-    );
+    // Log the incoming data from the modal
+    console.log("ForeignKeys: Received foreign key data:", foreignKeyData);
 
-    // Ensure we have valid values for ForeignTableName and ForeignColumnName
-    // If we don't have valid values, we shouldn't create a foreign key constraint
-    if (
-      !referenceTable ||
-      !referenceTable.name ||
-      !foreignKeyData.referenceColumnName
-    ) {
+    // Use the reference table name from foreignKeyData if it exists, otherwise find it from tables
+    let referenceTableName = foreignKeyData.referenceTableName;
+
+    if (!referenceTableName) {
+      // Find the reference table to get its name if not provided
+      const referenceTable = tables.find(
+        (t) => t.id === foreignKeyData.referenceTableId,
+      );
+
+      if (!referenceTable || !referenceTable.name) {
+        console.error("Cannot create foreign key: missing reference table", {
+          referenceTableId: foreignKeyData.referenceTableId,
+          tables,
+        });
+        return;
+      }
+
+      referenceTableName = referenceTable.name;
+    }
+
+    // Ensure we have valid values for the foreign key
+    if (!referenceTableName || !foreignKeyData.referenceColumnName) {
       console.error(
         "Cannot create foreign key: missing reference table or column",
+        {
+          referenceTableName,
+          referenceColumnName: foreignKeyData.referenceColumnName,
+        },
       );
       return;
     }
 
+    // Use the provided constraint name or generate one
+    const constraintName =
+      foreignKeyData.constraintName ||
+      `${tableData ? tableData.name : ""}_fk_${
+        foreignKeyData.tableColumn
+      }_${referenceTableName}_${foreignKeyData.referenceColumnName}`;
+
     const newForeignKey = {
       ...foreignKeyData,
-      referenceTableName: referenceTable.name, // Use the validated value
-      constraintName: `${tableData ? tableData.name : ""}_fk_${Date.now()}`,
+      referenceTableName,
+      constraintName,
     };
 
     // Add to our local state for UI display
@@ -82,7 +106,6 @@ const ForeignKeys = ({ tableId, tableData, onTableDataChange }) => {
 
     // Create a constraint object for the table schema
     const tableName = tableData ? tableData.name : "";
-    const constraintName = newForeignKey.constraintName;
 
     // Create a single constraint object with the foreign key information
     const newConstraint = {
@@ -90,7 +113,7 @@ const ForeignKeys = ({ tableId, tableData, onTableDataChange }) => {
       ConstraintName: constraintName,
       ConstraintType: "FOREIGN KEY",
       ColumnName: foreignKeyData.tableColumn,
-      ForeignTableName: referenceTable.name,
+      ForeignTableName: referenceTableName,
       ForeignColumnName: foreignKeyData.referenceColumnName,
       CheckClause: null,
       OrdinalPosition: null,
@@ -99,9 +122,7 @@ const ForeignKeys = ({ tableId, tableData, onTableDataChange }) => {
     // Debug logging for verification
     console.log("Creating new foreign key constraint:", {
       newConstraint,
-      referenceTable: {
-        name: referenceTable.name,
-      },
+      referenceTableName,
       column: foreignKeyData.tableColumn,
       referencedColumn: foreignKeyData.referenceColumnName,
     });

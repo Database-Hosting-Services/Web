@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { fetchTables } from "../../../Sidebar/actions/tableActions";
 
 const ForeignKeyModal = ({ onClose, onSave, tableId, tableData }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,12 +10,29 @@ const ForeignKeyModal = ({ onClose, onSave, tableId, tableData }) => {
   const [selectedColumn, setSelectedColumn] = useState("");
   const [availableColumns, setAvailableColumns] = useState([]);
   const [currentTableColumn, setCurrentTableColumn] = useState("");
+  const dispatch = useDispatch();
+  const { projectId } = useParams();
 
   // Get all tables from redux store
   const { tables } = useSelector((state) => state.tableEditor);
 
+  // Always fetch tables when the modal opens to ensure we have the latest data
+  useEffect(() => {
+    if (projectId) {
+      console.log("ForeignKeyModal: Fetching tables for project", projectId);
+      fetchTables(projectId, dispatch);
+    }
+  }, [projectId, dispatch]);
+
   // Filter out the current table from the list of tables
   const availableTables = tables.filter((table) => table.id !== tableId);
+
+  // Add debug logging
+  useEffect(() => {
+    console.log("ForeignKeyModal: Tables from Redux:", tables);
+    console.log("ForeignKeyModal: Available tables for FK:", availableTables);
+    console.log("ForeignKeyModal: Current table ID:", tableId);
+  }, [tables, availableTables, tableId]);
 
   // Current table can either be from redux store or from props (for tables being created)
   const currentTable =
@@ -51,7 +70,19 @@ const ForeignKeyModal = ({ onClose, onSave, tableId, tableData }) => {
 
   const handleSave = () => {
     if (!selectedTable || !selectedColumn || !currentTableColumn) {
+      console.error("ForeignKeyModal: Missing required fields for FK creation");
       // Show validation error or handle incomplete form
+      return;
+    }
+
+    // Get reference table data
+    const referenceTable = tables.find(
+      (t) => t.id.toString() === selectedTable,
+    );
+    if (!referenceTable) {
+      console.error(
+        `ForeignKeyModal: Reference table with ID ${selectedTable} not found`,
+      );
       return;
     }
 
@@ -61,8 +92,15 @@ const ForeignKeyModal = ({ onClose, onSave, tableId, tableData }) => {
       referenceTableId: parseInt(selectedTable, 10),
       referenceColumnName: selectedColumn,
       tableName: currentTable.name,
+      // Include additional information for better FK naming and debugging
+      referenceTableName: referenceTable.name,
+      constraintName: `${currentTable.name}_fk_${currentTableColumn}_${referenceTable.name}_${selectedColumn}`,
     };
 
+    console.log(
+      "ForeignKeyModal: Creating foreign key with data:",
+      foreignKeyData,
+    );
     onSave(foreignKeyData);
     handleClose();
   };

@@ -39,7 +39,9 @@ html {
     @apply bg-gradient-to-b from-gradientStart to-gradientEnd;
   }
 
-
+  .custom-gradient {
+  @apply bg-gradient-to-r from-0% from-gradientStart to-100% to-gradientEnd;
+}
 
 }
 

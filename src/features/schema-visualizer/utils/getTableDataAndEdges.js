@@ -64,6 +64,25 @@ const getTableDataAndEdges = (fetchedTables = []) => {
 
         targetColumn.targetId = targetHandle;
       }
+      else if (constraint.ConstraintType === "PRIMARY KEY") {
+        const tableName = table.name;
+        const columnName = constraint.ColumnName;
+
+        const tableDataEntry = tableData.find((t) => t.tableName === tableName);
+        const columnData = tableDataEntry.columns.find((c) => c.ColumnName === columnName);
+
+        columnData.isPrimaryKey = true;
+      }
+      else if (constraint.ConstraintType === "UNIQUE") {
+        const tableName = table.name;
+        const columnName = constraint.ColumnName;
+
+        const tableDataEntry = tableData.find((t) => t.tableName === tableName);
+        const columnData = tableDataEntry.columns.find((c) => c.ColumnName === columnName);
+
+        columnData.isUnique = true;
+      }
+
 
   const nodes = tableData.map((table) => ({
     id: table.tableName,

@@ -3,7 +3,11 @@ import { useCallback, useState } from "react";
 import { MiniMap, ReactFlow, applyNodeChanges } from "@xyflow/react";
 import { redirect, useLoaderData } from "react-router-dom";
 
-import { Flow, Table } from "../features/schema-visualizer/components";
+import {
+  Flow,
+  FlowIcons,
+  Table,
+} from "../features/schema-visualizer/components";
 import { getTableDataAndEdges } from "../features/schema-visualizer/utils/";
 import { SCHEMA_VISUALIZER_ENDPOINTS } from "../features/schema-visualizer/api/endpoints";
 
@@ -25,7 +29,10 @@ const DatabaseSchema = () => {
   );
 
   return (
-    <div style={{ height: "calc(100vh - 95px)", width: "100%" }}>
+    <div
+      className="relative"
+      style={{ height: "calc(100vh - 95px)", width: "100%" }}
+    >
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -45,8 +52,12 @@ const DatabaseSchema = () => {
             border: "1px solid #282939",
             borderRadius: "8px",
           }}
+          position="top-right"
         />
       </ReactFlow>
+      <div className="right-0 bottom-0 left-0 absolute flex justify-center items-center gap-5 bg-secondary p-2 border-1 border-tertiary text-white">
+        <FlowIcons />
+      </div>
     </div>
   );
 };

@@ -119,7 +119,7 @@ const Agent = ({ onSwitchToChat }) => {
               if (e.key === "Enter" && !e.ctrlKey && !e.shiftKey) {
                 e.preventDefault(); // prevent form submit
                 setQuestionInput((prev) => prev + "\n"); // add new line
-              } else if (e.key === "Enter" && (e.ctrlKey || e.shiftKey)) {
+              } else if (e.key === "Enter" && e.shiftKey) {
                 // allow Ctrl+Enter or Shift+Enter to submit
                 e.preventDefault();
                 if (questionInput.trim()) {
@@ -169,7 +169,7 @@ const Agent = ({ onSwitchToChat }) => {
             <input type="hidden" name="projectId" value={projectId} />
             <button
               type="submit"
-              className="bg-[#FF5C5C] opacity-80 hover:opacity-100 px-4 py-2 rounded-lg w-55 text-white text-center transition-colors cursor-pointer"
+              className="bg-tertiary opacity-80 hover:opacity-100 px-4 py-2 rounded-lg w-55 text-white text-center transition-colors cursor-pointer"
             >
               Cancel
             </button>
@@ -178,7 +178,7 @@ const Agent = ({ onSwitchToChat }) => {
             <input type="hidden" name="projectId" value={projectId} />
             <button
               type="submit"
-              className="bg-success opacity-80 hover:opacity-100 px-4 py-2 rounded-lg w-55 text-white text-center transition-colors cursor-pointer"
+              className="opacity-80 hover:opacity-100 px-4 py-2 rounded-lg w-55 text-white text-center transition-colors cursor-pointer custom-gradient"
             >
               Accept
             </button>

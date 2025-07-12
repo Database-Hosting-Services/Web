@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { historyClockImg, externalLinkImg, closeChatImg } from "../assets";
 import TopIcon from "./ui/TopIcon";
 
-const ChatHeader = () => {
+const ChatHeader = ({ onSwitchToAgent }) => {
   const navigate = useNavigate();
 
   return (
@@ -13,7 +13,7 @@ const ChatHeader = () => {
         <TopIcon
           icon={externalLinkImg}
           alt="External Link"
-          onClick={() => alert("External link clicked")}
+          onClick={onSwitchToAgent}
         />
         <TopIcon
           icon={closeChatImg}

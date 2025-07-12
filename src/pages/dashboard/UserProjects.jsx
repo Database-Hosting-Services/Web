@@ -16,12 +16,13 @@ export const loader = async () => {
     const { data } = await privateAxios.get(PROJECTS_ENDPOINTS.getProjects());
 
     return {
-      projects: data.data.map((project) => ({
-        _id: project.oid,
-        title: project.name,
-        description: project.description,
-        isActive: project.status === "active",
-      })),
+      projects:
+        data?.data?.map((project) => ({
+          _id: project.oid,
+          title: project.name,
+          description: project.description,
+          isActive: project.status === "active",
+        })) || [],
     };
   } catch (err) {
     errorToast(err?.response?.data?.message || "Failed to fetch projects");

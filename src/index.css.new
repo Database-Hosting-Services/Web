@@ -1,0 +1,155 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap");
+
+@import "tailwindcss";
+
+body,
+html {
+  font-family: "Roboto", sans-serif;
+}
+
+@theme {
+  --color-some-color: #801ae5;
+  --color-primary: #06071a;
+  --color-secondary: #191a30;
+  --color-tertiary: #282939;
+  --color-highlight: #4c75ff;
+  --color-black: #000000;
+  --color-text: #ffffff;
+  --color-gradientStart: #682ec7;
+  --color-gradientEnd: #5a12d3;
+  --color-gradientHover: #6d4def;
+  --color-radial-start: #5505a4;
+  --color-radialMiddle: #801ae5;
+  --color-radialEnd: #060714;
+  --color-danger: #ff0000;
+  --color-dangerOpacity: rgba(255, 0, 0, 0.8);
+  --color-success: #00e100;
+  --color-warning: #e1e100;
+}
+
+@layer utilities {
+  .border-b-gradient {
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(0.25turn, #38029b00, #5a12d3, #38029b00);
+    border-image-slice: 1;
+    width: 100%;
+  }
+
+  .bg-custom-linear-gradient {
+    @apply bg-gradient-to-b from-gradientStart to-gradientEnd;
+  }
+}
+
+.custom-radial-gradient {
+  @apply bg-radial from-0% from-radial-start via-50% via-radialMiddle to-100% to-radialEnd;
+}
+
+.custom-gradient {
+  @apply bg-gradient-to-r from-0% from-gradientStart to-100% to-gradientEnd;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: white !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+/* Error boundary styles and animations */
+.error-container {
+  @apply fixed inset-0 flex items-center justify-center z-50;
+  background: rgba(6, 7, 26, 0.85);
+  backdrop-filter: blur(8px);
+  animation: errorContainerFadeIn 0.6s ease-out forwards;
+}
+
+.error-card {
+  @apply bg-secondary rounded-xl p-6 max-w-md w-full shadow-2xl border border-highlight/20;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: errorContentSlideUp 0.7s ease-out 0.1s forwards;
+}
+
+.error-title {
+  @apply text-2xl font-bold mb-4 text-text;
+  background: linear-gradient(90deg, #fff, #4c75ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.error-message {
+  @apply mb-4 text-gray-300;
+}
+
+.error-stack {
+  @apply p-3 rounded bg-primary/70 text-sm text-gray-400 max-h-48 overflow-auto mb-4;
+  border: 1px solid rgba(76, 117, 255, 0.2);
+}
+
+.pulse-button {
+  @apply py-2 px-6 rounded-md bg-gradient-to-r from-gradientStart to-gradientEnd text-white font-medium transition-all duration-300;
+  animation: pulse 2s infinite;
+}
+
+.pulse-button:hover {
+  @apply shadow-lg;
+  filter: brightness(1.1);
+  animation: none;
+}
+
+.typing-effect {
+  @apply block text-sm text-gray-400 mt-2;
+  overflow: hidden;
+  border-right: 2px solid #4c75ff;
+  white-space: nowrap;
+  margin: 0 auto;
+  animation: 
+    typing 3.5s steps(40, end),
+    blink-caret 0.75s step-end infinite;
+}
+
+@keyframes errorContainerFadeIn {
+  from {
+    background-color: rgba(6, 7, 26, 0);
+    backdrop-filter: blur(0px);
+  }
+  to {
+    background-color: rgba(6, 7, 26, 0.85);
+    backdrop-filter: blur(8px);
+  }
+}
+
+@keyframes errorContentSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(76, 117, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(76, 117, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(76, 117, 255, 0);
+  }
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #4c75ff }
+}

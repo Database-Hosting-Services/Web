@@ -22,7 +22,7 @@ const MessageDialog = ({
   confirmButtonClass = "bg-purple-600",
 }) => {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+    <div className="fixed inset-0 backdrop-blur-md backdrop-brightness-75 flex items-center justify-center z-50">
       <div className="bg-secondary p-6 rounded-lg w-[570px] text-left">
         {/* Dialog Title */}
         <div className="flex items-center justify-between mb-4">

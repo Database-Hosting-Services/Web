@@ -1,4 +1,4 @@
-export const AUTH_ENDPOINTS = {
+  export const AUTH_ENDPOINTS = {
   // When a user is logged in, and wants to update their password
   updatePassword: () => "/users/update-password", // PUT (current, new, confirm)
 

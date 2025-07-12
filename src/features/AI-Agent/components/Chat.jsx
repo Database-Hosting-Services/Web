@@ -63,7 +63,7 @@ const Chat = ({ onSwitchToAgent }) => {
   return (
     <div className="flex flex-col gap-5.5 px-8 py-10 w-full h-full">
       {/* ========================= Chat Header ========================= */}
-      <ChatHeader />
+      <ChatHeader onSwitchToAgent={onSwitchToAgent} />
       {/* ========================= Chat Text ========================= */}
       <div
         ref={chatContainerRef}
@@ -91,7 +91,7 @@ const Chat = ({ onSwitchToAgent }) => {
             if (e.key === "Enter" && !e.ctrlKey && !e.shiftKey) {
               e.preventDefault(); // prevent form submit
               setQuestionInput((prev) => prev + "\n"); // add new line
-            } else if (e.key === "Enter" && (e.ctrlKey || e.shiftKey)) {
+            } else if (e.key === "Enter" && e.shiftKey) {
               // allow Ctrl+Enter or Shift+Enter to submit
               e.preventDefault();
               if (questionInput.trim()) {

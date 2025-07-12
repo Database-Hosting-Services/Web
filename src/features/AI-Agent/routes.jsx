@@ -1,4 +1,4 @@
-import { askChatBot, sendPrompt } from "./actions";
+import { askChatBot, sendPrompt, acceptQuery, cancelQuery } from "./actions";
 
 export const aiRoutes = [
   {
@@ -8,16 +8,12 @@ export const aiRoutes = [
   },
   {
     path: "accept-query/",
-    action: () => {
-      console.log("Accept Query Action Triggered");
-    },
+    action: acceptQuery,
     element: null,
   },
   {
     path: "cancel-query/",
-    action: () => {
-      console.log("Cancel Query Action Triggered");
-    },
+    action: cancelQuery,
     element: null,
   },
   {

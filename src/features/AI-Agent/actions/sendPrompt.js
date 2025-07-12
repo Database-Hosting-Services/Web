@@ -2,8 +2,9 @@ import { privateAxios } from "../../../api";
 import { errorToast } from "../../../utils/toastConfig";
 import { AI_ENDPOINTS } from "../api/endpoints";
 
-import { getTableDataAndEdges } from "../../schema-visualizer/utils";
-import { tmpFetchedTables2, tmpGymManagementData } from "../../schema-visualizer/data/tmp";
+// import { getTableDataAndEdges } from "../../schema-visualizer/utils";
+import { getTableDataAndEdges2 } from "../../schema-visualizer/utils/getTableDataAndEdges";
+import { tmpELearningData, tmpFetchedTables2, tmpGymManagementData } from "../../schema-visualizer/data/tmp";
 
 const tmpText = `
 ## First Step
@@ -24,18 +25,17 @@ export default async function action({ request }) {
   const prompt = formData.get("question");
   const projectId = formData.get("projectId");
 
-  await new Promise((resolve) => {
-    setTimeout(() => resolve(""), 2000);
-  });
-
   // const theTables = JSON.parse(tmpGymManagementData);
   // console.log(theTables);
   
-
-  return {
-    responseText: tmpText,
-    newSchema: getTableDataAndEdges(tmpFetchedTables2),
-  };
+  
+  // await new Promise((resolve) => {
+  //   setTimeout(() => resolve(""), 2000);
+  // });
+  // return {
+  //   responseText: tmpText,
+  //   newSchema: getTableDataAndEdges2(tmpELearningData),
+  // };
 
   try {
     const {
@@ -48,7 +48,7 @@ export default async function action({ request }) {
 
     return {
       responseText: data.response,
-      newSchema: getTableDataAndEdges(data.schema_changes),
+      newSchema: getTableDataAndEdges2(data.schema_changes),
     };
   } catch (err) {
     errorToast(

@@ -1,7 +1,0 @@
-- [ ] organize the compoenent in table edidtor
-- [x] show loader while fetching the data
-- [ ] add column
-- [ ] forigen key
-- [ ] schema if there is no rows (show only header)
-- [ ] sync all tables name from the sidebar in foreign key model
-- [ ] when we add column there is a bug with checkbox

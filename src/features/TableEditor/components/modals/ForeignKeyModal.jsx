@@ -24,8 +24,8 @@ const ForeignKeyModal = ({ onClose, onSave, tableId, tableData }) => {
     }
   }, [projectId, dispatch]);
 
-  // Filter out the current table from the list of tables
-  const availableTables = tables.filter((table) => table.id !== tableId);
+  // Show all tables in the dropdown 
+  const availableTables = tables;
 
   // Add debug logging
   useEffect(() => {
